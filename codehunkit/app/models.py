@@ -15,29 +15,33 @@ class Language(models.Model):
     Programming language
     """    
     name = models.CharField(max_length=20)
+    website = models.URLField(blank=True, null=True)
+    icon_url = models.URLField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    link = models.URLField(blank=True, null=True)
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
     created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.DateTimeField(max_length=100)
-    
+    created_by = models.DateTimeField(max_length=100)    
     
     def __unicode__(self):
         return self.name
 
 
-class Badge(models.Model):
+class LanguageGraph(models.Model):
     """
-    User's badges based on expertness
+    Language graph of activites. Separate graph allows faster loading while updates runs on this table
     """
-    name = models.CharField(max_length=20)
-    description = models.CharField(max_length=500)
+    language = models.OneToOneField(Language, primary_key=True, related_name='graph')
+    up_votes = models.IntegerField(default=0)
+    down_votes = models.IntegerField(default=0)
+    subscriptions_count = models.IntegerField(default=0)
+    coders_count = models.IntegerField(default=0)
+    snippnets_count = models.IntegerField(default=0)
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
-    created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.DateTimeField(max_length=100)
-
+    
+    class Meta:
+        db_table = 'app_language_graph'
 
 
 class Location(models.Model):
@@ -57,18 +61,29 @@ class Location(models.Model):
 
 class School(models.Model):
     """
-    School
+    School of users
     """
     name = models.CharField(max_length=500)
-    up_votes = models.IntegerField(default=0)
-    down_votes = models.IntegerField(default=0)
-    updated_on = models.DateTimeField(auto_now=True)
-    updated_by = models.CharField(max_length=100)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.DateTimeField(max_length=100)
     
     def __unicode__(self):
         return self.name
+
+
+class SchoolGraph(models.Model):
+    """
+    School graph of user activaties, Separate graph allows faster loading while updates runs on this table
+    """
+    school = models.OneToOneField(School, primary_key=True, related_name='graph')
+    up_votes = models.IntegerField(default=0)
+    down_votes = models.IntegerField(default=0)
+    coders_count = models.IntegerField(default=0)
+    updated_on = models.DateTimeField(auto_now=True)
+    updated_by = models.CharField(max_length=100)
+    
+    class Meta:
+        db_table = 'app_school_graph'
     
 
 class User(AbstractUser):
@@ -82,13 +97,17 @@ class User(AbstractUser):
     hometown = models.ForeignKey(Location, null=True, related_name='hometown_users')
     location = models.ForeignKey(Location, null=True)
     locale = models.CharField(max_length=10, blank=True, null=True)
+    updated_on = models.DateTimeField(auto_now=True)
+    updated_by = models.CharField(max_length=100)
+    created_on = models.DateTimeField(auto_now_add=True)
+    created_by = models.DateTimeField(max_length=100)
 
 
-class Profile(models.Model):
+class UserGraph(models.Model):
     """
-    User profile
+    User graph of his activities
     """
-    user = models.OneToOneField(User, primary_key=True)    
+    user = models.OneToOneField(User, primary_key=True, related_name='graph')    
     likes = models.IntegerField(default=0)
     dislikes = models.IntegerField(default=0)
     up_votes = models.IntegerField(default=0) # Up votes received on user's snippets
@@ -100,6 +119,9 @@ class Profile(models.Model):
     updated_by = models.CharField(max_length=100)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.DateTimeField(max_length=100)
+    
+    class Meta:
+        db_table = 'app_user_graph'
     
     def __unicode__(self):
         return unicode(self.user)
@@ -204,6 +226,70 @@ class CommentVote(models.Model):
         unique_together = ('user', 'comment')
 
 
+class Badge(models.Model):
+    """
+    User's badges based on expertness
+    """    
+    name = models.CharField(max_length=20)
+    group_name = models.CharField(max_length=20)
+    description = models.CharField(max_length=500)
+    badge_url = models.URLField(blank=True, null=True)
+    updated_on = models.DateTimeField(auto_now=True)
+    updated_by = models.CharField(max_length=100)
+    created_on = models.DateTimeField(auto_now_add=True)
+    created_by = models.DateTimeField(max_length=100)
+    
+    def __unicode__(self):
+        return self.name
+
+
+class LanguageBadgeSummary(models.Model):
+    """
+    Summary of badges earn by language
+    """
+    language = models.ForeignKey(Language)
+    badge = models.ForeignKey(Badge)
+    badges_count = models.IntegerField(default=0)
+    updated_on = models.DateTimeField(auto_now=True)
+    updated_by = models.CharField(max_length=100)
+    created_on = models.DateTimeField(auto_now_add=True)
+    created_by = models.DateTimeField(max_length=100)
+    
+    class Meta:
+        db_table = 'app_language_badge_summary'
+
+
+class UserBadge(models.Model):
+    """
+    Badge earn by user
+    """
+    user = models.ForeignKey(User)
+    badge = models.ForeignKey(Badge)
+    created_on = models.DateTimeField(auto_now_add=True)
+    created_by = models.DateTimeField(max_length=100)
+    
+    class Meta:
+        db_table = 'app_user_badge'
+        unique_together = ('user', 'badge',)
+
+
+class SchoolBadgeSummary(models.Model):
+    """
+    Summary for badge earn by school students
+    """
+    school = models.ForeignKey(School)
+    badge = models.ForeignKey(Badge)
+    badges_count = models.IntegerField(default=0)
+    updated_on = models.DateTimeField(auto_now=True)
+    updated_by = models.CharField(max_length=100)
+    created_on = models.DateTimeField(auto_now_add=True)
+    created_by = models.DateTimeField(max_length=100)
+    
+    class Meta:
+        db_table = 'app_school_badge_summary'
+        unique_together = ('school', 'badge',) 
+
+
 class Notification(models.Model):
     """
     User persistent messages
@@ -230,8 +316,7 @@ class Notification(models.Model):
     
     def __unicode__(self):
         return '[user_id: %s, type: %s]' % (self.user_id, self.message_type)
-    
-        
+            
 
 class FlashMessage(models.Model):
     """
@@ -252,6 +337,9 @@ class FlashMessage(models.Model):
     flash_type = models.CharField(max_length=10,choices=FLASH_TYPES)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=75)
+    
+    class Meta:
+        db_table = 'app_flash_message'
     
     def __unicode__(self):
         return self.flash_text
@@ -312,9 +400,9 @@ class FacebookUser(models.Model):
     """
     Facebook user information
     """
+    id = models.BigIntegerField(primary_key=True)
     user = models.OneToOneField(User, primary_key=True)
     name = models.CharField(max_length=100)
-    facebook_id = models.BigIntegerField(unique=True)
     username = models.CharField(max_length=50)
     email = models.EmailField()
     access_token = models.CharField(max_length=2048,blank=True,null=True) # Sizes can grow and shrink therefore 2K should be enough

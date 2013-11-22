@@ -1,0 +1,44 @@
+{% csrf_token %}
+<ul>
+	<li>
+		<h2>Sign Up</h2>
+	</li>
+	{% if successful_signup %}
+	<li class="message">
+		Thank you for signing up on TangleOn, you will receive an account activation email shortly.
+	</li>
+	{% else %}
+	{% if error %}
+	<li class="error_message">
+		{{ error|safe }}
+	</li>
+	{% elif signup_form.errors %}
+	<li class="error_message">
+		Please correct following error{{ signup_form.errors|pluralize }} below.
+	</li>
+	{% else %}
+	<li>
+		<b>Join</b> us for free and be a part of TangleOn community!
+	</li>
+	{% endif %}
+	<li>
+		<label for="id_username">Username</label>
+		{{ signup_form.username }}
+		{{ signup_form.username.errors }}
+	</li>
+	<li>
+		<label for="id_email">Your e-mail address</label>
+		{{ signup_form.email }}
+		{{ signup_form.email.errors }}
+	</li>
+	<li>
+		<label for="id_password">Password</label>
+		{{ signup_form.password }}
+		{{ signup_form.password.errors }}
+	</li>
+	<li>
+		<input type="submit" value="Join">
+		&nbsp;&nbsp;or&nbsp;&nbsp;<a href="{% url 'app_login' %}?next={{ request.get_full_path }}" > Login</a>
+	</li>
+	{% endif %}
+</ul>

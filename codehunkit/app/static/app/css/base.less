@@ -1,0 +1,125 @@
+@import url('style.less');
+
+@bar-color: rgba(244,41,41,1);
+@bar-height: 40px;
+@social-bar-color: #234057;
+
+.box-shadow (@width) {
+  box-shadow: 0 0 @width rgba(0,0,0, 0.4);
+}
+
+#page-bar {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    height: @bar-height;
+    background: @bar-color;
+    position: fixed;
+    z-index: 99;
+    padding: 5px 10px;
+    .border-box; 
+    
+    h1 {
+        text-indent: -999em;
+        background-image: url('../img/codehunkit-icon.png');
+        width: 40px;
+        height: 27px;
+        display: inline-block;
+        background-size: 36px;
+        background-repeat: no-repeat;
+        background-color: white;        
+        background-position: 2px -5px;
+        float: left;
+        .rounded-corners(2px);
+    }
+    
+    #logo {
+        text-indent: -999em;
+        background-image: url('../img/codehunkit-logo-white.png');
+        display: block;
+        width: 158px;
+        height: 30px;
+        float: left;
+        background-repeat: no-repeat;
+        background-size: 86px;
+        margin-left: 6px;
+        margin-top: 4px;
+  }
+}
+
+.social-base {
+  #page-bar {
+      left: 200px;
+      right: 0px;
+  }
+  
+  .social-bar {
+    height: 100%;
+    position: fixed;
+    width: 200px;
+    overflow: hidden;
+    font-size: 0.9em;
+    background: @social-bar-color;  
+    
+    .filter {
+      background: @social-bar-color;  
+      position: fixed;
+      bottom: 0;
+      padding: 7px 0px 7px 20px !important; 
+      width: 200px;
+      overflow: hidden;
+      .border-box;
+      
+      input[type="text"], input[type="text"]:focus {
+        background-color: rgba(0,0,0, 0.5);
+        font-weight: 300;
+        font-size: 0.9em;
+        width: 150px;
+        border: 0px;
+        padding: 3px;
+        font-size: 12px;
+        padding-left: 30px;
+        background-image: url('../img/sprites.png');
+        background-repeat: no-repeat;
+        background-position: -126px -580px;
+        .rounded-corners(20px);
+      }
+      
+      input[type="text"]:focus {
+        background-position: -278px -580px;
+        color: white !important;
+      }   
+    }
+      
+    .inner {
+        position: relative; min-height: 100%; height: 100%; padding-bottom: 60px;
+        
+        #scroll-div {
+            position: absolute; top: 0px; right: 0px; left: 0px; padding-bottom: 60px;
+            .border-box;
+        }
+    }
+    
+    img {
+        width: 24px !important;
+        height: 24px !important;
+    }
+    
+    img, span { 
+      float: left;
+    }
+    
+    h4 {
+      padding-left: 5px;
+      margin-bottom: 5px;
+    }
+    
+    a {
+      color: white !important;
+      display: block;
+      overflow: hidden;  
+      padding: 4px;
+      padding-left: 15px;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{% extends "app/social_base.html" %}
+
+{% block robots_meta %}
+{% if page_index or by_new %}
+<meta name="robots" content="noindex,follow" />
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="content-view">
+	<div class="sidebar">
+	
+	</div>
+	
+</div>
+{% endblock %}
+

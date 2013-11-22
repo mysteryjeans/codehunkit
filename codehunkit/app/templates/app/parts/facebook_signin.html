@@ -1,0 +1,10 @@
+<div style="margin: auto; margin-top: 10px;">
+	<form method="post" action="{% url 'app_facebook_login' %}">
+		{% csrf_token %}
+		<input type="hidden" name="next" value="{{ request.get_full_path }}" />
+		<a href="#" onclick="javascript:$(this).parent('form').submit(); return false;" class="btn-social facebook">Sign in with <b>Facebook</b></a>
+	</form>
+</div>
+<div style="width: 50px; margin: auto; font-size: 1.2em;margin-top: 10px;">
+	OR
+</div>

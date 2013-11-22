@@ -1,0 +1,86 @@
+{% extends "app/base.html" %}
+
+{% load markup2 %}
+{% load gravatar %}
+{% load compressed %}
+
+{% block page-bar-content %}
+{% endblock %}
+
+{% block body-content %}
+<div class="social-base">
+	<div class="social-bar">
+		<div class="inner">
+			<div id="scroll-div">
+				{% if app_user.is_authenticated %}
+				<div style="border-bottom: 1px solid rgba(0,0,0,0.2);">
+					<a href="{{ app_user.get_absolute_url }}" style="display: block;padding: 10px 5px 10px 15px;" title="{{ app_user.username }}"> <img src="{% gravatar_url app_user 32 %}" width="32px" height="32px"/><span>{{ app_user.username }}</span></a>
+				</div>
+				{% endif %}
+				<ul id="subscriptions-list">
+					{% if hunkies %}
+					<li>
+						<h4>Hunkies</h4>
+						<ul>
+							{% for user in hunkies %}
+							<li filter-value="{{ user.username }}">
+								<a href="{{ user.get_absolute_url }}" title="{{ user.username }}"> <img src="{% gravatar_url user 32 %}"/> <span>{{ user.username }}</span></a>
+							</li>
+							{% empty %}
+							<li>
+								Lets follow some hunkies.
+							</li>
+							{% endfor %}
+						</ul>
+					</li>
+					{% endif %}
+					<li>
+						<h4>Language</h4>
+						<ul>
+							{% for lang in langs %}
+							<li filter-value="{{ lang.name }}">
+								<a href="{{ lang.get_absolute_url }}" title="{% firstof lang.description lang.name %}"> {% if lang.icon_url %} <img src="{{ lang.icon_url }}" alt="{{ lang.name }} icon" /> {% else %} <img src="{{ STATIC_URL }}app/img/rss.png" /> {% endif %} <span>{{ lang.name }}</span></a>
+							</li>
+							{% endfor %}
+						</ul>
+					</li>			
+				</ul>
+			</div>
+			<div class="filter">				
+				<input type="text" value="" id="filter-input" placeholder="Search" class=""/>
+			</div>
+		</div>
+	</div>
+	<div style="overflow: hidden;margin-left: 200px;">
+		{{ block.super }}
+	</div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+{{ block.super }}
+{% compressed_js 'social_base' %}
+<script type="text/javascript">
+	$(function() {
+		$('#scroll-div').slimScroll({
+			height: '100%',
+			size: '10px'
+		});
+	});
+
+	$('#filter-input').keyup(function() {
+		var $inputFilter = $(this);
+		if ($inputFilter.val() == '') {
+			$('#subscriptions-list li[filter-value]').fadeIn('fast');
+		} else {
+			$('#subscriptions-list li[filter-value]').each(function() {
+				if ($(this).attr('filter-value').toLowerCase().indexOf($inputFilter.val().toLowerCase()) == 0)
+					$(this).show('fast');
+				else
+					$(this).fadeOut('fast');
+			});
+		}
+	}); 
+</script>
+{% endblock %}

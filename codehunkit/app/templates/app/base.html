@@ -1,0 +1,27 @@
+{% extends "app/skeleton.html" %}
+
+{% load compressed %}
+{% load gravatar %}
+
+{% block styles %}
+{% compressed_css 'base' %}
+{% endblock %}
+
+{% block body-content %}
+<div id="page-bar">
+	<a href="/"><h1>CodeHunkit</h1></a>
+	{% block page-bar-content %}{% endblock %}
+</div>
+<div id="content">
+	{% block content %}{% endblock %}
+</div>
+{% block footer %}
+<footer>
+	{% include "app/parts/languages.html" %}
+</footer>
+{% endblock %}
+{% endblock %}
+
+{% block scripts %}
+{% compressed_js 'base' %}
+{% endblock %}

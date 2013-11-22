@@ -1,10 +1,16 @@
 # Django settings for codehunkit project.
 
-DEBUG = True
+import socket
+import os.path
+
+DEV_MACS = ('Dev-Mac', 'Envy15', 'envy', 'trg-tech-farazm', 'faraz-VirtualBox', 'trg-tech-faraz')
+
+
+DEBUG = socket.gethostname() in DEV_MACS
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    # ('Faraz Masood Khan', 'faraz@codehunkit.com'),
 )
 
 MANAGERS = ADMINS
@@ -50,7 +56,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = '' if DEBUG else '/home/jeans/www/static/codehunkit/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -61,7 +67,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = '' if DEBUG else '/home/jeans/www/static/codehunkit/'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -121,12 +127,13 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'codehunkit.app',
-    'pipeline',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
@@ -160,5 +167,60 @@ LOGGING = {
 }
 
 
-# codehunkit settings
+INTERNAL_IPS = ('127.0.0.1',)
+
+# Modifying default django auth user
 AUTH_USER_MODEL = 'app.User'
+
+# CSS and Javascript less & compressor settings
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+
+INSTALLED_APPS += (
+    'pipeline',
+)
+
+PIPELINE_CSS = {
+    'style': {
+        'source_filenames': (
+          'app/css/style.less',
+        ),
+        'output_filename': 'app/css/style.css',        
+    },
+    'base': {
+        'source_filenames': (
+          'app/css/base.less',
+        ),
+        'output_filename': 'app/css/base.css',        
+    },
+}
+
+PIPELINE_JS = {
+    'stats': {
+        'source_filenames': (
+          'app/lib/histats.js',
+          'app/lib/google-analytics.js',
+        ),
+        'output_filename': 'app/lib/stats.js',
+    },
+    'base': {
+        'source_filenames': (
+          'app/lib/jquery-1.8.3.min.js',
+          'app/lib/jquery.unobtrusive-ajax.js',
+          'app/lib/fixtures.js',
+          'app/lib/votes-utils.js',
+          'app/lib/utils.js',
+        ),
+        'output_filename': 'app/lib/codehunkit.js',
+    },
+    'social_base': {
+        'source_filenames': (
+          'app/lib/jquery-ui-1.10.3.min.js',
+          'app/lib/jquery.slimscroll.min.js',
+        ),
+        'output_filename': 'app/lib/social_base.js',
+    },
+}
+
+PIPELINE_COMPILERS = (
+  'pipeline.compilers.less.LessCompiler',
+)
