@@ -1,0 +1,67 @@
+{% extends "app/public/base.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block content %}
+<div class="action-form-box">
+	<form action="/signup/" method="post">
+		{% csrf_token %}
+		<ul>
+			<li>
+				<h2>Sign Up</h2>
+			</li>
+			{% if successful_signup %}
+			<li class="message">
+				Thank you for signing up on <a href="{% url 'app_home' %}">CodeHunkit</a>, you will receive an account activation email shortly.
+			</li>
+			{% else %}
+			{% if error %}
+			<li class="error_message">
+				{{ error|safe }}
+			</li>
+			{% elif form.errors %}
+			<li class="error_message">
+				Please correct following error{{ form.errors|pluralize }} below.
+			</li>
+			{% else %}
+			<li>
+				<b>Join</b> us for free and be a part of CodeHunkit!
+			</li>
+			{% endif %}
+			<li>
+				<label for="id_username">Username</label>
+			</li>
+			<li>
+				{{ form.username }}
+				{{ form.username.errors }}
+			</li>
+			<li>
+				<label for="id_email">Your e-mail address</label>
+			</li>
+			<li>
+				{{ form.email }}
+				{{ form.email.errors }}
+			</li>
+			<li>
+				<label for="id_password">Password</label>
+				{{ form.password }}
+				{{ form.password.errors }}
+			</li>
+			<li class="h-list">
+				{{ form.gender }}
+				{{ form.gender.errors }}
+			</li>
+			<li>
+				<input type="submit" value="Join"/>
+			</li>
+			<li class="link">
+				or&nbsp;&nbsp;<a href="{% url 'app_login' %}">Login</a>
+			</li>
+			{% endif %}
+		</ul>
+
+	</form>
+</div>
+{% endblock %}

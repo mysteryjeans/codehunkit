@@ -1,0 +1,22 @@
+{% extends "app/public/base.html" %}
+
+{% block title %}Account Activation{% endblock %}
+
+{% block content %}
+<div class="action-form-box">
+	<ul>
+		<li>
+			<h2>Send Activation</h2>
+		</li>
+		{% if not error %}
+		<li class="message">
+			A new activation code has been sent to your email address.
+		</li>
+		{% else %}
+		<li class="error_message">
+			{{ error|safe }}
+		</li>
+		{% endif %}
+	</ul>
+</div>
+{% endblock %} 

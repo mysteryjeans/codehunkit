@@ -1,0 +1,91 @@
+@import url('base.less');
+
+@social-bar-color: @second-color;
+@social-bar-width: 170px;
+
+.social-base {
+  
+  #page-bar {
+      left: @social-bar-width;
+      right: 0px;
+  }
+  
+  #container {
+    overflow: hidden;
+    margin-left: @social-bar-width;      
+  }
+  
+  .social-bar {
+    height: 100%;
+    position: fixed;
+    width: @social-bar-width;
+    overflow: hidden;
+    font-size: 0.9em;
+    background: @social-bar-color;  
+    
+    .filter {
+      background: @social-bar-color;  
+      position: fixed;
+      bottom: 0;
+      padding: 7px 0px !important; 
+      width: @social-bar-width;
+      overflow: hidden;
+      .border-box;
+      
+      input[type="text"], input[type="text"]:focus {
+        font-weight: 300;
+        font-size: 0.9em;
+        width: 80%;
+        border: 0px;
+        padding: 3px;
+        font-size: 12px;
+        padding-left: 30px;
+        margin: auto;
+        display: block;
+        background: url('../img/sprites.png') rgba(0,0,0, 0.5) no-repeat;
+        background-position: -126px -580px;
+        .rounded-corners(20px);
+      }
+      
+      input[type="text"]:focus {
+        background-position: -278px -580px;
+        color: white !important;
+      }   
+    }
+      
+    .inner {
+        position: relative; min-height: 100%; height: 100%; padding-bottom: 60px;
+        
+        #scroll-div {
+            position: absolute; top: 0px; right: 0px; left: 0px; padding-bottom: 60px;
+            .border-box;
+        }
+    }
+    
+    img {
+        width: 24px !important;
+        height: 24px !important;
+    }
+    
+    img, span { 
+      float: left;
+    }
+    
+    h4 {
+      padding-left: 5px;
+      margin-bottom: 5px;
+    }
+    
+    a {
+      color: white !important;
+      display: block;
+      overflow: hidden;  
+      padding: 4px;
+      padding-left: 15px;
+    }
+  }
+  
+  #content {    
+    background: url('../img/bg.png');
+  }
+}

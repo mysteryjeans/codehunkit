@@ -4,11 +4,16 @@
 {% load gravatar %}
 {% load compressed %}
 
-{% block page-bar-content %}
+{% block styles %}
+{% compressed_css 'social' %}
 {% endblock %}
 
 {% block body-content %}
 <div class="social-base">
+	<div id="page-bar">		
+		{% block page-bar-content %}
+		{% endblock %}
+	</div>
 	<div class="social-bar">
 		<div class="inner">
 			<div id="scroll-div">
@@ -34,6 +39,7 @@
 						</ul>
 					</li>
 					{% endif %}
+					{% if langs %}
 					<li>
 						<h4>Language</h4>
 						<ul>
@@ -43,20 +49,18 @@
 							</li>
 							{% endfor %}
 						</ul>
-					</li>			
+					</li>
+					{% endif %}
 				</ul>
 			</div>
-			<div class="filter">				
+			<div class="filter">
 				<input type="text" value="" id="filter-input" placeholder="Search" class=""/>
 			</div>
 		</div>
 	</div>
-	<div style="overflow: hidden;margin-left: 200px;">
-		{{ block.super }}
-	</div>
+	{{ block.super }}
 </div>
 {% endblock %}
-
 
 {% block scripts %}
 {{ block.super }}
@@ -64,8 +68,8 @@
 <script type="text/javascript">
 	$(function() {
 		$('#scroll-div').slimScroll({
-			height: '100%',
-			size: '10px'
+			height : '100%',
+			size : '10px'
 		});
 	});
 

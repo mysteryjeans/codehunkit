@@ -169,8 +169,18 @@ LOGGING = {
 
 INTERNAL_IPS = ('127.0.0.1',)
 
+# Email server settings
+EMAIL_HOST = 'smtp.googlemail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'sender@tangleon.com'
+EMAIL_HOST_PASSWORD = r'ZalimsaMaj123_2&aH8^_7&56'
+
+
 # Modifying default django auth user
 AUTH_USER_MODEL = 'app.User'
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
 
 # CSS and Javascript less & compressor settings
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
@@ -192,6 +202,18 @@ PIPELINE_CSS = {
         ),
         'output_filename': 'app/css/base.css',        
     },
+    'social': {
+        'source_filenames': (
+          'app/css/social.less',
+        ),
+        'output_filename': 'app/css/social.css',        
+    },
+    'public': {
+        'source_filenames': (
+          'app/css/public.less',
+        ),
+        'output_filename': 'app/css/public.css',        
+    },
 }
 
 PIPELINE_JS = {
@@ -205,8 +227,7 @@ PIPELINE_JS = {
     'base': {
         'source_filenames': (
           'app/lib/jquery-1.8.3.min.js',
-          'app/lib/jquery.unobtrusive-ajax.js',
-          'app/lib/fixtures.js',
+          'app/lib/jquery.unobtrusive-ajax.js',          
           'app/lib/votes-utils.js',
           'app/lib/utils.js',
         ),

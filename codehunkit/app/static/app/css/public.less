@@ -1,0 +1,42 @@
+@import url('base.less');
+
+
+#content {
+  background: url('../img/green-bg.jpg') no-repeat;
+  padding-bottom: 150px;
+}
+
+
+.action-form-box {
+  .box-center;
+  .action-form;
+  width: 300px;
+  margin-top:20px;
+  background: rgba(256,256,256,0.90);
+  border: 0px;
+  .rounded-corners(7px);
+  
+  input[type="submit"],.facebook-button {
+    width: 100%;
+    padding: 8px;
+    .rounded-corners(5px);
+    font-size: 13px;
+  }
+  
+  .link {
+    text-align: right;
+    font-size: 0.9em;
+    padding-top: 5px;   
+  }
+}
+
+.facebook-button {
+  .button;
+  .border-box;
+  color: #fff !important;
+  font-weight: 600;   
+  background-color: #4e70b7;    
+  text-align: center;  
+  margin: 10px 0px;
+  display: block;  
+}

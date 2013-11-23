@@ -1,19 +1,15 @@
 @import url('style.less');
 
-@bar-color: rgba(244,41,41,1);
+@bar-color: rgba(256,256,256,0.8);
 @bar-height: 40px;
-@social-bar-color: #234057;
-
-.box-shadow (@width) {
-  box-shadow: 0 0 @width rgba(0,0,0, 0.4);
-}
 
 #page-bar {
     left: 0px;
     right: 0px;
     top: 0px;
     height: @bar-height;
-    background: @bar-color;
+    background: rgba(256,256,256,0.8);
+    border-bottom: 4px solid @first-color;
     position: fixed;
     z-index: 99;
     padding: 5px 10px;
@@ -47,79 +43,54 @@
   }
 }
 
-.social-base {
-  #page-bar {
-      left: 200px;
-      right: 0px;
+.box-shadow (@width) {
+  box-shadow: 0 0 @width rgba(0,0,0, 0.4);
+}
+
+.center {
+  margin: auto;
+}
+
+#content {
+  padding-top: @bar-height;
+  min-height: 500px; 
+  padding-bottom: 50px;
+}
+
+.box {
+  .border;
+  background: white;
+}
+
+.box-center {
+  .box;
+  .center;
+}
+
+.action-form {
+  .box-center;
+  padding: 10px 30px;
+  font-size: 13px;
+  
+  h2 {
+    border-bottom: 1px solid @h-color;
+    padding-bottom: 10px;
+    margin-bottom: 5px;
+  }  
+  
+  li {
+    margin: 5px 0px;
+    overflow: hidden;
   }
   
-  .social-bar {
-    height: 100%;
-    position: fixed;
-    width: 200px;
-    overflow: hidden;
-    font-size: 0.9em;
-    background: @social-bar-color;  
-    
-    .filter {
-      background: @social-bar-color;  
-      position: fixed;
-      bottom: 0;
-      padding: 7px 0px 7px 20px !important; 
-      width: 200px;
-      overflow: hidden;
-      .border-box;
-      
-      input[type="text"], input[type="text"]:focus {
-        background-color: rgba(0,0,0, 0.5);
-        font-weight: 300;
-        font-size: 0.9em;
-        width: 150px;
-        border: 0px;
-        padding: 3px;
-        font-size: 12px;
-        padding-left: 30px;
-        background-image: url('../img/sprites.png');
-        background-repeat: no-repeat;
-        background-position: -126px -580px;
-        .rounded-corners(20px);
-      }
-      
-      input[type="text"]:focus {
-        background-position: -278px -580px;
-        color: white !important;
-      }   
-    }
-      
-    .inner {
-        position: relative; min-height: 100%; height: 100%; padding-bottom: 60px;
-        
-        #scroll-div {
-            position: absolute; top: 0px; right: 0px; left: 0px; padding-bottom: 60px;
-            .border-box;
-        }
-    }
-    
-    img {
-        width: 24px !important;
-        height: 24px !important;
-    }
-    
-    img, span { 
-      float: left;
-    }
-    
-    h4 {
-      padding-left: 5px;
-      margin-bottom: 5px;
-    }
-    
-    a {
-      color: white !important;
-      display: block;
-      overflow: hidden;  
-      padding: 4px;
-      padding-left: 15px;
-    }
+  input[type="text"], input[type="password"], textarea {      
+    width: 100%;    
+    padding: 5px;
+    background: rgba(256,256,256,0.5);
+    .rounded-corners(5px;)
+  }
+  
+  .h-list li {
+    margin-right: 10px;
   }
 }

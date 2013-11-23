@@ -1,12 +1,19 @@
 """
 Codehunkit core models
-@author: faraz@fanaticlab.com
+@author: Faraz Masood Khan faraz@fanaticlab.com
+@copyright: Copyright (c) 2013 FanaticLab
 """
 
+import random
+import hashlib
 import datetime
 
 from django.db import models
+from django.db.models import F, Q 
 from django.contrib.auth.models import AbstractUser
+from django.core.urlresolvers import reverse
+
+from codehunkit.app import CodeHunkitError
 from codehunkit.db import models as db_models
 
 
@@ -14,10 +21,12 @@ class Language(models.Model):
     """
     Programming language
     """    
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, unique=True)
+    slug = models.SlugField(unique=True)
     website = models.URLField(blank=True, null=True)
     icon_url = models.URLField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    is_default = models.BooleanField(default=False)
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -36,12 +45,15 @@ class LanguageGraph(models.Model):
     down_votes = models.IntegerField(default=0)
     subscriptions_count = models.IntegerField(default=0)
     coders_count = models.IntegerField(default=0)
-    snippnets_count = models.IntegerField(default=0)
+    snippets_count = models.IntegerField(default=0)
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
     
     class Meta:
         db_table = 'app_language_graph'
+    
+    def __unicode__(self):
+        return unicode(self.language)
 
 
 class Location(models.Model):
@@ -63,7 +75,8 @@ class School(models.Model):
     """
     School of users
     """
-    name = models.CharField(max_length=500)
+    name = models.CharField(max_length=500, unique=True)
+    slug = models.SlugField(unique=True)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.DateTimeField(max_length=100)
     
@@ -90,18 +103,80 @@ class User(AbstractUser):
     """
     Extended user more basic information
     """
-    GENDERS = (('M', 'Male'),
-               ('F', 'Female'))
+    MALE = 'M'
+    FEMALE = 'F'
+    GENDERS = ((MALE, 'Male'),
+               (FEMALE, 'Female'))
         
     gender = models.CharField(max_length=1, choices=GENDERS)
-    hometown = models.ForeignKey(Location, null=True, related_name='hometown_users')
-    location = models.ForeignKey(Location, null=True)
+    hometown = models.ForeignKey(Location, null=True, related_name='hometown_users', blank=True)
+    location = models.ForeignKey(Location, null=True, blank=True)
     locale = models.CharField(max_length=10, blank=True, null=True)
+    has_activated = models.BooleanField(default=False)    
+    activation_code = models.CharField(max_length=512, blank=True, null=True)
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
     created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.DateTimeField(max_length=100)
-
+    created_by = models.CharField(max_length=100)
+    
+    REQUIRED_FIELDS = [ 'email', 'updated_by', 'created_by', 'has_activated']
+    
+    def activate(self):
+        """
+        Activate user account if not activated
+        """
+        User.objects.filter(id=self.id, has_activated=False).update(has_activated=True, updated_by=str(self))
+        
+    @classmethod 
+    def sign_up(cls, username, email, password, gender, hometown=None, location=None, locale=None, is_verified=False):
+        """
+        Creates a new non-admin user in database 
+        """            
+        try:
+            user = cls.objects.get(Q(username=username) | Q(email=email))
+            if user.username == username:
+                raise CodeHunkitError('Username "%s" already registered with us, if you forgotten your password? <a href="%s">Request new one</a> or choose a different username.' % (username, reverse('app_forgot_password')))
+            
+            raise CodeHunkitError('Its seems to be that you are already registered with this email address, if you forgotten your password? <a href="%s">Request new one.</a>' % reverse('app_forgot_password'))            
+        except cls.DoesNotExist:
+                        
+            activation_code = None
+            if not is_verified:            
+                algo = hashlib.md5()
+                algo.update(str(random.randrange(100, 10000000)))
+                activation_code = algo.hexdigest()
+            
+            if hometown: 
+                hometown = Location.objects.get_or_create(name=hometown)
+            
+            if location:
+                location = Location.objects.get_or_create(name=location)
+                
+            user = cls.objects.create_user(username=username,
+                                           email=email,
+                                           password=password,
+                                           gender= gender,
+                                           hometown=hometown,
+                                           location=location,
+                                           locale=locale,
+                                           has_activated=is_verified,
+                                           activation_code=activation_code,
+                                           updated_by=email,
+                                           created_by=email)
+            
+            UserGraph.objects.create(user=user, created_by=email)
+            
+            # Create subscriptions to default languages
+            langs = []
+            for lang in Language.objects.filter(is_default=True):
+                langs.append(lang.id)
+                Subscription.objects.create(user=user,language=lang, created_by=email)
+            
+            if langs:
+                LanguageGraph.objects.filter(language_id__in=langs).updated(subscriptions_count=F('subscriptions_count') + 1)
+                
+            return user
+    
 
 class UserGraph(models.Model):
     """
@@ -118,13 +193,16 @@ class UserGraph(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
     created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.DateTimeField(max_length=100)
+    created_by = models.CharField(max_length=100)
     
     class Meta:
         db_table = 'app_user_graph'
     
     def __unicode__(self):
         return unicode(self.user)
+    
+    def get_absolute_url(self):
+        return '/'
 
 
 class Education(models.Model):
@@ -141,6 +219,19 @@ class Education(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.DateTimeField(max_length=100)
 
+
+class Subscription(models.Model):
+    """
+    User subscription for languages
+    """
+    user = models.ForeignKey(User)
+    language = models.ForeignKey(Language)
+    created_on = models.DateTimeField(auto_now_add=True)
+    created_by = models.CharField(max_length=100)
+    
+    class Meta:
+        unique_together = ('user', 'language')
+        
 
 class Snippet(models.Model):
     """
@@ -230,9 +321,9 @@ class Badge(models.Model):
     """
     User's badges based on expertness
     """    
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, unique=True)
     group_name = models.CharField(max_length=20)
-    description = models.CharField(max_length=500)
+    description = models.TextField()
     badge_url = models.URLField(blank=True, null=True)
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
@@ -401,7 +492,7 @@ class FacebookUser(models.Model):
     Facebook user information
     """
     id = models.BigIntegerField(primary_key=True)
-    user = models.OneToOneField(User, primary_key=True)
+    user = models.OneToOneField(User, unique=True)
     name = models.CharField(max_length=100)
     username = models.CharField(max_length=50)
     email = models.EmailField()

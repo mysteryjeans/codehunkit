@@ -1,0 +1,29 @@
+{% extends "app/public/base.html" %}
+
+{% block title %}Account Activation{% endblock %}
+
+{% block content %}
+<div class="action-form-box">
+	<ul>
+		<li>
+			<h2>Account Activation</h2>			
+		</li>
+		{% if not error %}
+		<li class="message">
+			Thank you for activating your <a href="{% url 'app_home' %}">CodeHunkit</a> account, please proceed to <a href="{% url 'app_login' %}">login</a>.
+		</li>
+		{% elif invalid_code %}
+		<li class="message">
+			<form method="post" action="{% url 'app_send_activation' user.id %}">
+				{% csrf_token %}
+				Your account is not activated yet!, please click <a href="javascript:$(this).parent('form').submit();return false;">here</a> to re-send activation code.
+			</form>
+		</li>
+		{% else %}
+		<li class="error_message">
+			{{ error|safe }}
+		</li>
+		{% endif %}
+	</ul>
+</div>
+{% endblock %} 

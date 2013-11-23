@@ -1,0 +1,56 @@
+{% extends "app/public/base.html" %}
+
+{% load compressed %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="action-form-box">
+	{% include "app/parts/facebook_signin.html" %}
+	{% if not_activated %}	
+	<ul>
+		<li>
+			<h2>Sign In</h2>
+		</li>
+		<li class="message">
+			<form method="post" action="{% url 'app_send_activation' user.id %}">
+				{% csrf_token %}
+				Your account is not activated yet!, please click <a href="#" onclick="javascript:$(this).parent('form').submit();return false;">here</a> to re-send activation code.
+			</form>
+		</li>
+	</ul>
+	{% else %}
+	<form method="post" action="">
+		{% csrf_token %}
+		<ul>
+			<li>
+				<h2>Sign In</h2>
+			</li>
+			{% if error %}
+			<li class="error_message">
+				{{ error|safe }}
+			</li>
+			{% endif %}
+			<li>
+				<label for="id_username">Username</label>
+			</li>
+			<li>
+				<input id="id_username" name="username" type="text" value="{{ username }}"/>
+			</li>
+			<li>
+				<label for="id_password">Password</label>
+			</li>
+			<li>
+				<input id="id_password" name="password" type="password"/>
+			</li>
+			<li>
+				<input type="submit" value="Login">
+			</li>
+			<li class="link">
+				<a href="/signup/">Create My Account</a> | <a href="{% url 'app_forgot_password' %}">Forgot your password?</a>
+			</li>
+		</ul>
+	</form>
+	{% endif %}
+</div>
+{% endblock %}

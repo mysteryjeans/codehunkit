@@ -1,11 +1,16 @@
-@caption-color: #ff4444;
-@h-color: @caption-color;
+@first-color: #22a86c;
+@second-color: #234057;
+@h-color: @first-color;
 @h-font-size: 1em;
 @a-color: #0091AB;
 @a-color-hover: #007287; 
 @text-color: #333333;
 @text-hint-color: gray; 
+@button-color: @first-color;
 @button-text-color: white;
+@border-color: #ddd;
+@bg-color: #3F4649;
+@error-color: #ff4444;
 
 .rounded-corners (@radius) {
   -webkit-border-radius: @radius;
@@ -21,21 +26,31 @@
   -webkit-box-sizing: border-box;
 }
 
+.border {
+  border: 1px solid @border-color;
+}
+
 * {
 	padding: 0px;
 	margin: 0px;
 	outline: none;
-	font-family: "adelle", "Ubuntu", Georgia, "Segoe UI", "Segoe WP", Helvetica, "Lucida Grande", sans-serif; 
+	font-family: "adelle", "Ubuntu", "Segoe UI", "Segoe WP", Helvetica, "Lucida Grande", Georgia, sans-serif; 
 }
 
-body, input[type="text"], input[type="password"], textarea {
+body, input[type="text"], input[type="password"], textarea, label {
 	color: @text-color;	
-	font-size: 1.2em;
 }
 
-body {
+html, body {
 	line-height: 1.3;
 	font-size: 13px;
+	height: 100%;	
+	background: @bg-color;
+}
+
+input[type="text"], input[type="password"], textarea {
+  .border;
+  overflow: hidden;
 }
 
 li {
@@ -71,16 +86,15 @@ p { margin: 5px 0px; }
 em { color: @text-hint-color; }
 
 .button {
-  border: 0px;  
-  margin-bottom: 10px;
-  margin-left: 0;
+  border: 0px;
   display: inline-block;
   padding: 5px 10px;
   cursor: pointer;  
   color: @button-text-color;
+  background: @button-color;
 }
 
-input[type="submit"], input[type="button"], button   {
+input[type="submit"], input[type="button"], button {
 	.button;
 }
 
@@ -101,3 +115,30 @@ input::-webkit-input-placeholder { .placeholder; }
 input:-moz-placeholder { .placeholder; }
 input::-moz-placeholder { .placeholder; }
 input:-ms-input-placeholder { .placeholder; }
+
+footer {
+  border-bottom: 10px solid @first-color; 
+}
+
+.errorlist {
+  color: @error-color;
+  clear: both;
+  
+  li {
+    margin: 5px 0px !important;
+  }
+}
+
+.message {
+  color: @second-color;
+}
+
+.error_message {
+  color: @error-color;
+}
+
+.h-list {
+  li {
+    float: left;
+  }
+}
