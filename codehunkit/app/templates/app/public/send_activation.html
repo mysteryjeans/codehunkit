@@ -9,12 +9,16 @@
 			<h2>Send Activation</h2>
 		</li>
 		{% if not error %}
-		<li class="message">
-			A new activation code has been sent to your email address.
+		<li>
+			<p class="message">
+				A new activation code has been sent to your email address.
+			</p>
 		</li>
 		{% else %}
-		<li class="error_message">
-			{{ error|safe }}
+		<li>
+			<p class="error_message">
+				{{ error|safe }}
+			</p>
 		</li>
 		{% endif %}
 	</ul>

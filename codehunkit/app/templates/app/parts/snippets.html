@@ -1,0 +1,17 @@
+<div class="snippets-view">
+	<div>
+		<div class="snippets-title-bar">
+		</div>
+		<ul class="snippets">
+			{% for snippet in snippets %}
+			<li></li>
+			{% empty %}
+			<li>
+				<p class="message">
+					{{ no_snippets|default:"There are no snippets to show right now." }}
+				</p>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>

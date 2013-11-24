@@ -7,15 +7,17 @@
 {% block content %}
 <div class="action-form-box">
 	{% include "app/parts/facebook_signin.html" %}
-	{% if not_activated %}	
+	{% if not_activated %}
 	<ul>
 		<li>
 			<h2>Sign In</h2>
 		</li>
-		<li class="message">
+		<li>
 			<form method="post" action="{% url 'app_send_activation' user.id %}">
 				{% csrf_token %}
-				Your account is not activated yet!, please click <a href="#" onclick="javascript:$(this).parent('form').submit();return false;">here</a> to re-send activation code.
+				<p class="message">
+					Your account is not activated yet!, please click <a href="#" onclick="javascript:$(this).parent('form').submit();return false;">here</a> to re-send activation code.
+				</p>
 			</form>
 		</li>
 	</ul>
@@ -27,21 +29,17 @@
 				<h2>Sign In</h2>
 			</li>
 			{% if error %}
-			<li class="error_message">
-				{{ error|safe }}
+			<li>
+				<p class="error_message">
+					{{ error|safe }}
+				</p>
 			</li>
 			{% endif %}
 			<li>
-				<label for="id_username">Username</label>
+				<input id="id_username" name="username" type="text" value="{{ username }}" placeholder="Username..."/>
 			</li>
 			<li>
-				<input id="id_username" name="username" type="text" value="{{ username }}"/>
-			</li>
-			<li>
-				<label for="id_password">Password</label>
-			</li>
-			<li>
-				<input id="id_password" name="password" type="password"/>
+				<input id="id_password" name="password" type="password" placeholder="Password..."/>
 			</li>
 			<li>
 				<input type="submit" value="Login">

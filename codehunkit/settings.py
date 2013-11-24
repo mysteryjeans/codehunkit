@@ -167,6 +167,14 @@ LOGGING = {
 }
 
 
+# Context processors
+from django.conf import global_settings
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    'django.core.context_processors.request', 
+    'codehunkit.app.context_processors.bootstrip',
+)
+
+
 INTERNAL_IPS = ('127.0.0.1',)
 
 # Email server settings
@@ -214,6 +222,12 @@ PIPELINE_CSS = {
         ),
         'output_filename': 'app/css/public.css',        
     },
+    'submit_snippet': {
+        'source_filenames': (          
+          'app/lib/select2/select2.less',
+        ),
+        'output_filename': 'app/css/submit_snippet.css',        
+    },
 }
 
 PIPELINE_JS = {
@@ -240,6 +254,12 @@ PIPELINE_JS = {
         ),
         'output_filename': 'app/lib/social_base.js',
     },
+    'submit_snippet': {
+        'source_filenames': (          
+          'app/lib/select2/select2.js',
+        ),
+        'output_filename': 'app/lib/submit_snippet.js',
+    }
 }
 
 PIPELINE_COMPILERS = (

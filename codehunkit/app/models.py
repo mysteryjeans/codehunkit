@@ -4,14 +4,16 @@ Codehunkit core models
 @copyright: Copyright (c) 2013 FanaticLab
 """
 
+import re
 import random
 import hashlib
 import datetime
 
-from django.db import models
+from django.db import models, connection
 from django.db.models import F, Q 
 from django.contrib.auth.models import AbstractUser
 from django.core.urlresolvers import reverse
+from django.template.defaultfilters import slugify
 
 from codehunkit.app import CodeHunkitError
 from codehunkit.db import models as db_models
@@ -34,7 +36,28 @@ class Language(models.Model):
     
     def __unicode__(self):
         return self.name
-
+    
+    @models.permalink
+    def get_absolute_url(self):
+        """
+        Returns permanent link of lang
+        """
+        return ('app_lang', (self.slug,))
+    
+    @classmethod
+    def get_all(cls):
+        """
+        Returns list of all languages
+        """
+        return list(cls.objects.order_by('name'))
+    
+    @classmethod
+    def get_defaults(cls):
+        """
+        Returns list of default languages
+        """
+        return list(cls.objects.filter(is_default=True).order_by('name'))
+    
 
 class LanguageGraph(models.Model):
     """
@@ -126,6 +149,16 @@ class User(AbstractUser):
         Activate user account if not activated
         """
         User.objects.filter(id=self.id, has_activated=False).update(has_activated=True, updated_by=str(self))
+                
+    def change_password(self, password, new_password):        
+        """
+        Change user's password
+        """
+        if not self.check_password(password):            
+            raise CodeHunkitError('Wrong password! please enter your current password again.')
+        
+        self.set_password(new_password)
+    
         
     @classmethod 
     def sign_up(cls, username, email, password, gender, hometown=None, location=None, locale=None, is_verified=False):
@@ -200,9 +233,6 @@ class UserGraph(models.Model):
     
     def __unicode__(self):
         return unicode(self.user)
-    
-    def get_absolute_url(self):
-        return '/'
 
 
 class Education(models.Model):
@@ -238,8 +268,9 @@ class Snippet(models.Model):
     Code snippet
     """
     id = db_models.BigAutoField(primary_key=True)
+    slug = models.SlugField()
     user = models.ForeignKey(User)
-    gist = models.TextField(db_index=True)
+    gist = models.TextField(db_index=True)    
     code = models.TextField(db_index=True)
     group = models.ForeignKey('self', null=True) # Allows to group together codes in different languages
     language = models.ForeignKey(Language)
@@ -253,10 +284,66 @@ class Snippet(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
     created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.DateTimeField(max_length=100)
+    created_by = models.CharField(max_length=100)
     
     def __unicode__(self):
-        return self.excerpt
+        return self.gist
+    
+    @classmethod
+    def get_snippets(cls, user, page_index, page_size, sort_by_new):
+        """
+        Returns all snippets
+        """
+        if sort_by_new:
+            sql_query = '''
+                        SELECT s.*, u.username, l.name, v.index as vote_index
+                        FROM app_snippet s
+                        INNER JOIN app_user u ON s.user_id = u.id
+                        INNER JOIN app_language l ON s.language_id = l.id
+                        LEFT OUTER JOIN app_snippet_vote v ON s.id = v.sinppet_id AND v.user_id = %s
+                        ORDER BY s.id DESC
+                        LIMIT %s OFFSET %s
+                        '''
+        else:
+            sql_query = '''
+                        SELECT s.*, u.username, l.name, v.index as vote_index
+                        FROM app_snippet s
+                        INNER JOIN app_user u ON s.user_id = u.id
+                        INNER JOIN app_language l ON s.language_id = l.id
+                        LEFT OUTER JOIN app_snippet_vote v ON s.id = v.sinppet_id AND v.user_id = %s
+                        ORDER BY s.rank DESC, s.id DESC
+                        LIMIT %s OFFSET %s
+                        '''
+            
+        return [snippet for snippet in cls.objects.raw(sql_query, [user.user_id, page_size, page_index * page_size])]
+    
+    @classmethod
+    def create(cls, gist, code, language_id, tags, user):
+        """
+        Creates a new code snippet in database
+        """
+        language = Language.objects.get(id=language_id)
+        tags = tags.split(',')
+        if language.name in tags: tags.remove(language.name)                
+        tags = Tag.clean_tags(tags)
+        
+        snippet = cls.objects.create(gist=gist,
+                                     slug=slugify(gist),
+                                     user=user,
+                                     code=code,
+                                     language=language,
+                                     tags=tags,
+                                     updated_by=str(user),
+                                     created_by=str(user))
+        
+        Tag.add_tags(tags, user)
+        LanguageGraph.objects.filter(language_id=language.id).update(snippets_count=F('snippets_count') + 1)
+        UserGraph.objects.filter(user_id=user.id).update(snippets_count=F('snippets_count') + 1)
+        
+        return snippet
+        
+    
+    
     
 
 class Comment(models.Model):
@@ -485,6 +572,53 @@ class FlashMessage(models.Model):
         messages = cls.peek_messages(user)        
         cls.objects.filter(user=user).delete()
         return messages
+
+
+class Tag(models.Model):    
+    name = models.CharField(unique=True, max_length=50)
+    description = models.TextField(blank=True, null=True)
+    is_muted = models.BooleanField(default=False)    
+    is_default = models.BooleanField(default=False)
+    updated_on = models.DateTimeField(auto_now=True)
+    updated_by = models.CharField(max_length=75)
+
+    def __unicode__(self):
+        return unicode(self.name)
+        
+    @models.permalink
+    def get_absolute_url(self):
+        """
+        Returns absolute tag url
+        """
+        return ('app_tag', (self.name,))
+    
+    @classmethod
+    def add_tags(cls, tags, user):
+        """
+        Create new tags in database if doesn't exists
+        """        
+        sql = '''INSERT INTO app_tag (name, is_muted, is_default, updated_by, updated_on) 
+                 SELECT %s, false, false, %s, %s WHERE NOT EXISTS (SELECT 1 FROM app_tag WHERE lower(name) = lower(%s));'''
+        now = datetime.datetime.now()
+        parameters = ((tag, str(user), now, tag) for tag in tags)
+        cursor = connection.cursor()
+        try:
+            cursor.executemany(sql, parameters)
+        finally:
+            cursor.close()        
+    
+    @classmethod
+    def get_tags(cls):
+        return [tag for tag in cls.objects.filter(is_muted=False).order_by('name')]
+    
+    @staticmethod
+    def clean_tags(tags):
+        """
+        Return cleaned tags string, removed spaces and special characters
+        """
+        tags = (re.sub(r'[^\w\.]', '', tag) for tag in tags) 
+        tags = ','.join(tag for tag in tags if len(tag) > 1 and len(tag) <= 10)
+        return tags
 
         
 class FacebookUser(models.Model):

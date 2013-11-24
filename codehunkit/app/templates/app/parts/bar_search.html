@@ -1,7 +1,4 @@
-<div style="overflow: hidden; margin: auto;">
-	<form action="{% url 'app_search' %}" method="post" style="float: left;">
-		{% csrf_token %}
-		<input type="text" name="q" class="search-box" placeholder="Search for tag, user, feed source or post..." value="{{ q|default:'' }}"/>
-	</form>
-	<a href="{% url 'app_link_post' %}" class="post-icon" title="Submit a new link or text post">Post</a>	
-</div>
+<form action="{% url 'app_search' %}" method="post" class="search-box">
+	{% csrf_token %}
+	<input type="text" name="q" class="search-box" placeholder="Search for user, language or snippet..." value="{{ q|default:'' }}"/>
+</form>

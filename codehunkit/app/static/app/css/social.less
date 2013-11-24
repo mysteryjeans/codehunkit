@@ -11,7 +11,6 @@
   }
   
   #container {
-    overflow: hidden;
     margin-left: @social-bar-width;      
   }
   
@@ -76,16 +75,158 @@
       margin-bottom: 5px;
     }
     
-    a {
-      color: white !important;
-      display: block;
-      overflow: hidden;  
-      padding: 4px;
-      padding-left: 15px;
+    #subs-list li {
+      h3, h4 {
+        padding: 10px;
+        padding-left: 15px;        
+      }
+      
+      h3   {
+        background-color: rgba(0,0,0, 0.5);
+        font-size: 1.1em;
+      }
+            
+      a {
+        color: white !important;
+        display: block;
+        overflow: hidden;  
+        padding: 4px;
+        padding-left: 15px;
+        display: block;
+      }
+      
+      a:hover {
+        background-color: @first-color;
+      }
     }
   }
   
   #content {    
-    background: url('../img/bg.png');
+    background: url('../img/bg.jpg');
+    padding-top: 50px;
+    
+    .profile-bar {
+      float: right;
+      .border-box;
+      width: 30%;
+      max-width: 400px;
+      min-height: 400px;
+    }
+    
+    .snippets-view {
+      overflow:hidden;
+      .snippets {
+        margin: 0px 20px;
+        li {
+          background-color: white;          
+          padding:  5px;
+        }
+      }
+    }
+  }
+}
+
+#menu, #login-menu {
+  float: right;
+  margin-top: 3px;
+  
+  .arrow  {
+    top: 0;
+    right: 0;
+    left: auto;
+    margin-right: 2px;
+  }
+  
+  .context-menu {
+    right: 10px;
+  }
+}
+
+#login-menu {
+  margin-top: 5px;
+  
+  li {
+    float: left;
+    padding-left: 10px;
+    font-weight: 600;
+    font-size: 0.9em;
+    border-right: 1px solid @first-color;
+    padding-right: 10px;
+  }
+  
+  li:last-child {
+    padding-right:0px;
+    border-right: 0px;
+  }
+  
+  a {
+    color: @first-color !important;
+  }
+}
+
+.menu-icon {
+  width: 21px;
+  height: 20px;
+  display: block;
+  background-image: url('../img/sprites.png');
+  background-repeat: no-repeat;
+}
+
+#profile-settings .menu-icon {
+  background-position: -8px -393px;
+} 
+
+#profile-settings, #profile-messages, #new-snippet {
+  cursor: pointer;
+  float: right;
+  margin-left: 10px;
+  margin-top: -1px;
+}
+
+#profile-messages {
+ .menu-icon {
+    background-position: -8px -370px;
+  }
+  .arrow {
+  margin-right: 29px;
+  }
+}
+
+#new-snippet {
+  .menu-icon {
+    background-position: -8px -421px;
+    text-indent: -999em;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.search-box {
+  float: left;  
+  
+  input[type="text"] {
+    padding: 4px 10px;
+    .rounded-corners(10px);
+    background-color: rgba(34,168,108,0.15);
+    width: 300px;
+    border: 0px;
+    font-weight: bold;
+  }
+  
+  input[type="text"]:focus {
+    
+  }
+}
+
+.submit-snippet {
+  width: 600px;
+  padding: 10px 30px;
+  
+  h2 {
+    margin-bottom: 30px;
+  }
+  
+  input[type="submit"] {
+    width: auto;
   }
 }

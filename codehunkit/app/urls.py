@@ -9,8 +9,12 @@ admin.autodiscover()
 
 urlpatterns = patterns('codehunkit.app.views',
     url(r'^$', 'home', name='app_home'),
+    url(r'^language/(?P<slug>[\w-]+)/$', 'language', name='app_lang'),
+    url(r'^snippet/create/$', 'create_snippet', name='app_create_snippet'),
+    url(r'^search/$', 'search', name='app_search'),
     url(r'^login/$', 'login', name='app_login'),
     url(r'^logout/$', 'logout', name='app_logout'),
+    url(r'^change_password/$', 'change_password', name='app_change_password'),
     url(r'^signup/$', 'sign_up', name='app_sign_up'),
     url(r'^activation/(?P<user_id>\d+)-(?P<code>\w+)/$', 'activation', name='app_activation'),
     url(r'^facebook_login/$', 'facebook_login', name='app_facebook_login'),

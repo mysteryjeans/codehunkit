@@ -6,6 +6,7 @@
 
 {% block content %}
 <div class="action-form-box">
+	{% include "app/parts/facebook_signin.html" %}
 	<form action="/signup/" method="post">
 		{% csrf_token %}
 		<ul>
@@ -13,39 +14,41 @@
 				<h2>Sign Up</h2>
 			</li>
 			{% if successful_signup %}
-			<li class="message">
-				Thank you for signing up on <a href="{% url 'app_home' %}">CodeHunkit</a>, you will receive an account activation email shortly.
+			<li>
+				<p class="message">
+					Thank you for signing up on <a href="{% url 'app_home' %}">CodeHunkit</a>, you will receive an account activation email shortly.
+				</p>
 			</li>
 			{% else %}
 			{% if error %}
-			<li class="error_message">
-				{{ error|safe }}
+			<li>
+				<p class="error_message">
+					{{ error|safe }}
+				</p>
 			</li>
 			{% elif form.errors %}
-			<li class="error_message">
-				Please correct following error{{ form.errors|pluralize }} below.
+			<li>
+				<p class="error_message">
+					Please correct following error{{ form.errors|pluralize }} below.
+				</p>
 			</li>
 			{% else %}
 			<li>
-				<b>Join</b> us for free and be a part of CodeHunkit!
+				<p>
+					<b>Join</b> us for free and be a part of CodeHunkit!
+				</p>
 			</li>
 			{% endif %}
-			<li>
-				<label for="id_username">Username</label>
-			</li>
+			
 			<li>
 				{{ form.username }}
 				{{ form.username.errors }}
 			</li>
 			<li>
-				<label for="id_email">Your e-mail address</label>
-			</li>
-			<li>
 				{{ form.email }}
 				{{ form.email.errors }}
 			</li>
-			<li>
-				<label for="id_password">Password</label>
+			<li>			
 				{{ form.password }}
 				{{ form.password.errors }}
 			</li>

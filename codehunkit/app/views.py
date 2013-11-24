@@ -20,8 +20,8 @@ from django.contrib.sites.models import get_current_site
 from django.db import transaction
 
 from codehunkit.app import CodeHunkitError
-from codehunkit.app.models import User
-from codehunkit.app.forms import SignUp
+from codehunkit.app.models import User, Tag, Snippet
+from codehunkit.app.forms import SignUp, ChangePassword, SnippetForm
 from codehunkit.app.decorators import anonymous_required
 
 logger = logging.getLogger('django.request')
@@ -29,6 +29,40 @@ logger = logging.getLogger('django.request')
 
 def home(request, by_new=False, page_index=0):
     return render_response(request, 'app/home.html')
+
+
+def language(request, slug):
+    """
+    Displays list of snippets of the particular language
+    """
+    
+        
+def search(request):
+    """
+    Display snippets by user, language or search term
+    """
+    
+    
+@login_required
+@transaction.commit_on_success
+def create_snippet(request):
+    """
+    Creates a new code snippet
+    """
+    tags = Tag.get_tags()
+    if request.method == 'POST':
+        form = SnippetForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            try:
+                snippet = Snippet.create(data['gist'], data['code'], data['language'], data['tags'], request.user)
+                return HttpResponseRedirect('/')  #return HttpResponseRedirect(snippet.get_absolute_url())
+            except CodeHunkitError as e:
+                error = e.message
+    else:
+        form = SnippetForm()
+    
+    return render_response(request, 'app/create_snippet.html', locals())
 
 
 @anonymous_required
@@ -61,6 +95,27 @@ def logout(request):
     logout_user(request)
     return HttpResponseRedirect(reverse('app_home'))
         
+
+@login_required
+def change_password(request):
+    """
+    Updates user's password in database
+    """
+    error = None
+    if request.method == 'POST':
+        form = ChangePassword(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            try:                
+                request.user.change_password(data['current_password'], data['password'])
+                successfully_changed = True
+            except CodeHunkitError as e:
+                error = e.message
+    else:
+        form = ChangePassword()
+    
+    return render_response(request, 'app/change_password.html', locals())
+
 
 @anonymous_required
 @transaction.commit_on_success

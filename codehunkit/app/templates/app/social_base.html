@@ -12,6 +12,12 @@
 <div class="social-base">
 	<div id="page-bar">		
 		{% block page-bar-content %}
+		{% include "app/parts/bar_search.html" %}
+		{% if request.user.is_authenticated %}
+		{% include "app/parts/profile_menu.html" %}
+		{% else %}
+		{% include "app/parts/login_menu.html" %}
+		{% endif %}
 		{% endblock %}
 	</div>
 	<div class="social-bar">
@@ -22,10 +28,10 @@
 					<a href="{{ app_user.get_absolute_url }}" style="display: block;padding: 10px 5px 10px 15px;" title="{{ app_user.username }}"> <img src="{% gravatar_url app_user 32 %}" width="32px" height="32px"/><span>{{ app_user.username }}</span></a>
 				</div>
 				{% endif %}
-				<ul id="subscriptions-list">
+				<ul id="subs-list">
 					{% if hunkies %}
 					<li>
-						<h4>Hunkies</h4>
+						<h3>Hunk{{ hunkies|pluralize:"y,ies" }}</h3>
 						<ul>
 							{% for user in hunkies %}
 							<li filter-value="{{ user.username }}">
@@ -33,19 +39,19 @@
 							</li>
 							{% empty %}
 							<li>
-								Lets follow some hunkies.
+								<h4>Lets follow some hunkies.</h4>
 							</li>
 							{% endfor %}
 						</ul>
 					</li>
 					{% endif %}
-					{% if langs %}
-					<li>
-						<h4>Language</h4>
+					{% if default_langs %}
+					<li>						
+						<h3>Language{{ default_langs|pluralize }}</h3>
 						<ul>
-							{% for lang in langs %}
+							{% for lang in default_langs %}
 							<li filter-value="{{ lang.name }}">
-								<a href="{{ lang.get_absolute_url }}" title="{% firstof lang.description lang.name %}"> {% if lang.icon_url %} <img src="{{ lang.icon_url }}" alt="{{ lang.name }} icon" /> {% else %} <img src="{{ STATIC_URL }}app/img/rss.png" /> {% endif %} <span>{{ lang.name }}</span></a>
+								<a href="{{ lang.get_absolute_url }}" title="{% firstof lang.description lang.name %}">{{ lang.name }}</a>
 							</li>
 							{% endfor %}
 						</ul>
@@ -54,7 +60,7 @@
 				</ul>
 			</div>
 			<div class="filter">
-				<input type="text" value="" id="filter-input" placeholder="Search" class=""/>
+				<input type="text" value="" id="filter-input" placeholder="Filter" class=""/>
 			</div>
 		</div>
 	</div>
@@ -76,9 +82,9 @@
 	$('#filter-input').keyup(function() {
 		var $inputFilter = $(this);
 		if ($inputFilter.val() == '') {
-			$('#subscriptions-list li[filter-value]').fadeIn('fast');
+			$('#subs-list li[filter-value]').fadeIn('fast');
 		} else {
-			$('#subscriptions-list li[filter-value]').each(function() {
+			$('#subs-list li[filter-value]').each(function() {
 				if ($(this).attr('filter-value').toLowerCase().indexOf($inputFilter.val().toLowerCase()) == 0)
 					$(this).show('fast');
 				else

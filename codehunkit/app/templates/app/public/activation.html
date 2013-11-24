@@ -9,14 +9,18 @@
 			<h2>Account Activation</h2>			
 		</li>
 		{% if not error %}
-		<li class="message">
-			Thank you for activating your <a href="{% url 'app_home' %}">CodeHunkit</a> account, please proceed to <a href="{% url 'app_login' %}">login</a>.
+		<li>
+			<p class="message">
+				Thank you for activating your <a href="{% url 'app_home' %}">CodeHunkit</a> account, please proceed to <a href="{% url 'app_login' %}">login</a>.
+			</p>
 		</li>
 		{% elif invalid_code %}
-		<li class="message">
+		<li>
 			<form method="post" action="{% url 'app_send_activation' user.id %}">
 				{% csrf_token %}
+				<p class="message">
 				Your account is not activated yet!, please click <a href="javascript:$(this).parent('form').submit();return false;">here</a> to re-send activation code.
+				</p>
 			</form>
 		</li>
 		{% else %}

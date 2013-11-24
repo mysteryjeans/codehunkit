@@ -1,0 +1,77 @@
+{% extends "app/social_base.html" %}
+
+{% load utils %}
+{% load compressed %}
+
+{% block title %}Submit a new Snippet{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+{% compressed_css 'submit_snippet' %}
+{% endblock %}
+
+{% block content %}
+<form method="post" class="action-form-box submit-snippet">
+	{% csrf_token %}
+	<ul>
+		<li>
+			<h2>Create snippet</h2>
+		</li>
+		{% if error %}
+		<li>
+			<p class="error_message">
+				{{ error|safe }}
+			</p>
+		</li>
+		{% endif %}
+		<li>
+			{{ form.gist }}
+			{{ form.gist.errors }}
+		</li>
+		<li>
+			{{ form.code }}
+			{{ form.code.errors }}
+		</li>
+		<li>
+			{{ form.language }}
+			{{ form.language.errors }}
+		</li>
+		<li>
+			{{ form.tags }}
+			{{ form.tags.errors }}
+		</li>
+		<li>
+			<input type="submit" value="Create snippet"/>
+		</li>
+	</ul>
+</form>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+{% compressed_js 'submit_snippet' %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#id_language').select2({
+			width : '100%',
+			placeholder : 'Choose language for the code snippet',
+		});
+
+		var tags = jQuery.parseJSON('{{ tags|jsonify }}');
+		
+		$('#id_tags').select2({
+			width : '100%',
+			placeholder : 'Choose tags for the code snippet',
+			maximumInputLength : 10,
+			maximumSelectionSize : 4,
+			tags : tags
+		});
+		
+		$('#id_tags').on('select2-selecting', function(e) {
+			if(e.val.match(/[^\w\.]/))
+				e.preventDefault();
+		});
+
+	}); 
+</script>
+{% endblock %}
