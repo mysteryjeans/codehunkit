@@ -28,7 +28,10 @@ class Language(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
     created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.DateTimeField(max_length=100)    
+    created_by = models.DateTimeField(max_length=100)
+    
+    class Meta:
+        app_label = 'app'
     
     def __unicode__(self):
         return self.name
@@ -69,6 +72,7 @@ class LanguageGraph(models.Model):
     updated_by = models.CharField(max_length=100)
     
     class Meta:
+        app_label = 'app'
         db_table = 'app_language_graph'
     
     def __unicode__(self):
@@ -86,6 +90,9 @@ class Location(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.DateTimeField(max_length=100)
     
+    class Meta:
+        app_label = 'app'
+    
     def __unicode__(self):
         return self.name
 
@@ -98,6 +105,9 @@ class School(models.Model):
     slug = models.SlugField(unique=True)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.DateTimeField(max_length=100)
+    
+    class Meta:
+        app_label = 'app'
     
     def __unicode__(self):
         return self.name
@@ -115,6 +125,7 @@ class SchoolGraph(models.Model):
     updated_by = models.CharField(max_length=100)
     
     class Meta:
+        app_label = 'app'
         db_table = 'app_school_graph'
     
 
@@ -142,6 +153,9 @@ class User(AbstractUser):
     created_by = models.CharField(max_length=100)
     
     REQUIRED_FIELDS = [ 'email', 'updated_by', 'created_by', 'has_activated']
+    
+    class Meta:
+        app_label = 'app'
     
     def activate(self):
         """
@@ -227,7 +241,8 @@ class UserGraph(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=100)
     
-    class Meta:
+    class Meta:        
+        app_label = 'app'
         db_table = 'app_user_graph'
     
     def __unicode__(self):
@@ -247,6 +262,9 @@ class Education(models.Model):
     updated_by = models.CharField(max_length=100)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.DateTimeField(max_length=100)
+    
+    class Meta:
+        app_label = 'app'
 
 
 class Subscription(models.Model):
@@ -259,6 +277,7 @@ class Subscription(models.Model):
     created_by = models.CharField(max_length=100)
     
     class Meta:
+        app_label = 'app'
         unique_together = ('user', 'language')
         
         
@@ -278,5 +297,9 @@ class FacebookUser(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=75)
     
+    class Meta:
+        app_label = 'app'
+    
     def __unicode__(self):
         return self.username
+    

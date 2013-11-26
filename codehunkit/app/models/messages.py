@@ -32,6 +32,7 @@ class Notification(models.Model):
     created_by = models.CharField(max_length=75)
     
     class Meta:
+        app_label = 'app'
         index_together = [['id', 'user', 'read_on', 'viewed_on']]
     
     def __unicode__(self):
@@ -59,6 +60,7 @@ class FlashMessage(models.Model):
     created_by = models.CharField(max_length=75)
     
     class Meta:
+        app_label = 'app'
         db_table = 'app_flash_message'
     
     def __unicode__(self):

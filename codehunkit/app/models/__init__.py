@@ -4,7 +4,9 @@ Domain models
 @copyright: Copyright (c) 2013 FanaticLab
 """
 
-from codehunkit.app.core import *
-from codehunkit.app.snippets import *
-from codehunkit.app.badges import *
-from codehunkit.app.messages import *
+from codehunkit.app.models.core import *
+from codehunkit.app.models.snippets import *
+from codehunkit.app.models.badges import *
+from codehunkit.app.models.messages import *
+
+

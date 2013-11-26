@@ -11,7 +11,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 
 from codehunkit.app.views import render_response
-
+from codehunkit.app.models import Snippet
 
 logger = logging.getLogger('django.request')
 
@@ -19,8 +19,9 @@ logger = logging.getLogger('django.request')
 def home(request, page_index=0, sort_by_new=False):
     """
     Display all snippets
-    """    
-    return render_response(request, 'app/home.html')
+    """
+    snippets = Snippet.get_snippets(request.user, page_index, settings.PAGE_SIZE, sort_by_new)
+    return render_response(request, 'app/home.html', {'snippets': snippets})
 
 
 def lang_snippets(request, slug, page_index=0, sort_by_new=False):

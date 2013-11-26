@@ -38,7 +38,10 @@ class Snippet(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=100)
     
-    def __unicode__(self):
+    class Meta:
+        app_label = 'app'
+    
+    def __unicode__(self):        
         return self.gist
     
     @classmethod
@@ -52,7 +55,7 @@ class Snippet(models.Model):
                         FROM app_snippet s
                         INNER JOIN app_user u ON s.user_id = u.id
                         INNER JOIN app_language l ON s.language_id = l.id
-                        LEFT OUTER JOIN app_snippet_vote v ON s.id = v.sinppet_id AND v.user_id = %s
+                        LEFT OUTER JOIN app_snippet_vote v ON s.id = v.snippet_id AND v.user_id = %s
                         ORDER BY s.id DESC
                         LIMIT %s OFFSET %s
                         '''
@@ -62,12 +65,12 @@ class Snippet(models.Model):
                         FROM app_snippet s
                         INNER JOIN app_user u ON s.user_id = u.id
                         INNER JOIN app_language l ON s.language_id = l.id
-                        LEFT OUTER JOIN app_snippet_vote v ON s.id = v.sinppet_id AND v.user_id = %s
+                        LEFT OUTER JOIN app_snippet_vote v ON s.id = v.snippet_id AND v.user_id = %s
                         ORDER BY s.rank DESC, s.id DESC
                         LIMIT %s OFFSET %s
                         '''
             
-        return [snippet for snippet in cls.objects.raw(sql_query, [user.user_id, page_size, page_index * page_size])]
+        return [snippet for snippet in cls.objects.raw(sql_query, [user.id, page_size, page_index * page_size])]
     
     @classmethod
     def create(cls, gist, code, language_id, tags, user):
@@ -108,6 +111,7 @@ class SnippetVote(models.Model):
     created_by = models.DateTimeField(max_length=100)
     
     class Meta:
+        app_label = 'app'
         db_table = 'app_snippet_vote'
         unique_together = ('user', 'snippet')
 
@@ -132,7 +136,10 @@ class Comment(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.DateTimeField(max_length=100)
     
-    def __unicode__(self):
+    class Meta:
+        app_label = 'app'
+    
+    def __unicode__(self):        
         return self.comment_text[:50] if self.comment_text else ''
 
 
@@ -149,6 +156,7 @@ class CommentVote(models.Model):
     created_by = models.DateTimeField(max_length=100)
     
     class Meta:
+        app_label = 'app'
         db_table = 'app_comment_vote'
         unique_together = ('user', 'comment')
 
@@ -160,6 +168,9 @@ class Tag(models.Model):
     is_default = models.BooleanField(default=False)
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=75)
+
+    class Meta:
+        app_label = 'app'
 
     def __unicode__(self):
         return unicode(self.name)
