@@ -16,17 +16,30 @@ from codehunkit.app.views import render_response
 logger = logging.getLogger('django.request')
 
 
-def home(request, by_new=False, page_index=0):
+def home(request, page_index=0, sort_by_new=False):
+    """
+    Display all snippets
+    """    
     return render_response(request, 'app/home.html')
 
 
-def language(request, slug):
+def lang_snippets(request, slug, page_index=0, sort_by_new=False):
     """
     Displays list of snippets of the particular language
     """
+
+def tag_snippets(request, tag_name, page_index=0, sort_by_new=False):
+    """
+    Display list of snippets by tag
+    """    
+
+def user_snippets(request, username, page_index=0, sort_by_new=False):
+    """
+    Display snippets of particular user
+    """       
     
         
-def search(request):
+def search(request, page_index=0, sort_by_new=False):
     """
     Display snippets by user, language or search term
     """

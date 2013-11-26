@@ -20,7 +20,7 @@ logger = logging.getLogger('django.request')
     
 @login_required
 @transaction.commit_on_success
-def create_snippet(request):
+def snippet_create(request):
     """
     Creates a new code snippet
     """
@@ -39,4 +39,26 @@ def create_snippet(request):
     
     return render_response(request, 'app/create_snippet.html', locals())
 
+
+@login_required
+@transaction.commit_on_success
+def snippet_vote(request):
+    """
+    Vote a new code snippet
+    """
+
         
+@login_required
+@transaction.commit_on_success
+def comment_create(request):
+    """
+    Creates a new comment
+    """
+
+
+@login_required
+@transaction.commit_on_success
+def comment_vote(request):
+    """
+    Creates a new comment
+    """
