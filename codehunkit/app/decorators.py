@@ -1,5 +1,5 @@
 """
-Decorators for codehunkit app
+Decorators for codehunkit
 """
 
 from functools import wraps

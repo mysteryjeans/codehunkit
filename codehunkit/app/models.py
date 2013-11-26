@@ -15,7 +15,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
-from codehunkit.app import CodeHunkitError
+from codehunkit.app import HunkitError
 from codehunkit.db import models as db_models
 
 
@@ -130,13 +130,16 @@ class User(AbstractUser):
     FEMALE = 'F'
     GENDERS = ((MALE, 'Male'),
                (FEMALE, 'Female'))
-        
+    
+    birthday = models.DateField(null=True, blank=True)    
     gender = models.CharField(max_length=1, choices=GENDERS)
     hometown = models.ForeignKey(Location, null=True, related_name='hometown_users', blank=True)
     location = models.ForeignKey(Location, null=True, blank=True)
     locale = models.CharField(max_length=10, blank=True, null=True)
+    website = models.URLField(null=True, blank=True)
     has_activated = models.BooleanField(default=False)    
     activation_code = models.CharField(max_length=512, blank=True, null=True)
+    
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -155,7 +158,7 @@ class User(AbstractUser):
         Change user's password
         """
         if not self.check_password(password):            
-            raise CodeHunkitError('Wrong password! please enter your current password again.')
+            raise HunkitError('Wrong password! please enter your current password again.')
         
         self.set_password(new_password)
     
@@ -168,9 +171,9 @@ class User(AbstractUser):
         try:
             user = cls.objects.get(Q(username=username) | Q(email=email))
             if user.username == username:
-                raise CodeHunkitError('Username "%s" already registered with us, if you forgotten your password? <a href="%s">Request new one</a> or choose a different username.' % (username, reverse('app_forgot_password')))
+                raise HunkitError('Username "%s" already registered with us, if you forgotten your password? <a href="%s">Request new one</a> or choose a different username.' % (username, reverse('app_forgot_password')))
             
-            raise CodeHunkitError('Its seems to be that you are already registered with this email address, if you forgotten your password? <a href="%s">Request new one.</a>' % reverse('app_forgot_password'))            
+            raise HunkitError('Its seems to be that you are already registered with this email address, if you forgotten your password? <a href="%s">Request new one.</a>' % reverse('app_forgot_password'))            
         except cls.DoesNotExist:
                         
             activation_code = None
@@ -296,7 +299,7 @@ class Snippet(models.Model):
         """
         if sort_by_new:
             sql_query = '''
-                        SELECT s.*, u.username, l.name, v.index as vote_index
+                        SELECT s.*, u.username, l.name AS lang_name, l.slug AS lang_slug, v.index AS vote_index
                         FROM app_snippet s
                         INNER JOIN app_user u ON s.user_id = u.id
                         INNER JOIN app_language l ON s.language_id = l.id
@@ -306,7 +309,7 @@ class Snippet(models.Model):
                         '''
         else:
             sql_query = '''
-                        SELECT s.*, u.username, l.name, v.index as vote_index
+                        SELECT s.*, u.username, l.name AS lang_name, l.slug AS lang_slug, v.index AS vote_index
                         FROM app_snippet s
                         INNER JOIN app_user u ON s.user_id = u.id
                         INNER JOIN app_language l ON s.language_id = l.id
@@ -341,9 +344,6 @@ class Snippet(models.Model):
         UserGraph.objects.filter(user_id=user.id).update(snippets_count=F('snippets_count') + 1)
         
         return snippet
-        
-    
-    
     
 
 class Comment(models.Model):
@@ -600,7 +600,7 @@ class Tag(models.Model):
         sql = '''INSERT INTO app_tag (name, is_muted, is_default, updated_by, updated_on) 
                  SELECT %s, false, false, %s, %s WHERE NOT EXISTS (SELECT 1 FROM app_tag WHERE lower(name) = lower(%s));'''
         now = datetime.datetime.now()
-        parameters = ((tag, str(user), now, tag) for tag in tags)
+        parameters = ((tag, str(user), now, tag) for tag in tags.split(','))
         cursor = connection.cursor()
         try:
             cursor.executemany(sql, parameters)

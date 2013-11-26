@@ -13,7 +13,7 @@
 	<div id="page-bar">		
 		{% block page-bar-content %}
 		{% include "app/parts/bar_search.html" %}
-		{% if request.user.is_authenticated %}
+		{% if app_user.is_authenticated %}
 		{% include "app/parts/profile_menu.html" %}
 		{% else %}
 		{% include "app/parts/login_menu.html" %}
@@ -23,7 +23,7 @@
 	<div class="social-bar">
 		<div class="inner">
 			<div id="scroll-div">
-				{% if app_user.is_authenticated %}
+				{% if hunkit_user.is_authenticated %}
 				<div style="border-bottom: 1px solid rgba(0,0,0,0.2);">
 					<a href="{{ app_user.get_absolute_url }}" style="display: block;padding: 10px 5px 10px 15px;" title="{{ app_user.username }}"> <img src="{% gravatar_url app_user 32 %}" width="32px" height="32px"/><span>{{ app_user.username }}</span></a>
 				</div>

@@ -1,68 +1,30 @@
 """
-Contains views for codehunkit core app
-@author: faraz@fanaticlab.com
+Authentication views
+@author: Faraz Masood Khan faraz@fanaticlab.com
 @copyright: Copyright (c) 2013 FanaticLab
 """
 
-import urllib
 import logging
 
-from django.conf import settings
+from django.db import transaction
 from django.http import Http404, HttpResponseRedirect
-from django.template import Context, RequestContext
-from django.template.loader import get_template
-from django.shortcuts import render_to_response, get_object_or_404
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login as login_user, logout as logout_user
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.models import get_current_site
-from django.db import transaction
+from django.template import Context
+from django.template.loader import get_template
+from django.shortcuts import get_object_or_404
 
-from codehunkit.app import CodeHunkitError
-from codehunkit.app.models import User, Tag, Snippet
-from codehunkit.app.forms import SignUp, ChangePassword, SnippetForm
+from codehunkit.app import HunkitError
+from codehunkit.app.views import render_response
+from codehunkit.app.forms import ChangePassword, SignUp
+from codehunkit.app.models import User
 from codehunkit.app.decorators import anonymous_required
 
+
 logger = logging.getLogger('django.request')
-
-
-def home(request, by_new=False, page_index=0):
-    return render_response(request, 'app/home.html')
-
-
-def language(request, slug):
-    """
-    Displays list of snippets of the particular language
-    """
-    
-        
-def search(request):
-    """
-    Display snippets by user, language or search term
-    """
-    
-    
-@login_required
-@transaction.commit_on_success
-def create_snippet(request):
-    """
-    Creates a new code snippet
-    """
-    tags = Tag.get_tags()
-    if request.method == 'POST':
-        form = SnippetForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            try:
-                snippet = Snippet.create(data['gist'], data['code'], data['language'], data['tags'], request.user)
-                return HttpResponseRedirect('/')  #return HttpResponseRedirect(snippet.get_absolute_url())
-            except CodeHunkitError as e:
-                error = e.message
-    else:
-        form = SnippetForm()
-    
-    return render_response(request, 'app/create_snippet.html', locals())
 
 
 @anonymous_required
@@ -109,7 +71,7 @@ def change_password(request):
             try:                
                 request.user.change_password(data['current_password'], data['password'])
                 successfully_changed = True
-            except CodeHunkitError as e:
+            except HunkitError as e:
                 error = e.message
     else:
         form = ChangePassword()
@@ -140,7 +102,7 @@ def sign_up(request):
                 msg.content_subtype = "html"
                 msg.send()
                 successful_signup = True    
-            except CodeHunkitError as e:
+            except HunkitError as e:
                 error = e.message
     else:
         form = SignUp()
@@ -149,6 +111,7 @@ def sign_up(request):
 
 
 @anonymous_required
+@transaction.commit_on_success
 def facebook_login(request):
     """
     Login or sign up user via facebook
@@ -196,34 +159,3 @@ def send_activation(request, user_id):
         return render_response(request, 'app/public/send_activation.html', locals())
 
     return HttpResponseRedirect(reverse('app_home'))                
-
-
-def render_response(request, *args, **kwargs):
-    """
-    Render template using RequestContext so that context processors should be available in template
-    """
-    kwargs['context_instance'] = RequestContext(request)
-    return render_to_response(*args, **kwargs)
-
-        
-def paginated_url(url_name, result_set, args, qs=None):
-    """
-    Returns previous and next page urls
-    """
-    prev_url = None
-    next_url = None
-    qs = '?' + urllib.urlencode(qs) if qs else ''
-    page_index = int(args[-1])
-    
-    if page_index == 1:
-        prev_url = reverse(url_name, args=args[:-1]) + qs
-    elif page_index > 1 :
-        args[-1] = page_index - 1
-        prev_url = reverse(url_name, args=args) + qs
-    
-    if len(result_set) == settings.PAGE_SIZE:
-        args[-1] = page_index + 1
-        next_url = reverse(url_name, args=args) + qs
-        
-    return prev_url, next_url
-    

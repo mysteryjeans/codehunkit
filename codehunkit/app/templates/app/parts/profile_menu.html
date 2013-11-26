@@ -8,10 +8,10 @@
 			<h4>Settings</h4>
 			<ul>
 				<li>
-					<a href="{{ request.user.get_absolute_url }}">Profile</a>
+					<a href="{{ app_user.get_absolute_url }}">Profile</a>
 				</li>
 				<li>
-					<a href="{% gravatar_profile_url request.user %}" title="Change or create your gravatar profile on gravatar.com">My Gravatar</a>
+					<a href="{% gravatar_profile_url app_user %}" title="Change or create your gravatar profile on gravatar.com">My Gravatar</a>
 				</li>
 				<li>
 					<form action="{% url 'app_facebook_login' %}" method="post">
