@@ -111,18 +111,7 @@
       width: 30%;
       max-width: 400px;
       min-height: 400px;
-    }
-    
-    .snippets-view {
-      overflow:hidden;
-      .snippets {
-        margin: 0px 20px;
-        li {
-          background-color: white;          
-          padding:  5px;
-        }
-      }
-    }
+    }   
   }
 }
 
@@ -229,4 +218,38 @@
   input[type="submit"] {
     width: auto;
   }
+}
+
+
+.snippets-view {
+   overflow:hidden;
+   padding: 0px 20px;
+   
+  .title-bar {    
+    background: white;
+    overflow: hidden;
+    margin-bottom: 10px;
+    .rounded-corners(2px);
+    
+    li {
+      float: left;
+      padding: 5px 15px;
+    }
+    
+    li:last-child {
+      border-left: 1px solid @border-color;
+    }
+  }
+  
+  .snippets {    
+      li {
+        background-color: white;          
+        padding:  5px;
+      }
+      
+      .votes-box {
+        width: 40px;
+        
+      }
+   }   
 }

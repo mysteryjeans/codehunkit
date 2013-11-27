@@ -1,13 +1,35 @@
-{% extends "app/social_base.html" %}
+{% extends "app/browse_base.html" %}
 
-{% block robots_meta %}
-{% if page_index or by_new %}
-<meta name="robots" content="noindex,follow" />
-{% endif %}
+{% block profile-content %}
+<form action="{% url 'app_login' %}" method="post" class="action-form">
+	{% csrf_token %}
+	<ul>
+		<li>
+			<h2>Sign In</h2>
+		</li>
+		<li>
+			<input type="text" name="username" placeholder="Username..."/>
+		</li>
+		<li>
+			<input type="password" name="password" placeholder="Password..."/>
+		</li>
+		<li>
+			<input type="submit" value="Login"/>
+		</li>
+	</ul>
+</form>
 {% endblock %}
 
-{% block content %}
-<div class="profile-bar"></div>
-{% include "app/parts/snippets.html" %}
+{% block title-content %}
+<ul>
+	<li>
+		<a href="{% url 'app_home' %}">Top</a>
+	</li>
+	<li>
+		<a href="{% url 'app_home_new' %}">New</a>
+	</li>
+	<li>
+		All
+	</li>
+</ul>
 {% endblock %}
-

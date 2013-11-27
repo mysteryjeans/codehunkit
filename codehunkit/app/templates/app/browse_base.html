@@ -1,0 +1,75 @@
+{% extends "app/social_base.html" %}
+
+{% load utils %}
+
+{% block robots_meta %}
+{% if page_index or by_new %}
+<meta name="robots" content="noindex,follow" />
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="profile-bar">
+	{% block profile-content %}{% endblock %}
+</div>
+<div class="snippets-view">
+	<div class="title-bar">
+		{% block title-content %}{% endblock %}
+	</div>
+	<div class="snippets">
+		<ul>
+			{% for snippet in snippets %}
+			<li id="snippet-id-{{ snippet.id }}" class="snippet" style="clear: both;overflow: hidden;">
+				<div class="votes-box" style="float: left;">
+					<form data-ajax-url="{% url 'app_snippet_vote' %}" method="post" data-ajax="true" data-ajax-complete="update_vote">
+						{% csrf_token %}
+						<input type="hidden" name="snippet_id" value="{{ snippet.id }}"/>
+						<input type="hidden" name="action" value="up"/>
+						<a onclick="javascript:$(this).parent('form').submit();" class="up-vote {% ifequal snippet.vote_index 1 %}up-vote-on{% endifequal %}" title="Vote-UP if this snippet is useful.">&#9650;</a>
+					</form>
+					<div class="votes" itemprop="votes">
+						{{ snippet.votes }}
+					</div>
+					<form data-ajax-url="{% url 'app_snippet_vote' %}" method="post" data-ajax="true" data-ajax-complete="update_vote">
+						{% csrf_token %}
+						<input type="hidden" name="snippet_id" value="{{ snippet.id }}"/>
+						<input type="hidden" name="action" value="down"/>
+						<a onclick="javascript:$(this).parent('form').submit();" class="down-vote {% ifequal snippet.vote_index -1 %}down-vote-on{% endifequal %}" title="Vote-DOWN if this snippet not useful.">&#9660;</a>
+					</form>
+				</div>
+				<div class="snippet-content">
+					<div class="snippet-gist">
+						<a href="{{ snippet.get_absolute_url }}"><h3 style="display: inline; font-size: 1.8em">{{ snippet.gist }}</h3></a>
+					</div>
+					<div class="snippet-em">
+						{{ snippet.created_on|when:now }} ago by <a rel="author" href="{% url 'app_user' snippet.username %}" data-card="user:{{ snippet.username }}">{{ snippet.username }}</a>
+					</div>
+					<div class="snippet-shares">
+						<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:twitter" data-content="{{ post.title }}" style="margin-left: 0px;">Twitter</a>
+						<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:facebook" style="margin-left: 24px;">Facebook</a>
+						<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:googleplus"  style="margin-left: 48px;">Google+</a>
+					</div>
+					<ul class="tags">
+						<li>
+							<a href="{% url 'app_lang' snippet.lang_slug %}">{{ snippet.lang_name }}</a>
+						</li>
+						{% for tag in snippet.tags_list %}
+						<li>
+							<a href="{% url 'app_tag' tag %}">{{ tag }}</a>
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</li>
+			{% empty %}
+			<li>
+				<p class="message">
+					{{ no_snippets|default:"There are no snippets to show right now." }}
+				</p>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>
+{% endblock %}
+
