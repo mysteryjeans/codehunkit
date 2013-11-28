@@ -1,8 +1,25 @@
 {% load gravatar %}
 
-<div id="menu">
-	<div id="profile-settings">
-		<span class="menu-icon"></span>
+<ul id="menu">
+	<li class="menu-item">
+		<a href="{% url 'app_home' %}" class="menu-icon">Home</a>
+	</li>
+	<li id="new-snippet" class="menu-item">
+		<a href="{% url 'app_snippet_create' %}" class="menu-icon" title="Submit a new code snippet">New Snippet</a>
+	</li>
+	<li id="profile-messages" class="menu-item">
+		<form data-ajax-url="" method="post" data-ajax="true">
+			{% csrf_token %}
+			<input type="hidden" name="message_id" value="{{ last_message_id }}"/>
+			<span class="menu-icon" style="position: relative;"  {% if new_messages %}onclick="javascript:$('.jewel-count', this).hide(); $(this).parent('form').submit();"{% endif %}> {% if new_messages %} <span class="jewel-count">{{ new_messages }}</span> {% endif %}Messages</span>
+		</form>
+		<div class="context-menu" context-menu="#profile-messages">
+			<span class="arrow"></span>
+			{% include "app/parts/notifications.html" %}
+		</div>
+	</li>
+	<li id="profile-settings" class="menu-item">
+		<span class="menu-icon">Settings</span>
 		<div class="context-menu" context-menu="#profile-settings">
 			<span class="arrow"></span>
 			<h4>Settings</h4>
@@ -18,7 +35,7 @@
 						{% csrf_token %}
 						<a href="#" onclick="javascript:$(this).parent('form').submit(); return false;" title="Connect your Facebook account with CodeHunkit user">Connect with Facebook</a>
 					</form>
-				</li>			
+				</li>
 				<li>
 					<a href="{% url 'app_change_password' %}" title="Set your new password">Change password</a>
 				</li>
@@ -27,19 +44,5 @@
 				</li>
 			</ul>
 		</div>
-	</div>
-	<div id="profile-messages">
-		<form data-ajax-url="" method="post" data-ajax="true">
-			{% csrf_token %}
-			<input type="hidden" name="message_id" value="{{ last_message_id }}"/>
-			<span class="menu-icon" style="position: relative;"  {% if new_messages %}onclick="javascript:$('.jewel-count', this).hide(); $(this).parent('form').submit();"{% endif %}> {% if new_messages %} <span class="jewel-count">{{ new_messages }}</span> {% endif %} </span>
-		</form>
-		<div class="context-menu" context-menu="#profile-messages">
-			<span class="arrow"></span>
-			{% include "app/parts/notifications.html" %}
-		</div>
-	</div>
-	<div id="new-snippet">		
-		<a href="{% url 'app_snippet_create' %}" class="menu-icon" title="Submit a new code snippet">Submit</a>
-	</div>
-</div>
+	</li>
+</ul>

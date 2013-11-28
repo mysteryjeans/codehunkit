@@ -33,6 +33,7 @@ urlpatterns = patterns('codehunkit.app.views.browse',
 urlpatterns += patterns('codehunkit.app.views.snippets',
                         url(r'^snippet/create/$', 'snippet_create', name='app_snippet_create'),
                         url(r'^snippet/vote/$', 'snippet_vote', name='app_snippet_vote'),
+                        url(r'^snippet/(?P<snippet_id>\d+)/(?P<slug>[\w-]+)/$', 'snippet_read', name='app_snippet_read'),
                         url(r'^comment/create/$', 'comment_create', name='app_comment_create'),
                         url(r'^comment/vote/$', 'comment_vote', name='app_comment_vote'),
 )

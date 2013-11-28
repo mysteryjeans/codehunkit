@@ -44,6 +44,13 @@ class Snippet(models.Model):
     def __unicode__(self):        
         return self.gist
     
+    def tags_list(self):
+        return [tag.strip() for tag in self.tags.split(',')]
+    
+    @models.permalink
+    def get_absolute_url(self):
+        return ('app_snippet_read', (self.id, self.slug,))
+    
     @classmethod
     def get_snippets(cls, user, page_index, page_size, sort_by_new):
         """

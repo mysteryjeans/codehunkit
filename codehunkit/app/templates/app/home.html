@@ -1,6 +1,7 @@
-{% extends "app/browse_base.html" %}
+{% extends "app/snippets_base.html" %}
 
 {% block profile-content %}
+{% if app_user.is_anonymous %}
 <form action="{% url 'app_login' %}" method="post" class="action-form">
 	{% csrf_token %}
 	<ul>
@@ -18,6 +19,7 @@
 		</li>
 	</ul>
 </form>
+{% endif %}
 {% endblock %}
 
 {% block title-content %}

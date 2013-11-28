@@ -3,6 +3,11 @@
 @social-bar-color: @second-color;
 @social-bar-width: 170px;
 
+.transition(@property, @time) {
+  transition: @property @time linear;
+  -webkit-transition: @property @time linear;
+}
+
 .social-base {
   
   #page-bar {
@@ -112,13 +117,18 @@
       width: 30%;
       max-width: 400px;
       min-height: 400px;
+      padding: 0px 10px;
     }   
   }
 }
 
-#menu, #login-menu {
-  float: right;
-  margin-top: 3px;
+#menu {
+  float: right;  
+  margin-top: 5px;  
+  
+  .context-menu {
+    right: 10px;
+  }
   
   .arrow  {
     top: 0;
@@ -127,20 +137,10 @@
     margin-right: 2px;
   }
   
-  .context-menu {
-    right: 10px;
-  }
-}
-
-#login-menu {
-  margin-top: 5px;
-  
-  li {
+  li.menu-item {
     float: left;
     padding-left: 10px;
-    font-weight: 600;
-    font-size: 0.9em;
-    border-right: 1px solid @first-color;
+    border-right: 1px solid @third-color;
     padding-right: 10px;
   }
   
@@ -149,45 +149,22 @@
     border-right: 0px;
   }
   
-  a {
-    color: @first-color !important;
-  }
-}
-
-.menu-icon {
-  width: 21px;
-  height: 20px;
-  display: block;
-  background-image: url('../img/sprites.png');
-  background-repeat: no-repeat;
-}
-
-#profile-settings .menu-icon {
-  background-position: -8px -393px;
-} 
-
-#profile-settings, #profile-messages, #new-snippet {
-  cursor: pointer;
-  float: right;
-  margin-left: 10px;
-  margin-top: -1px;
-}
-
-#profile-messages {
- .menu-icon {
-    background-position: -8px -370px;
-  }
-  .arrow {
-  margin-right: 29px;
-  }
-}
-
-#new-snippet {
   .menu-icon {
-    background-position: -8px -421px;
-    text-indent: -999em;
-    width: 24px;
-    height: 24px;
+    color: @first-color !important;
+    text-transform: lowercase;
+    
+    font-weight: 600;
+    font-size: 0.9em;
+  }  
+  
+  #profile-messages .arrow {
+    margin-right: 60px;
+  }
+  
+  .context-menu {
+    li {
+      float: none;
+    }
   }
 }
 
@@ -243,9 +220,20 @@
   }
   
   .snippets {    
-      li {
+      .snippet {
         background-color: white;          
-        padding:  5px;
+        padding:  10px 5px;
+        border-bottom: 1px solid @border-color;
+        
+        h3 {
+          color: #000;
+          font-size: 1.2em;
+        }
+        
+        :hover .snippet-shares {
+          opacity: 0.6;
+          filter: alpha(opacity=60);
+        }
       }
       
       .snippet-content {
@@ -255,6 +243,10 @@
           color: gray;
           font-size: 0.8em;
           text-transform: lowercase;
+          
+          a {
+            font-weight: bold;
+          }
         }
       }
       
@@ -278,8 +270,7 @@
           height: 20px;
           text-indent: -999em;
           cursor: pointer;
-          transition: background-position 500ms;
-          -webkit-transition: background-position 500ms;
+          .transition(background-position, 500ms);
         }
         
         .up-vote {
@@ -288,7 +279,69 @@
          
          .down-vote {
            background-position: -3px -70px;
-         }        
+         }
+      }
+      
+      .tags {
+        overflow: hidden;
+        margin-top: 8px;
+        
+        li {
+          float: left;
+        }
+        
+        a {          
+          padding: 2px 5px;          
+          margin-right: 10px;
+          background-color: #EFEFEF;
+          display: block;
+        }
+        
+        li:first-child {
+          a, a:hover {
+            background-color: @third-color;
+            color: white;
+          }
+        }
       }
    }   
+}
+
+.snippet-shares {      
+  height: 18px;
+  margin: 2px;
+  float: right;
+  overflow: hidden;
+  width: 66px;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  .transition(filter, 200ms);  
+  .transition(opacity, 200ms);
+      
+  [data-action] {
+    background-image: url('../img/sprites.png');
+    display: inline-block;
+    width: 18px !important;
+    height: 18px !important;
+    text-indent: -9999em;
+    overflow: hidden;    
+    margin-left: 4px;
+    position: absolute;    
+  }
+  
+  [data-action]:hover {
+    
+  }
+  
+  [data-action="share:twitter"] {
+    background-position: -3px -584px;
+  }
+  
+  [data-action="share:facebook"] {
+    background-position: -21px -584px;
+  }
+  
+  [data-action="share:googleplus"] {
+    background-position: -39px -584px;
+  }
 }

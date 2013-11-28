@@ -2,7 +2,6 @@
 Snippet views
 """
 
-
 import logging
 
 from django.db import transaction
@@ -16,6 +15,13 @@ from codehunkit.app.forms import SnippetForm
 
 
 logger = logging.getLogger('django.request')
+
+
+def snippet_read(request, snippet_id, slug):
+    """
+    Display Snippet
+    """
+    return ""
 
     
 @login_required
