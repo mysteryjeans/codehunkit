@@ -25,7 +25,7 @@
 						{% csrf_token %}
 						<input type="hidden" name="snippet_id" value="{{ snippet.id }}"/>
 						<input type="hidden" name="action" value="up"/>
-						<a onclick="javascript:$(this).parent('form').submit();" class="up-vote {% ifequal snippet.vote_index 1 %}up-vote-on{% endifequal %}" title="Vote-UP if this is awesome code.">&#9650;</a>
+						<a onclick="javascript:$(this).parent('form').submit();" class="up-vote {% ifequal snippet.vote_index 1 %}up-vote-on{% endifequal %}" title="This code is awesome.">&#9650;</a>
 					</form>
 					<div class="votes" itemprop="votes">
 						{{ snippet.votes }}
@@ -34,7 +34,7 @@
 						{% csrf_token %}
 						<input type="hidden" name="snippet_id" value="{{ snippet.id }}"/>
 						<input type="hidden" name="action" value="down"/>
-						<a onclick="javascript:$(this).parent('form').submit();" class="down-vote {% ifequal snippet.vote_index -1 %}down-vote-on{% endifequal %}" title="Vote-DOWN if this is average code.">&#9660;</a>
+						<a onclick="javascript:$(this).parent('form').submit();" class="down-vote {% ifequal snippet.vote_index -1 %}down-vote-on{% endifequal %}" title="This is average code.">&#9660;</a>
 					</form>
 				</div>
 				<div class="snippet-content">
