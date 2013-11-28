@@ -19,8 +19,8 @@
 	<div class="snippets">
 		<ul>
 			{% for snippet in snippets %}
-			<li id="snippet-id-{{ snippet.id }}" class="snippet" style="clear: both;overflow: hidden;">
-				<div class="votes-box" style="float: left;">
+			<li id="snippet-id-{{ snippet.id }}" class="snippet">
+				<div class="votes-box">
 					<form data-ajax-url="{% url 'app_snippet_vote' %}" method="post" data-ajax="true" data-ajax-complete="update_vote">
 						{% csrf_token %}
 						<input type="hidden" name="snippet_id" value="{{ snippet.id }}"/>
@@ -39,7 +39,7 @@
 				</div>
 				<div class="snippet-content">
 					<div class="snippet-gist">
-						<a href="{{ snippet.get_absolute_url }}"><h3 style="display: inline; font-size: 1.8em">{{ snippet.gist }}</h3></a>
+						<a href="{{ snippet.get_absolute_url }}"><h3>{{ snippet.gist }}</h3></a>
 					</div>
 					<div class="snippet-em">
 						{{ snippet.created_on|when:now }} ago by <a rel="author" href="{% url 'app_user' snippet.username %}" data-card="user:{{ snippet.username }}">{{ snippet.username }}</a>

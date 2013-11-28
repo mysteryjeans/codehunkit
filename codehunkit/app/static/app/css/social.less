@@ -103,6 +103,7 @@
   
   #content {    
     background: url('../img/bg.jpg');
+    background: white;
     padding-top: 50px;
     
     .profile-bar {
@@ -247,9 +248,47 @@
         padding:  5px;
       }
       
-      .votes-box {
-        width: 40px;
+      .snippet-content {
+        overflow: hidden;
         
+        .snippet-em {
+          color: gray;
+          font-size: 0.8em;
+          text-transform: lowercase;
+        }
+      }
+      
+      .votes-box {
+        width: 50px;
+        float: left;
+        
+       .votes, .up-vote, .down-vote {
+         margin: 0px auto;
+         clear: both;
+         text-align: center;
+         font-size: 18px;
+       }
+       
+       .down-vote, .up-vote {
+          background-image: url('../img/sprites.png');
+          background-repeat: no-repeat;
+          overflow: hidden;
+          display: block;
+          width: 24px;
+          height: 20px;
+          text-indent: -999em;
+          cursor: pointer;
+          transition: background-position 500ms;
+          -webkit-transition: background-position 500ms;
+        }
+        
+        .up-vote {
+          background-position: -3px -34px;
+         }
+         
+         .down-vote {
+           background-position: -3px -70px;
+         }        
       }
    }   
 }
