@@ -7,7 +7,7 @@ from django.contrib import admin
 
 admin.autodiscover()
 
-urlpatterns = patterns('codehunkit.app.views.browse',
+urlpatterns = patterns('codehunkit.app.views.snippets',
                        url(r'^$', 'home', name='app_home'),
                        url(r'^(?P<page_index>\d+)/$', 'home', name='app_home'),
                        url(r'^new/$', 'home', { 'sort_by_new': True }, name='app_home_new'),
@@ -30,7 +30,7 @@ urlpatterns = patterns('codehunkit.app.views.browse',
                        url(r'^search/new/(?P<page_index>\d+)/$', 'search', {'sort_by_new': True}, name='app_search_new'),
 )
 
-urlpatterns += patterns('codehunkit.app.views.snippets',
+urlpatterns += patterns('codehunkit.app.views.snippet',
                         url(r'^snippet/create/$', 'snippet_create', name='app_snippet_create'),
                         url(r'^snippet/vote/$', 'snippet_vote', name='app_snippet_vote'),
                         url(r'^snippet/(?P<snippet_id>\d+)/(?P<slug>[\w-]+)/$', 'snippet_read', name='app_snippet_read'),

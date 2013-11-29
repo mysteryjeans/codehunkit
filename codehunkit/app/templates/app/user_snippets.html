@@ -1,0 +1,20 @@
+{% extends "app/snippets_base.html" %}
+
+{% block title %}{{ lang.name }} Snippets{% endblock %}
+
+{% block profile-content %}
+{% endblock %}
+
+{% block title-content %}
+<ul>
+	<li>
+		<a href="{% url 'app_user' user.username %}">Top</a>
+	</li>
+	<li>
+		<a href="{% url 'app_user_new' user.username %}">New</a>
+	</li>
+	<li>
+		{{ user.username }}
+	</li>
+</ul>
+{% endblock %}

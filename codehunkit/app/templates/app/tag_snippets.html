@@ -1,0 +1,20 @@
+{% extends "app/snippets_base.html" %}
+
+{% block title %}{{ tag_name }} Snippets{% endblock %}
+
+{% block profile-content %}
+{% endblock %}
+
+{% block title-content %}
+<ul>
+	<li>
+		<a href="{% url 'app_tag' tag_name %}">Top</a>
+	</li>
+	<li>
+		<a href="{% url 'app_tag_new' tag_name %}">New</a>
+	</li>
+	<li>
+		{{ tag_name }}
+	</li>
+</ul>
+{% endblock %}

@@ -1,70 +1,78 @@
 """
-Snippet views
+Snippets listing views
+@author: Faraz Masood Khan faraz@fanaticlab.com
+@copyright: Copyright (c) 2013 FanaticLab
 """
 
+import urllib
 import logging
 
-from django.db import transaction
-from django.http import HttpResponseRedirect
-from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404
 
-from codehunkit.app import HunkitError
 from codehunkit.app.views import render_response
-from codehunkit.app.models import Snippet, Tag
-from codehunkit.app.forms import SnippetForm
-
+from codehunkit.app.models import User, Language, Snippet
 
 logger = logging.getLogger('django.request')
 
 
-def snippet_read(request, snippet_id, slug):
+def home(request, page_index=0, sort_by_new=False):
     """
-    Display Snippet
+    Display all snippets
     """
-    return ""
+    snippets = Snippet.get_snippets(request.user, page_index, settings.PAGE_SIZE, sort_by_new)
+    return render_response(request, 'app/home_snippets.html', {'snippets': snippets})
 
+
+def lang_snippets(request, slug, page_index=0, sort_by_new=False):
+    """
+    Displays list of snippets of the particular language
+    """
+    lang = get_object_or_404(Language, slug=slug)
+    snippets = Snippet.lang_snippets(lang, request.user, page_index, settings.PAGE_SIZE, sort_by_new)
+    return render_response(request, 'app/lang_snippets.html', locals())
     
-@login_required
-@transaction.commit_on_success
-def snippet_create(request):
+
+def tag_snippets(request, tag_name, page_index=0, sort_by_new=False):
     """
-    Creates a new code snippet
+    Display list of snippets by tag
     """
-    tags = [tag.name for tag in Tag.get_tags()]
-    if request.method == 'POST':
-        form = SnippetForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            try:
-                snippet = Snippet.create(data['gist'], data['code'], data['language'], data['tags'], request.user)
-                return HttpResponseRedirect('/')  #return HttpResponseRedirect(snippet.get_absolute_url())
-            except HunkitError as e:
-                error = e.message
-    else:
-        form = SnippetForm()
+    snippets = Snippet.tag_snippets(tag_name, request.user, page_index, settings.PAGE_SIZE, sort_by_new)
+    return render_response(request, 'app/tag_snippets.html', locals())    
     
-    return render_response(request, 'app/create_snippet.html', locals())
 
-
-@login_required
-@transaction.commit_on_success
-def snippet_vote(request):
+def user_snippets(request, username, page_index=0, sort_by_new=False):
     """
-    Vote a new code snippet
-    """
-
+    Display snippets of particular user
+    """       
+    user = get_object_or_404(User, username=username)
+    snippets = Snippet.user_snippets(user, request.user, page_index, settings.PAGE_SIZE, sort_by_new)
+    return render_response(request, 'app/user_snippets.html', locals())
         
-@login_required
-@transaction.commit_on_success
-def comment_create(request):
+def search(request, page_index=0, sort_by_new=False):
     """
-    Creates a new comment
+    Display snippets by user, language or search term
     """
 
-
-@login_required
-@transaction.commit_on_success
-def comment_vote(request):
+def paginated_url(url_name, result_set, args, qs=None):
     """
-    Creates a new comment
+    Returns previous and next page urls
     """
+    prev_url = None
+    next_url = None
+    qs = '?' + urllib.urlencode(qs) if qs else ''
+    page_index = int(args[-1])
+    
+    if page_index == 1:
+        prev_url = reverse(url_name, args=args[:-1]) + qs
+    elif page_index > 1 :
+        args[-1] = page_index - 1
+        prev_url = reverse(url_name, args=args) + qs
+    
+    if len(result_set) == settings.PAGE_SIZE:
+        args[-1] = page_index + 1
+        next_url = reverse(url_name, args=args) + qs
+        
+    return prev_url, next_url
+    
