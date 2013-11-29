@@ -46,7 +46,7 @@ def user_snippets(request, username, page_index=0, sort_by_new=False):
     """
     Display snippets of particular user
     """       
-    user = get_object_or_404(User, username=username)
+    user = User.objects.get(username=username)
     snippets = Snippet.user_snippets(user, request.user, page_index, settings.PAGE_SIZE, sort_by_new)
     return render_response(request, 'app/user_snippets.html', locals())
         

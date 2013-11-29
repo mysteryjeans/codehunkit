@@ -3,6 +3,22 @@
 {% block title %}{{ lang.name }} Snippets{% endblock %}
 
 {% block profile-content %}
+{% with graph=lang.graph %}
+<ul>
+	<li>
+		<a href="{{ lang.get_absolute_url }}">{{ lang.name }}</a>
+	</li>
+	<li>
+		Guru Level {{ graph.guru_level }}
+	</li>
+	<li>
+		{{ graph.subscriptions_count }} reader{{ graph.subscriptions_count|pluralize }}
+	</li>
+	<li>
+		{{ graph.snippets_count }} snippet{{ graph.snippets_count|pluralize }}
+	</li>
+</ul>
+{% endwith %}
 {% endblock %}
 
 {% block title-content %}
@@ -14,7 +30,7 @@
 		<a href="{% url 'app_lang_new' lang.slug %}">New</a>
 	</li>
 	<li>
-		{{ lang.Name }}
+		{{ lang.name }}
 	</li>
 </ul>
 {% endblock %}

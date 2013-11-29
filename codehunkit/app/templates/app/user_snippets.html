@@ -2,7 +2,27 @@
 
 {% block title %}{{ lang.name }} Snippets{% endblock %}
 
+
 {% block profile-content %}
+{% with graph=user.graph %}
+<ul>
+	<li>
+		<a href="{{ user.get_absolute_url }}">{{ user.username }}</a>
+	</li>
+	<li>
+		Guru Level {{ graph.guru_level }}
+	</li>
+	<li>
+		{{ graph.snippets_count }} snippet{{ graph.snippets_count|pluralize }}
+	</li>
+	<li>
+		{{ graph.followers_count }} follower{{ graph.followers_count|pluralize }}
+	</li>
+	<li>
+		{{ graph.comments_count }} comment{{ graph.comments_count|pluralize }}
+	</li>
+</ul>
+{% endwith %}
 {% endblock %}
 
 {% block title-content %}
