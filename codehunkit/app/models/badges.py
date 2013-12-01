@@ -21,6 +21,9 @@ class Badge(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.DateTimeField(max_length=100)
     
+    class Meta:
+        app_label = 'app'
+    
     def __unicode__(self):
         return self.name
 
@@ -38,6 +41,7 @@ class LanguageBadgeSummary(models.Model):
     created_by = models.DateTimeField(max_length=100)
     
     class Meta:
+        app_label = 'app'
         db_table = 'app_language_badge_summary'
 
 
@@ -51,6 +55,7 @@ class UserBadge(models.Model):
     created_by = models.DateTimeField(max_length=100)
     
     class Meta:
+        app_label = 'app'
         db_table = 'app_user_badge'
         unique_together = ('user', 'badge',)
 
@@ -68,6 +73,7 @@ class SchoolBadgeSummary(models.Model):
     created_by = models.DateTimeField(max_length=100)
     
     class Meta:
+        app_label = 'app'
         db_table = 'app_school_badge_summary'
         unique_together = ('school', 'badge',) 
 

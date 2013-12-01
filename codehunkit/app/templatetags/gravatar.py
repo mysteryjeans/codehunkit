@@ -23,10 +23,10 @@ class GravatarUrlNode(template.Node):
         if not self.size:
             self.size = 40
         
-        if hasattr(user, 'fb_username') and user.fb_username:
-            return u'http://graph.facebook.com/%s/picture?width=%s&height=%s' % (user.fb_username, self.size, self.size)
+        if hasattr(user, 'fb_id') and user.fb_id:
+            return u'http://graph.facebook.com/%s/picture?width=%s&height=%s' % (user.fb_id, self.size, self.size)
         
-        default = "wavatar"        
+        default = "identicon"        
         size = self.size.resolve(context) if self.size else 40
  
         gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(user.email.lower()).hexdigest() + "?"
@@ -45,8 +45,8 @@ class GravatarProfileUrlNode(template.Node):
         except template.VariableDoesNotExist:
             return ''
         
-        if hasattr(user, 'fb_username'):
-            return u'http://www.facebook.com/%s' % user.fb_username
+        if hasattr(user, 'fb_id'):
+            return u'http://www.facebook.com/%s' % user.fb_id
   
         gravatar_url = "http://www.gravatar.com/" + hashlib.md5(user.email.lower()).hexdigest()
                  

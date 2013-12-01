@@ -1,78 +1,67 @@
-"""
-Snippets listing views
-@author: Faraz Masood Khan faraz@fanaticlab.com
-@copyright: Copyright (c) 2013 FanaticLab
-"""
+from django.db import transaction
+from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404 
 
-import urllib
-import logging
-
-from django.conf import settings
-from django.core.urlresolvers import reverse
-from django.shortcuts import get_object_or_404
-
+from codehunkit.app import HunkitError
 from codehunkit.app.views import render_response
-from codehunkit.app.models import User, Language, Snippet
+from codehunkit.app.models import Snippet, Tag
+from codehunkit.app.forms import SnippetForm
 
-logger = logging.getLogger('django.request')
 
-
-def home(request, page_index=0, sort_by_new=False):
+def snippet_read(request, snippet_id, slug=None):
     """
-    Display all snippets
+    Display Snippet
     """
-    snippets = Snippet.get_snippets(request.user, page_index, settings.PAGE_SIZE, sort_by_new)
-    return render_response(request, 'app/home_snippets.html', {'snippets': snippets})
-
-
-def lang_snippets(request, slug, page_index=0, sort_by_new=False):
-    """
-    Displays list of snippets of the particular language
-    """
-    lang = get_object_or_404(Language, slug=slug)
-    snippets = Snippet.lang_snippets(lang, request.user, page_index, settings.PAGE_SIZE, sort_by_new)
-    return render_response(request, 'app/lang_snippets.html', locals())
+    if slug is None:
+        snippet = get_object_or_404(Snippet, id=snippet_id)
+        return HttpResponseRedirect(snippet.get_absolute_url())
     
+    snippet = Snippet.read(snippet_id, request.user)
+    return render_response(request, 'app/snippet.html', locals())
 
-def tag_snippets(request, tag_name, page_index=0, sort_by_new=False):
-    """
-    Display list of snippets by tag
-    """
-    snippets = Snippet.tag_snippets(tag_name, request.user, page_index, settings.PAGE_SIZE, sort_by_new)
-    return render_response(request, 'app/tag_snippets.html', locals())    
     
-
-def user_snippets(request, username, page_index=0, sort_by_new=False):
+@login_required
+@transaction.commit_on_success
+def snippet_create(request):
     """
-    Display snippets of particular user
-    """       
-    user = User.objects.get(username=username)
-    snippets = Snippet.user_snippets(user, request.user, page_index, settings.PAGE_SIZE, sort_by_new)
-    return render_response(request, 'app/user_snippets.html', locals())
+    Creates a new code snippet
+    """
+    tags = [tag.name for tag in Tag.get_tags()]
+    if request.method == 'POST':
+        form = SnippetForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            try:
+                snippet = Snippet.create(data['gist'], data['code'], data['language'], data['tags'], request.user)
+                return HttpResponseRedirect('/')  #return HttpResponseRedirect(snippet.get_absolute_url())
+            except HunkitError as e:
+                error = e.message
+    else:
+        form = SnippetForm()
+    
+    return render_response(request, 'app/create_snippet.html', locals())
+
+
+@login_required
+@transaction.commit_on_success
+def snippet_vote(request):
+    """
+    Vote a new code snippet
+    """
+
         
-def search(request, page_index=0, sort_by_new=False):
+@login_required
+@transaction.commit_on_success
+def comment_create(request):
     """
-    Display snippets by user, language or search term
+    Creates a new comment
     """
 
-def paginated_url(url_name, result_set, args, qs=None):
+
+@login_required
+@transaction.commit_on_success
+def comment_vote(request):
     """
-    Returns previous and next page urls
+    Creates a new comment
     """
-    prev_url = None
-    next_url = None
-    qs = '?' + urllib.urlencode(qs) if qs else ''
-    page_index = int(args[-1])
-    
-    if page_index == 1:
-        prev_url = reverse(url_name, args=args[:-1]) + qs
-    elif page_index > 1 :
-        args[-1] = page_index - 1
-        prev_url = reverse(url_name, args=args) + qs
-    
-    if len(result_set) == settings.PAGE_SIZE:
-        args[-1] = page_index + 1
-        next_url = reverse(url_name, args=args) + qs
-        
-    return prev_url, next_url
-    

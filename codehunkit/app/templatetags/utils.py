@@ -30,3 +30,8 @@ def when(d, now=None):
     Returns user friendly date difference with help of django timesince filter 
     """
     return timesince(d, now).split(',')[0]
+
+
+@register.filter
+def lines(value):
+    return value.split('\n')

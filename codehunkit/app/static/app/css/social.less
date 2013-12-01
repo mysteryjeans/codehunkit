@@ -66,13 +66,20 @@
         }
     }
     
+    .user-info {
+      margin: 5px 0px;
+    }
+    
     img {
         width: 24px !important;
         height: 24px !important;
+        float: left;
     }
     
-    img, span { 
-      float: left;
+    span { 
+      margin: 5px 0px 0px 10px;
+      display: block;
+      float: left;  
     }
     
     h4 {
@@ -82,8 +89,9 @@
     
     #subs-list li {
       h3, h4 {
-        padding: 10px;
-        padding-left: 15px;        
+        padding: 5px;
+        padding-left: 15px;
+        margin: 5px 0px;        
       }
       
       h3   {
@@ -200,7 +208,55 @@
 }
 
 
-.snippets-view {
+.tags {
+  overflow: hidden;
+  margin-top: 8px;
+  
+  li {
+    float: left;
+  }
+  
+  a {          
+    padding: 2px 5px;          
+    margin-right: 10px;
+    background-color: #EFEFEF;
+    display: block;
+  }
+}
+
+.votes-box {
+  width: 50px;
+  float: left;
+  
+ .votes, .up-vote, .down-vote {
+   margin: 0px auto;
+   clear: both;
+   text-align: center;
+   font-size: 18px;
+ }
+ 
+ .down-vote, .up-vote {
+    background-image: url('../img/sprites.png');
+    background-repeat: no-repeat;
+    overflow: hidden;
+    display: block;
+    width: 24px;
+    height: 20px;
+    text-indent: -999em;
+    cursor: pointer;
+    .transition(background-position, 500ms);
+  }
+  
+  .up-vote {
+    background-position: -3px -34px;
+   }
+   
+   .down-vote {
+     background-position: -3px -70px;
+   }
+}
+
+.content-view {
    overflow:hidden;
    padding: 0px 20px;
    
@@ -235,6 +291,15 @@
           opacity: 0.6;
           filter: alpha(opacity=60);
         }
+        
+        .tags {        
+          li:first-child {
+            a, a:hover {
+              background-color: @third-color;
+              color: white;
+            }
+          }
+        }
       }
       
       .snippet-content {
@@ -250,62 +315,37 @@
           }
         }
       }
-      
-      .votes-box {
-        width: 50px;
-        float: left;
-        
-       .votes, .up-vote, .down-vote {
-         margin: 0px auto;
-         clear: both;
-         text-align: center;
-         font-size: 18px;
-       }
-       
-       .down-vote, .up-vote {
-          background-image: url('../img/sprites.png');
-          background-repeat: no-repeat;
-          overflow: hidden;
-          display: block;
-          width: 24px;
-          height: 20px;
-          text-indent: -999em;
-          cursor: pointer;
-          .transition(background-position, 500ms);
-        }
-        
-        .up-vote {
-          background-position: -3px -34px;
-         }
-         
-         .down-vote {
-           background-position: -3px -70px;
-         }
-      }
-      
-      .tags {
-        overflow: hidden;
-        margin-top: 8px;
-        
-        li {
-          float: left;
-        }
-        
-        a {          
-          padding: 2px 5px;          
-          margin-right: 10px;
-          background-color: #EFEFEF;
-          display: block;
-        }
-        
-        li:first-child {
-          a, a:hover {
-            background-color: @third-color;
-            color: white;
-          }
-        }
-      }
    }   
+}
+
+.snippet-code-container {  
+  margin: 10px 0px;
+ 
+  .snippet-code {    
+    font-family: monospace;
+    border: 4px solid #eee;
+    max-height: 400px;
+    line-height: 1.5em;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    
+    .line-number {
+      background-color: #eee;
+      padding: 10px 5px;
+      text-align: right;
+      float: left;
+      
+      span {
+        clear: both;
+        display:block;
+      }
+    }
+    
+    pre {
+      padding: 10px 35px;
+    }
+  }
 }
 
 .snippet-shares {      
@@ -344,5 +384,71 @@
   
   [data-action="share:googleplus"] {
     background-position: -39px -584px;
+  }
+}
+
+.profile-bar {
+  .profile-card {
+     img {
+       float: left;
+       margin-right: 10px;
+     }
+    
+     div {
+       margin: 10px 0px;
+       overflow: hidden;
+     }
+     
+     .votes-box {
+       width: auto;
+       margin: 0px 10px 0px 0px;
+       
+       div {
+        margin: 0px;
+       }
+     }
+    
+    .guru-bar {
+      width: 80%;
+      height: 10px;
+      position: relative;  
+      border: 1px solid @first-color;
+      .rounded-corners(2px);
+      
+      span {
+        background-color: @first-color;
+        height: 10px;
+        position: absolute;
+        .rounded-corners(2px);
+      }
+    }
+    
+    .followers, .subscribers {
+      form {
+        display: inline-block;
+        margin: 5px 10px 5px 0px;
+        
+        .follow, .unfollow, .subscribe, .unsubscribe {
+          padding: 4px 10px; 
+          color: white !important;
+          .rounded-corners(2px);
+        }
+        
+        .follow, .subscribe {          
+          background: green;
+          color: white !important;          
+        }
+        
+        .unfollow, .unsubscribe {
+          background: red;
+          color: white !important;
+        }
+        
+        .description {
+          border-top: 1px solid @border-color;
+          padding: 10px 0px;
+        }
+      }
+    }
   }
 }

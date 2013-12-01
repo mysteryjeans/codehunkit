@@ -18,7 +18,7 @@ class LanguageAdmin(admin.ModelAdmin):
 
 
 class LanguageGraphAdmin(admin.ModelAdmin):
-    list_display = ('language', 'up_votes', 'down_votes', 'subscriptions_count', 'coders_count', 'snippets_count')
+    list_display = ('language', 'up_votes', 'down_votes', 'readers_count', 'coders_count', 'snippets_count')
     list_filter = ('updated_on',)
     search_fields = ('language',)
     date_hierarchy = 'updated_on'

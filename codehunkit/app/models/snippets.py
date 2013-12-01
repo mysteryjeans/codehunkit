@@ -44,12 +44,64 @@ class Snippet(models.Model):
     def __unicode__(self):        
         return self.gist
     
-    def tags_list(self):
-        return [tag.strip() for tag in self.tags.split(',')]
-    
     @models.permalink
     def get_absolute_url(self):
         return ('app_snippet_read', (self.id, self.slug,))
+    
+    def tags_list(self):
+        return [tag.strip() for tag in self.tags.split(',')]
+    
+    @classmethod
+    def read(cls, snippet_id, user, comment_id=None, max_comments=20):
+        """
+        Returns snippet with all it's comments sorted
+        """
+        result = list(cls.objects.raw('''
+                                      SELECT s.*, l.name AS lang_name, l.slug AS lang_slug, u.username, v.index AS vote_index
+                                      FROM app_snippet s                                      
+                                      INNER JOIN app_user u ON s.user_id = u.id
+                                      INNER JOIN app_language l ON s.language_id = l.id
+                                      LEFT OUTER JOIN app_snippet_vote v ON s.id = v.snippet_id AND v.user_id = %s
+                                      WHERE s.id = %s
+                                      ''', [user.id, snippet_id]))
+        
+        if len(result) == 0:
+            raise cls.DoesNotExist
+        
+        snippet = result[0]
+        
+        if snippet.is_enabled and max_comments:
+            if comment_id:            
+                comments = list(Comment.objects.raw('''
+                                                    SELECT c.*, v.index AS vote_index
+                                                    FROM app_comment c
+                                                    LEFT OUTER JOIN app_comment_vote v ON c.id = v.comment_id AND v.user_id = %s
+                                                    WHERE c.snippet_id = %s AND c.comment_id >= %s 
+                                                    ORDER BY c.rank DESC, c.id
+                                                    LIMIT %s
+                                                    ''', [user.id, snippet_id, comment_id, max_comments]))
+            else:
+                comments = list(Comment.objects.raw('''
+                                                    SELECT c.*, v.index AS vote_index
+                                                    FROM app_comment c
+                                                    LEFT OUTER JOIN app_comment_vote v ON c.id = v.comment_id AND v.user_id = %s
+                                                    WHERE c.snippet_id = %s
+                                                    ORDER BY c.rank DESC, c.id
+                                                    LIMIT %s
+                                                    ''', [user.id, snippet_id, max_comments]))                   
+            
+            snippet.loaded_comments = comments
+            if comment_id:
+                snippet.comments = [comment for comment in comments if comment.comment_id == comment_id]
+            else:
+                snippet.comments = [comment for comment in comments if comment.reply_to_id == None]
+            
+            
+            for comment in comments:
+                comment.snippet = snippet
+                comment.replies = [reply for reply in comments if reply.reply_to_id == comment.comment_id]
+        
+        return snippet
     
     @classmethod
     def get_snippets(cls, user, page_index, page_size, sort_by_new):
@@ -176,7 +228,7 @@ class Snippet(models.Model):
         tags = Tag.clean_tags(tags)
         
         snippet = cls.objects.create(gist=gist,
-                                     slug=slugify(gist),
+                                     slug=slugify(gist[:50]),
                                      user=user,
                                      code=code,
                                      language=language,

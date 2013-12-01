@@ -4,20 +4,39 @@
 
 {% block profile-content %}
 {% with graph=lang.graph %}
-<ul>
-	<li>
-		<a href="{{ lang.get_absolute_url }}">{{ lang.name }}</a>
-	</li>
-	<li>
-		Guru Level {{ graph.guru_level }}
-	</li>
-	<li>
-		{{ graph.subscriptions_count }} reader{{ graph.subscriptions_count|pluralize }}
-	</li>
-	<li>
-		{{ graph.snippets_count }} snippet{{ graph.snippets_count|pluralize }}
-	</li>
-</ul>
+<div class="profile-card">
+	<div>
+		<a href="{{ lang.get_absolute_url }}" title="{{ lang.name }}">{{ lang.name }}</a>
+	</div>
+	<div>
+		<span style="font-size: 1.5em;">{{ graph.snippets_count }}</span> snippet{{ graph.snippets_count|pluralize }}
+	</div>
+	<div>
+		<span style="font-size: 1.5em;">{{ graph.coders_count }}</span> coder{{ graph.coders_count|pluralize }}
+	</div>	
+	<div class="subscribers">
+		{% if is_subscribed %}
+		<form action="{% url 'app_lang_unsubscribe' lang.slug %}" method="post">
+			{% csrf_token %}
+			<a href="#" onclick="javascript:$(this).parent('form').submit(); return false;" class="unsubscribe">Unsubscribe</a>
+		</form>
+		{% else %}
+		<form action="{% url 'app_lang_subscribe' lang.slug  %}" method="post">
+			{% csrf_token %}
+			<a href="#" onclick="javascript:$(this).parent('form').submit(); return false;" class="subscribe">Subscribe</a>
+		</form>
+		{% endif %}
+		<span style="font-size: 1.5em;">{{ graph.readers_count }}</span> reader{{ graph.readers_count|pluralize }}
+	</div>
+	<div class="guru-bar" title="Gurus score is {{ graph.guru_score }}">
+		<span style="width: {{ graph.guru_score }}%"></span>
+	</div>
+	{% if lang.description %}
+	<div class="description">
+		{{ lang.description }}
+	</div>
+	{% endif %}
+</div>
 {% endwith %}
 {% endblock %}
 

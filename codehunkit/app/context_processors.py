@@ -15,6 +15,7 @@ def bootstrip(request):
         
     return {
             'app_user': request.user,
+            'hunkies': request.user.get_followings() if request.user.is_authenticated() else None,            
             'now': datetime.datetime.now(),
             'default_langs': default_langs,
     }

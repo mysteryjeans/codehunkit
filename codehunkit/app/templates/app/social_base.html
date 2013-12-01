@@ -29,9 +29,14 @@
 				</div>
 				{% endif %}
 				<ul id="subs-list">
+					{% if app_user.is_authenticated %}
+					<li class="user-info">
+						<a href="{{ app_user.get_absolute_url }}" title="{{ app_user.username }}"> <img src="{% gravatar_url app_user 32 %}"/> <span>{{ app_user.username }}</span></a>
+					</li>
+					{% endif %}
 					{% if hunkies %}
 					<li>
-						<h3>Hunk{{ hunkies|pluralize:"y,ies" }}</h3>
+						<h3 title="Genius guys you follow">Hunk{{ hunkies|pluralize:"y,ies" }}</h3>
 						<ul>
 							{% for user in hunkies %}
 							<li filter-value="{{ user.username }}">

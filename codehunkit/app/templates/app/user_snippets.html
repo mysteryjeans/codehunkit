@@ -1,27 +1,50 @@
 {% extends "app/snippets_base.html" %}
 
-{% block title %}{{ lang.name }} Snippets{% endblock %}
+{% load gravatar %}
 
+{% block title %}{{ user.username }} code snippets{% endblock %}
 
 {% block profile-content %}
 {% with graph=user.graph %}
-<ul>
-	<li>
-		<a href="{{ user.get_absolute_url }}">{{ user.username }}</a>
-	</li>
-	<li>
-		Guru Level {{ graph.guru_level }}
-	</li>
-	<li>
-		{{ graph.snippets_count }} snippet{{ graph.snippets_count|pluralize }}
-	</li>
-	<li>
-		{{ graph.followers_count }} follower{{ graph.followers_count|pluralize }}
-	</li>
-	<li>
-		{{ graph.comments_count }} comment{{ graph.comments_count|pluralize }}
-	</li>
-</ul>
+<div class="profile-card">
+	<div style="overflow: hidden;">
+		<img src="{% gravatar_url user 80 %}" alt="{{ user.username }} profile picture" />
+		<a href="{{ user.get_absolute_url }}" style="overflow: hidden">{{ user.username }}</a>
+	</div>
+	{% if user.school %}
+	<div>
+		{{ user.school }}
+	</div>
+	{% endif %}
+	<div>
+		<span style="font-size: 1.5em;">{{ graph.snippets_count }}</span> snippet{{ graph.snippets_count|pluralize }}
+	</div>
+	<div>
+		<span style="font-size: 1.5em;">{{ graph.comments_count }}</span> comment{{ graph.comments_count|pluralize }}
+	</div>
+	<div>
+		<span style="font-weight:600;">member since {{ user.created_on|date:"N d, Y" }}</span>
+	</div>
+	{% ifnotequal user.id app_user.id %}
+	<div class="followers">
+		{% if is_follower %}
+		<form action="{% url 'app_user_unfollow' user.username %}" method="post">
+			{% csrf_token %}
+			<a href="#" onclick="javascript:$(this).parent('form').submit(); return false;" class="unfollow">Unfollow</a>
+		</form>
+		{% else %}
+		<form action="{% url 'app_user_follow' user.username %}" method="post">
+			{% csrf_token %}
+			<a href="#" onclick="javascript:$(this).parent('form').submit(); return false;" class="follow">Follow</a>
+		</form>
+		{% endif %}
+		<span style="font-size: 1.5em;">{{ graph.followers_count }}</span> follower{{ graph.followers_count|pluralize }}
+	</div>
+	{% endifnotequal %}
+	<div class="guru-bar" title="Guru score is {{ graph.guru_score }}">
+		<span style="width: {{ graph.guru_score }}%"></span>
+	</div>
+</div>
 {% endwith %}
 {% endblock %}
 
