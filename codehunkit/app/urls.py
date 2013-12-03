@@ -41,11 +41,14 @@ urlpatterns += patterns('codehunkit.app.views.users',
  )
 
 urlpatterns += patterns('codehunkit.app.views.snippets',
-                        url(r'^snippets/create/$', 'snippet_create', name='app_snippet_create'),
-                        url(r'^snippets/vote/$', 'snippet_vote', name='app_snippet_vote'),
+                        url(r'^snippets/create/$', 'snippet_create', name='app_snippet_create'),                        
+                        url(r'^snippets/(?P<snippet_id>\d+)/vote/up/$', 'snippet_vote', { 'action': 'UP' }, name='app_snippet_vote_up'),
+                        url(r'^snippets/(?P<snippet_id>\d+)/vote/down/$', 'snippet_vote', { 'action': 'DOWN' }, name='app_snippet_vote_down'),
+                        url(r'^snippets/(?P<snippet_id>\d+)/$', 'snippet_read', name='app_snippet_read'),
                         url(r'^snippets/(?P<snippet_id>\d+)/(?P<slug>[\w-]+)/$', 'snippet_read', name='app_snippet_read'),
                         url(r'^comments/create/$', 'comment_create', name='app_comment_create'),
-                        url(r'^comments/vote/$', 'comment_vote', name='app_comment_vote'),
+                        url(r'^comments/(?P<snippet_id>\d+)/vote/up/$', 'comment_vote_up', name='app_comment_vote_up'),
+                        url(r'^comments/(?P<snippet_id>\d+)/vote/down/$', 'comment_vote_down', name='app_comment_vote_down'),
 )
 
 urlpatterns += patterns('codehunkit.app.views.auth',

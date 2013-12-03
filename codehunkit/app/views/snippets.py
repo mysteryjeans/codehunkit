@@ -1,7 +1,11 @@
+import urllib
+
 from django.db import transaction
-from django.http import HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseForbidden, HttpResponseRedirect, HttpResponsePermanentRedirect
+from django.core.urlresolvers import reverse
+from django.utils import simplejson
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404 
+from django.shortcuts import get_object_or_404
 
 from codehunkit.app import HunkitError
 from codehunkit.app.views import render_response
@@ -15,7 +19,7 @@ def snippet_read(request, snippet_id, slug=None):
     """
     if slug is None:
         snippet = get_object_or_404(Snippet, id=snippet_id)
-        return HttpResponseRedirect(snippet.get_absolute_url())
+        return HttpResponsePermanentRedirect(snippet.get_absolute_url())
     
     snippet = Snippet.read(snippet_id, request.user)
     return render_response(request, 'app/snippet.html', locals())
@@ -43,12 +47,30 @@ def snippet_create(request):
     return render_response(request, 'app/create_snippet.html', locals())
 
 
-@login_required
 @transaction.commit_on_success
-def snippet_vote(request):
+def snippet_vote(request, snippet_id, action):
     """
-    Vote a new code snippet
+    Vote-UP a snippet
     """
+    if request.method == 'POST':        
+        snippet_id = int(snippet_id)        
+        if request.user.is_anonymous():
+            return HttpResponseForbidden(reverse('app_login') + '?' + urllib.urlencode({'next': reverse('app_snippet_read', args=[snippet_id])}))
+                
+        if action == 'UP':
+            vote_index, net_effect = SnippetVote.vote_up(request.user, snippet_id)
+        elif action == 'DOWN':
+            vote_index, net_effect = SnippetVote.vote_down(request.user, snippet_id)
+        else:
+            raise Http404()
+        
+        if request.is_ajax():
+            response = {'snippet_id': snippet_id, 'vote_index': vote_index, 'net_effect':net_effect }
+            return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+            
+        return HttpResponseRedirect(reverse('app_snippet_read', args=[snippet_id]))
+    
+    raise Http404()
 
         
 @login_required
@@ -61,7 +83,15 @@ def comment_create(request):
 
 @login_required
 @transaction.commit_on_success
-def comment_vote(request):
+def comment_vote_up(request, snippet_id):
     """
-    Creates a new comment
+    Vote-UP a comment
+    """
+
+
+@login_required
+@transaction.commit_on_success
+def comment_vote_down(request, snippet_id):
+    """
+    Vote-DOWN a comment
     """
