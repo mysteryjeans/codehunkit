@@ -23,6 +23,9 @@
 		<span style="font-size: 1.5em;">{{ graph.comments_count }}</span> comment{{ graph.comments_count|pluralize }}
 	</div>
 	<div>
+		<span >{{ graph.likes }}</span> like{{ graph.likes|pluralize }}&nbsp;|&nbsp; <span>{{ graph.dislikes }}</span> dislike{{ graph.dislikes|pluralize }}
+	</div>
+	<div>
 		<span style="font-weight:600;">member since {{ user.created_on|date:"N d, Y" }}</span>
 	</div>
 	{% ifnotequal user.id app_user.id %}

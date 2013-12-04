@@ -8,7 +8,7 @@
 <div class="profile-bar">
 	<div class="profile-card">
 		<div>
-			<div class="votes-box">
+			<div id="snippet-votes-box-id-{{ snippet.id }}" class="votes-box">
 				<form data-ajax-url="{% url 'app_snippet_vote_up' snippet.id %}" method="post" data-ajax="true" data-ajax-complete="update_vote">
 					{% csrf_token %}
 					<a onclick="javascript:$(this).parent('form').submit();" class="up-vote {% ifequal snippet.vote_index 1 %}up-vote-on{% endifequal %}" title="This code is awesome.">&#9650;</a>
@@ -34,7 +34,7 @@
 			<span >{{ snippet.up_votes }}</span> up vote{{ snippet.up_votes|pluralize }}&nbsp;|&nbsp; <span>{{ snippet.down_votes }}</span> down vote{{ snippet.down_votes|pluralize }}
 		</div>
 		<div>
-			Language: <a href="{% url 'app_lang' snippet.lang_slug %}" class="lang">{{ snippet.lang_name }}</a>
+			<a href="{% url 'app_lang' snippet.lang_slug %}" class="lang">{{ snippet.lang_name }}</a>
 		</div>
 		<ul class="tags">
 			{% for tag in snippet.tags_list %}
@@ -46,7 +46,7 @@
 	</div>
 </div>
 <div class="content-view">
-	<div id="snippet-id-{{ snippet.id }}" class="snippet">
+	<div class="snippet">
 		<div class="snippet-content">
 			<div class="snippet-gist">
 				<h2><a href="{{ snippet.get_absolute_url }}">{{ snippet.gist }}</a></h2>
@@ -59,7 +59,6 @@
 		</div>
 	</div>
 	<div class="snippet-code-container">
-
 		<div class="snippet-code">
 			<div class="line-number">
 				{% for line in snippet.code|lines %}
@@ -68,7 +67,35 @@
 			</div>
 			<pre><code>{{ snippet.code }}</code></pre>
 		</div>
-
+	</div>
+	<div class="comments">
+		<div class="snippet-comments-box">
+			{% if comment_id %}
+			<a href="{{ snippet.get_absolute_url }}" style="border: 1px solid #DDD;padding: 5px;margin-bottom: 10px;display: block;">view all user's comments</a>
+			{% endif %}
+			{% if not comment_id  %}
+			{% if app_user.is_authenticated %}
+			<form action="{% url 'app_comment_create' snippet.id %}" method="post" class="comment-reply" style="display: block;" data-ajax="true" data-ajax-url="{% url 'app_comment_create' snippet.id %}" data-ajax-update="#snippet-comments-id-{{ snippet.id }}" data-ajax-mode="before" data-ajax-loading="#loading-snippet-id-{{ snippet.id }}" data-ajax-success="$('#comment-input-for-snippet-id-{{ snippet.id }}').val('');">
+				{% csrf_token %}
+				<textarea id="comment-input-for-snippet-id-{{ snippet.id }}" name="comment_text" maxlength="1000" placeholder="Write a comment...">{{ comment_text|safe }}</textarea>
+				<br/>
+				<div id="loading-snippet-id-{{ snippet.id }}" class="progress-img"></div>
+				<input type="submit" value="Save"/>
+			</form>
+			{% else %}
+			<p class="message-box">
+				<a href="{% url 'app_login' %}">login</a> or <a href="{% url 'app_signup' %}">sign up</a> to comment
+			</p>
+			{% endif %}
+			{% endif %}
+			<div id="snippet-comments-id-{{ snippet.id }}" style="clear:both;">
+				{% with template_name="app/parts/comment.html" %}
+				{% for comment in snippet.comments %}
+				{% include template_name %}
+				{% endfor %}
+				{% endwith %}
+			</div>
+		</div>
 	</div>
 </div>
 {% endblock %}

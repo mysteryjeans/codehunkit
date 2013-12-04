@@ -6,26 +6,27 @@
 * Copyright (c) 2013 FanaticLab  
 */
 
-// Update post vote for user action
-function update_vote(data) {
+// Update snippet vote for user action
+function update_vote(data) {	
     if (data.status == 200) {
-        response = JSON.parse(data.responseText);
-        votes = parseInt($('#snippet-id-' + response.post_id + ' .votes').html()) + response.net_effect;        
-        $('#snippet-id-' + response.post_id + ' .votes').html(votes);
+    	var response = JSON.parse(data.responseText);
+    	var votesBoxID = '#snippet-votes-box-id-' + response.snippet_id;
+        var votes = parseInt($(votesBoxID + ' .votes').html()) + response.net_effect;        
+        $(votesBoxID + ' .votes').html(votes);
         
         if (response.vote_index == 1)	{
-				if (!$('#snippet-id-' + response.post_id + ' .up-vote').hasClass('up-vote-on'))        		
-        			$('#snippet-id-' + response.post_id + ' .up-vote').addClass('up-vote-on');
+				if (!$(votesBoxID + ' .up-vote').hasClass('up-vote-on'))        		
+        			$(votesBoxID + ' .up-vote').addClass('up-vote-on');
         		
-        		$('#snippet-id-' + response.post_id + ' .down-vote').removeClass('down-vote-on');
+        		$(votesBoxID + ' .down-vote').removeClass('down-vote-on');
         } else if (response.vote_index == -1) {
-        		$('#snippet-id-' + response.post_id + ' .up-vote').removeClass('up-vote-on');
+        		$(votesBoxID + ' .up-vote').removeClass('up-vote-on');
         		
-        		if (!$('#snippet-id-' + response.post_id + ' .down-vote').hasClass('down-vote-on'))
-        			$('#snippet-id-' + response.post_id + ' .down-vote').addClass('down-vote-on');
+        		if (!$(votesBoxID + ' .down-vote').hasClass('down-vote-on'))
+        			$(votesBoxID + ' .down-vote').addClass('down-vote-on');
         } else {
-        		$('#snippet-id-' + response.post_id + ' .up-vote').removeClass('up-vote-on');
-        		$('#snippet-id-' + response.post_id + ' .down-vote').removeClass('down-vote-on');
+        		$(votesBoxID + ' .up-vote').removeClass('up-vote-on');
+        		$(votesBoxID + ' .down-vote').removeClass('down-vote-on');
         }
         
     } else if (data.status == 403) {

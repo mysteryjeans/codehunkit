@@ -20,7 +20,7 @@
 		<ul>
 			{% for snippet in snippets %}
 			<li id="snippet-id-{{ snippet.id }}" class="snippet">
-				<div class="votes-box">
+				<div id="snippet-votes-box-id-{{ snippet.id }}" class="votes-box">					
 					<form data-ajax-url="{% url 'app_snippet_vote_up' snippet.id %}" method="post" data-ajax="true" data-ajax-complete="update_vote">
 						{% csrf_token %}
 						<a onclick="javascript:$(this).parent('form').submit();" class="up-vote {% ifequal snippet.vote_index 1 %}up-vote-on{% endifequal %}" title="This code is awesome.">&#9650;</a>

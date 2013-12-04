@@ -178,6 +178,8 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
 INTERNAL_IPS = ('127.0.0.1',)
 
 PAGE_SIZE = 20
+MAX_COMMENT_LENGTH = 1000
+
 # Email server settings
 EMAIL_HOST = 'smtp.googlemail.com'
 EMAIL_PORT = 587
@@ -241,7 +243,7 @@ PIPELINE_JS = {
     },
     'base': {
         'source_filenames': (
-          'app/lib/jquery-1.8.3.min.js',
+          'app/lib/jquery-1.7.2.min.js',
           'app/lib/jquery.unobtrusive-ajax.js',          
           'app/lib/votes-utils.js',
           'app/lib/utils.js',
