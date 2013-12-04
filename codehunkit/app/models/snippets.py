@@ -265,6 +265,7 @@ class SnippetVote(models.Model):
         """
         Vote up if user not voted otherwise makes it zero
         """
+        snippet = Snippet.objects.get(id=snippet_id)
         try:
             snippet_vote = cls.objects.get(snippet_id=snippet_id, user=user)
         except cls.DoesNotExist:
@@ -274,19 +275,22 @@ class SnippetVote(models.Model):
         try:
                   
             if snippet_vote.vote == 0:
-                cls.objects.filter(post_id=post_id, user_id=user.user_id).update(vote=1, updated_by=str(user))
-                User.objects.filter(user_id=user.user_id).update(up_votes=F('up_votes') + 1)
-                cursor.execute('''UPDATE app_post SET up_votes = up_votes + 1, votes = (up_votes - down_votes + 1), rank = compute_rank(up_votes - down_votes + 1, created_on) WHERE post_id = %s''', [post_id])
+                cls.objects.filter(id=snippet_vote.id).update(vote=1, updated_by=str(user))                
+                UserGraph.objects.filter(user=user).update(up_votes=F('up_votes') + 1)
+                LanguageGraph.objects.filter(language_id=snippet.language_id).update(up_votes=F('up_votes') + 1)
+                cursor.execute('''UPDATE app_snippet SET up_votes = up_votes + 1, votes = (up_votes - down_votes + 1), rank = compute_rank(up_votes - down_votes + 1, created_on) WHERE id = %s''', [snippet_id])
                 vote = [1, 1]
             elif snippet_vote.vote > 0:
-                cls.objects.filter(post_id=post_id, user_id=user.user_id).update(vote=0, updated_by=str(user))
-                User.objects.filter(user_id=user.user_id).update(up_votes=F('up_votes') - 1)
-                cursor.execute('''UPDATE app_post SET up_votes = up_votes - 1, votes = (up_votes - down_votes - 1), rank = compute_rank(up_votes - down_votes - 1, created_on) WHERE post_id = %s''', [post_id])
+                cls.objects.filter(id=snippet_vote.id).update(vote=0, updated_by=str(user))                
+                UserGraph.objects.filter(user=user).update(up_votes=F('up_votes') - 1)
+                LanguageGraph.objects.filter(language_id=snippet.language_id).update(up_votes=F('up_votes') - 1)
+                cursor.execute('''UPDATE app_snippet SET up_votes = up_votes - 1, votes = (up_votes - down_votes - 1), rank = compute_rank(up_votes - down_votes - 1, created_on) WHERE id = %s''', [snippet_id])
                 vote = [0, -1]
             else:
-                cls.objects.filter(post_id=post_id, user_id=user.user_id).update(vote=1, updated_by=str(user))
-                User.objects.filter(user_id=user.user_id).update(up_votes=F('up_votes') + 1, down_votes=F('down_votes') - 1)
-                cursor.execute('''UPDATE app_post SET up_votes = up_votes + 1, down_votes = down_votes - 1, votes = (up_votes - down_votes + 2), rank = compute_rank(up_votes - down_votes + 2, created_on) WHERE post_id = %s''', [post_id])
+                cls.objects.filter(id=snippet_vote.id).update(vote=1, updated_by=str(user))                
+                UserGraph.objects.filter(user=user).update(up_votes=F('up_votes') + 1, down_votes=F('down_votes') - 1)
+                LanguageGraph.objects.filter(language_id=snippet.language_id).update(up_votes=F('up_votes') + 1, down_votes=F('down_votes') - 1)
+                cursor.execute('''UPDATE app_snippet SET up_votes = up_votes + 1, down_votes = down_votes - 1, votes = (up_votes - down_votes + 2), rank = compute_rank(up_votes - down_votes + 2, created_on) WHERE id = %s''', [snippet_id])
                 vote = [1, 2]
                 
             transaction.commit_unless_managed()
@@ -300,34 +304,39 @@ class SnippetVote(models.Model):
         """
         Vote down if user not voted otherwise makes it zero
         """
+        snippet = Snippet.objects.get(id=snippet_id)
         try:
-            post_vote = cls.objects.get(post_id=post_id, user_id=user.user_id)
-        except PostVote.DoesNotExist:
-            post_vote = cls.objects.create(post_id=post_id, user_id=user.user_id, updated_by=str(user), created_by=str(user))
+            snippet_vote = cls.objects.get(snippet_id=snippet_id, user=user)
+        except cls.DoesNotExist:
+            snippet_vote = cls.objects.create(snippet_id=snippet_id, user=user, updated_by=str(user), created_by=str(user))
         
         cursor = connection.cursor()
         try:
             
-            if post_vote.vote == 0:
-                cls.objects.filter(post_id=post_id, user_id=user.user_id).update(vote= -1, updated_by=str(user))
-                User.objects.filter(user_id=user.user_id).update(down_votes=F('down_votes') + 1)     
-                cursor.execute('''UPDATE app_post SET down_votes = down_votes + 1, votes = (up_votes - down_votes - 1), rank = compute_rank(up_votes - down_votes - 1, created_on) WHERE post_id = %s''', [post_id])
+            if snippet_vote.vote == 0:
+                cls.objects.filter(id=snippet_vote.id).update(vote=-1, updated_by=str(user))                
+                UserGraph.objects.filter(user=user).update(down_votes=F('down_votes') + 1)
+                LanguageGraph.objects.filter(language_id=snippet.language_id).update(down_votes=F('down_votes') + 1)
+                cursor.execute('''UPDATE app_snippet SET down_votes = down_votes + 1, votes = (up_votes - down_votes - 1), rank = compute_rank(up_votes - down_votes - 1, created_on) WHERE id = %s''', [snippet_id])
                 vote = [-1, -1]
-            elif post_vote.vote > 0:
-                cls.objects.filter(post_id=post_id, user_id=user.user_id).update(vote= -1, updated_by=str(user))
-                User.objects.filter(user_id=user.user_id).update(up_votes=F('up_votes') - 1, down_votes=F('down_votes') + 1)                
-                cursor.execute('''UPDATE app_post SET up_votes = up_votes - 1, down_votes = down_votes + 1, votes = (up_votes - down_votes - 2), rank = compute_rank(up_votes - down_votes - 2, created_on) WHERE post_id = %s''', [post_id])
+            elif snippet_vote.vote > 0:
+                cls.objects.filter(id=snippet_vote.id).update(vote=-1, updated_by=str(user))                
+                UserGraph.objects.filter(user=user).update(up_votes=F('up_votes') - 1, down_votes=F('down_votes') + 1)
+                LanguageGraph.objects.filter(language_id=snippet.language_id).update(up_votes=F('up_votes') - 1, down_votes=F('down_votes') + 1)
+                cursor.execute('''UPDATE app_snippet SET up_votes = up_votes - 1, down_votes = down_votes + 1, votes = (up_votes - down_votes - 2), rank = compute_rank(up_votes - down_votes - 2, created_on) WHERE id = %s''', [snippet_id])
                 vote = [-1, -2]
             else:
-                cls.objects.filter(post_id=post_id, user_id=user.user_id).update(vote=0, updated_by=str(user))
-                User.objects.filter(user_id=user.user_id).update(down_votes=F('down_votes') - 1)   
-                cursor.execute('''UPDATE app_post SET down_votes = down_votes - 1, votes = (up_votes - down_votes + 1), rank = compute_rank(up_votes - down_votes + 1, created_on) WHERE post_id = %s''', [post_id])
+                cls.objects.filter(id=snippet_vote.id).update(vote=0, updated_by=str(user))                
+                UserGraph.objects.filter(user=user).update(down_votes=F('down_votes') - 1)
+                LanguageGraph.objects.filter(language_id=snippet.language_id).update(down_votes=F('down_votes') - 1)
+                cursor.execute('''UPDATE app_snippet SET down_votes = down_votes - 1, votes = (up_votes - down_votes + 1), rank = compute_rank(up_votes - down_votes + 1, created_on) WHERE id = %s''', [post_id])
                 vote = [0, 1]
             
             transaction.commit_unless_managed()
             return vote
         finally:
             cursor.close()
+
 
 class Comment(models.Model):
     """

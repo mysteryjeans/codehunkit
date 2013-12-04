@@ -10,22 +10,22 @@
 function update_vote(data) {
     if (data.status == 200) {
         response = JSON.parse(data.responseText);
-        votes = parseInt($('#post-id-' + response.post_id + ' .votes').html()) + response.net_effect;        
-        $('#post-id-' + response.post_id + ' .votes').html(votes);
+        votes = parseInt($('#snippet-id-' + response.post_id + ' .votes').html()) + response.net_effect;        
+        $('#snippet-id-' + response.post_id + ' .votes').html(votes);
         
         if (response.vote_index == 1)	{
-				if (!$('#post-id-' + response.post_id + ' .up-vote').hasClass('up-vote-on'))        		
-        			$('#post-id-' + response.post_id + ' .up-vote').addClass('up-vote-on');
+				if (!$('#snippet-id-' + response.post_id + ' .up-vote').hasClass('up-vote-on'))        		
+        			$('#snippet-id-' + response.post_id + ' .up-vote').addClass('up-vote-on');
         		
-        		$('#post-id-' + response.post_id + ' .down-vote').removeClass('down-vote-on');
+        		$('#snippet-id-' + response.post_id + ' .down-vote').removeClass('down-vote-on');
         } else if (response.vote_index == -1) {
-        		$('#post-id-' + response.post_id + ' .up-vote').removeClass('up-vote-on');
+        		$('#snippet-id-' + response.post_id + ' .up-vote').removeClass('up-vote-on');
         		
-        		if (!$('#post-id-' + response.post_id + ' .down-vote').hasClass('down-vote-on'))
-        			$('#post-id-' + response.post_id + ' .down-vote').addClass('down-vote-on');
+        		if (!$('#snippet-id-' + response.post_id + ' .down-vote').hasClass('down-vote-on'))
+        			$('#snippet-id-' + response.post_id + ' .down-vote').addClass('down-vote-on');
         } else {
-        		$('#post-id-' + response.post_id + ' .up-vote').removeClass('up-vote-on');
-        		$('#post-id-' + response.post_id + ' .down-vote').removeClass('down-vote-on');
+        		$('#snippet-id-' + response.post_id + ' .up-vote').removeClass('up-vote-on');
+        		$('#snippet-id-' + response.post_id + ' .down-vote').removeClass('down-vote-on');
         }
         
     } else if (data.status == 403) {
