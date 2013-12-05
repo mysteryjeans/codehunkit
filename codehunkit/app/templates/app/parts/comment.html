@@ -1,55 +1,55 @@
-{% load markup2 %}
 {% load utils %}
 
 {% if comment.is_enabled %}
 <div id="comment-id-{{ comment.id }}" style="margin-bottom: 10px;">
 	<div>
-		<div class="comment-votes">
+		<div class="votes-box">
 			<form data-ajax-url="{% url 'app_comment_vote_up' snippet.id comment.id %}" method="post" data-ajax="true" data-ajax-complete="update_comment_vote">
 				{% csrf_token %}
-				<a onclick="javascript:$(this).parent('form').submit();" class="up-vote {% ifequal comment.vote_index 1 %}up-vote-on{% endifequal %}" title="Vote-UP if you favor this comment.">&#9650;</a>
+				<a onclick="javascript:$(this).parent('form').submit();" class="up-vote {% ifequal comment.vote_index 1 %}on{% endifequal %}" title="Vote-UP if you favor this comment.">&#9650;</a>
 			</form>
 			<div class="votes">
 				{{ comment.votes }}
 			</div>
 			<form data-ajax-url="{% url 'app_comment_vote_down' snippet.id comment.id %}" method="post" data-ajax="true" data-ajax-complete="update_comment_vote">
 				{% csrf_token %}
-				<a onclick="javascript:$(this).parent('form').submit();" class="down-vote {% ifequal comment.vote_index -1 %}down-vote-on{% endifequal %}" title="Vote-DOWN if you don't agree to this comment.">&#9660;</a>
+				<a onclick="javascript:$(this).parent('form').submit();" class="down-vote {% ifequal comment.vote_index -1 %}on{% endifequal %}" title="Vote-DOWN if you don't agree to this comment.">&#9660;</a>
 			</form>
 		</div>
-
-		<div class="comment-links">
-			<a href="{% url 'app_user' comment.created_by %}" style="font-weight: bold;" {% if post.user_id == comment.user_id %}class="submitter"{% endif %}>{{ comment.created_by }}</a><em>{{ comment.created_on|when:now }} ago</em>
-		</div>
-		<div class="comment-text markdown">
-			<div id="comment-text-id-{{ comment.id }}" {% if comment_id == comment.comment_id %}class="comment-text-highlight"{% endif %}>
-				{{ comment.comment_text|striptags|markdown2 }}
-			</div>
+		<div class="comment-cotent">
 			<div class="comment-links">
-				<a href="{{ comment.get_absolute_url }}" class="comment-small" rel="nofollow">permalink</a>
-				{% if comment.reply_to_id %}
-				{% if comment_id %}
-				<a href="{{ comment.get_absolute_url }}#comment-id-{{ comment.reply_to_id }}" class="comment-small" rel="nofollow">parent</a>
-				{% else %}
-				<a href="{{ post.get_absolute_url }}#comment-id-{{ comment.reply_to_id }}" class="comment-small" rel="nofollow">parent</a>
-				{% endif %}
-				{% endif %}
+				<a href="{% url 'app_user' comment.created_by %}" style="font-weight: bold;" {% if snippet.user_id == comment.user_id %}class="submitter"{% endif %}>{{ comment.created_by }}</a> <em>{{ comment.created_on|when:now }} ago</em>
+			</div>
+			<div class="comment-text markdown">
+				<div id="comment-text-id-{{ comment.id }}" {% if comment_id == comment.id %}class="comment-text-highlight"{% endif %}>
+					{{ comment.comment_text|striptags|linebreaks }}
+				</div>
+				<div class="comment-links">
+					<a href="{{ comment.get_absolute_url }}" class="comment-small" rel="nofollow">permalink</a>
+					{% if comment.reply_to_id %}
+					{% if comment_id %}
+					<a href="{{ comment.get_absolute_url }}#comment-id-{{ comment.reply_to_id }}" class="comment-small" rel="nofollow">parent</a>
+					{% else %}
+					<a href="{{ snippet.get_absolute_url }}#comment-id-{{ comment.reply_to_id }}" class="comment-small" rel="nofollow">parent</a>
+					{% endif %}
+					{% endif %}
+					{% if app_user.is_authenticated %}
+					<a onclick="javascript:$('#comment-reply-{{ comment.id }}').fadeIn('fast');" class="comment-reply-link">reply</a>
+					{% else %}
+					<a href="{% url 'app_login' %}?next={{ snippet.get_absolute_url|urlencode }}" class="comment-reply-link" rel="nofollow">reply</a>
+					{% endif %}
+				</div>
 				{% if app_user.is_authenticated %}
-				<a onclick="javascript:$('#comment-reply-{{ comment.id }}').fadeIn('fast');" class="comment-reply-link">reply</a>
-				{% else %}
-				<a href="{% url 'app_login' %}?next={{ snippet.get_absolute_url|urlencode }}" class="comment-reply-link" rel="nofollow">reply</a>
+				<form id="comment-reply-{{ comment.id }}" action="{% url 'app_reply_create' snippet.id comment.id %}" class="comment-reply" method="post" data-ajax="true" data-ajax-url="{% url 'app_reply_create' snippet.id comment.id %}" data-ajax-update="#comment-replies-id-{{ comment.id }}" data-ajax-mode="before" data-ajax-begin="$('#reply-input-for-comment-id-{{ comment.id }}').val('');$('#comment-reply-{{ comment.id }}').hide(	);" data-ajax-loading="#loading-comment-id-{{ comment.id }}">
+					{% csrf_token %}
+					<textarea id="reply-input-for-comment-id-{{ comment.id }}" name="comment_text" maxlength="1000">{{ comment_text|safe }}</textarea>
+					<br/>
+					<input type="button" value="Cancel" onclick="javascript:$(this).parent('form').fadeOut('slow');"/>
+					<input type="submit" value="Save"/>
+				</form>
+				<div id="loading-comment-id-{{ comment.id }}" class="progress-img"></div>
 				{% endif %}
 			</div>
-			{% if app_user.is_authenticated %}
-			<form id="comment-reply-{{ comment.id }}" action="{% url 'app_reply_create' snippet.id comment.id %}" class="comment-reply" method="post" data-ajax="true" data-ajax-url="{% url 'app_reply_create' snippet.id comment.id %}" data-ajax-update="#comment-replies-id-{{ comment.id }}" data-ajax-mode="before" data-ajax-begin="$('#reply-input-for-comment-id-{{ comment.id }}').val('');$('#comment-reply-{{ comment.id }}').hide(	);" data-ajax-loading="#loading-comment-id-{{ comment.id }}">
-				{% csrf_token %}
-				<textarea id="reply-input-for-comment-id-{{ comment.id }}" name="comment_text" maxlength="1000">{{ comment_text|safe }}</textarea>
-				<br/>
-				<input type="button" value="Cancel" onclick="javascript:$(this).parent('form').fadeOut('slow');"/>
-				<input type="submit" value="Save"/>
-			</form>
-			<div id="loading-comment-id-{{ comment.id }}" class="progress-img"></div>
-			{% endif %}
 		</div>
 	</div>
 	<div id="comment-replies-id-{{ comment.id }}" class="comment-replies">

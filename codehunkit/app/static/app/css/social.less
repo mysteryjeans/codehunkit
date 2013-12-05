@@ -130,6 +130,15 @@
   }
 }
 
+.progress-img {
+  width: 45px;
+  height: 3px;
+  background-image: url('../img/progress-img.gif');
+  background-repeat: no-repeat;
+  background-size: 45px 4px;
+  display: none;
+}
+
 #menu {
   float: right;  
   margin-top: 5px;  
@@ -251,7 +260,7 @@
      background-position: -3px -34px;
    }
    
-   .up-vote-on {
+   .up-vote.on {
      background-position: -3px 0px;
    }
    
@@ -259,7 +268,7 @@
      background-position: -3px -70px;
    }
    
-   .down-vote-on {
+   .down-vote.on {
      background-position: -3px -101px;
    }
 }
@@ -337,6 +346,7 @@
     overflow: auto;
     width: 100%;
     height: 100%;
+    .border-box;
     
     .line-number {
       background-color: #eee;
@@ -461,6 +471,94 @@
   }
 }
 
-.comment-reply {
-  display: none;
+.comments {
+  margin-top: 20px;
+  
+  .view-all-comments {
+    border: 1px solid @border-color;
+    padding: 5px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  
+  .comment-reply {
+   display: none;
+   clear: both;
+   margin-top: 5px;
+   margin-bottom: 10px;
+        
+    textarea {
+      width: 100%;
+      max-width: 100%;
+      height: 60px;
+      font-size: 1em;
+      padding: 5px;      
+    }
+    
+    input[type="submit"], input[type="button"] {
+      float: right;
+      margin-left: 5px;
+      padding: 3px 8px;
+      margin-right: 2px;
+      margin-top: 5px;
+      font-size: 0.9em;
+    }
+  }
+  
+  .comment-cotent {
+    overflow: hidden;
+  }
+  
+  .comment-links {
+    a {
+      font-size: 0.9em;
+      margin-right: 5px;
+      cursor: pointer;
+    }
+  }
+  
+  .comment-reply-link, .comment-reply-link:hover {
+    color: #ff4444 !important;
+    font-weight: bold;
+  }
+  
+  .votes-box {
+    margin-right: 5px;
+    width: 27px;
+    margin-top: 4px;
+  }
+  
+  .up-vote, .votes, .down-vote {
+    font-size: 10px;
+  }
+  
+  .up-vote, .down-vote {
+    width: 15px;
+    height: 12px;
+  }
+  
+  .up-vote {
+    background-position: -6px -146px;
+  }
+  
+  .down-vote {
+    background-position: -6px -161px;
+  }
+  
+  .up-vote.on {
+    background-position: -6px -127px;
+  }
+  
+  .down-vote.on {
+    background-position: -6px -180px;
+  }
+  
+  .comment-replies {
+    clear: both;
+    overflow: hidden;
+    border-left: 1px dotted rgba(256,0,0, 0.2);
+    margin-top: 10px;
+    margin-left: 32px;
+    padding-left: 5px;
+  }
 }

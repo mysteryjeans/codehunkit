@@ -15,18 +15,18 @@ function update_vote(data) {
         $(votesBoxID + ' .votes').html(votes);
         
         if (response.vote_index == 1)	{
-				if (!$(votesBoxID + ' .up-vote').hasClass('up-vote-on'))        		
-        			$(votesBoxID + ' .up-vote').addClass('up-vote-on');
+				if (!$(votesBoxID + ' .up-vote').hasClass('on'))        		
+        			$(votesBoxID + ' .up-vote').addClass('on');
         		
-        		$(votesBoxID + ' .down-vote').removeClass('down-vote-on');
+        		$(votesBoxID + ' .down-vote').removeClass('on');
         } else if (response.vote_index == -1) {
-        		$(votesBoxID + ' .up-vote').removeClass('up-vote-on');
+        		$(votesBoxID + ' .up-vote').removeClass('on');
         		
-        		if (!$(votesBoxID + ' .down-vote').hasClass('down-vote-on'))
-        			$(votesBoxID + ' .down-vote').addClass('down-vote-on');
+        		if (!$(votesBoxID + ' .down-vote').hasClass('on'))
+        			$(votesBoxID + ' .down-vote').addClass('on');
         } else {
-        		$(votesBoxID + ' .up-vote').removeClass('up-vote-on');
-        		$(votesBoxID + ' .down-vote').removeClass('down-vote-on');
+        		$(votesBoxID + ' .up-vote').removeClass('on');
+        		$(votesBoxID + ' .down-vote').removeClass('on');
         }
         
     } else if (data.status == 403) {
@@ -44,18 +44,18 @@ function update_comment_vote(data) {
         $('#comment-id-' + response.comment_id + ' .votes').first().html(votes);
         
         if (response.vote_index == 1)	{
-				if (!$('#comment-id-' + response.comment_id + ' .up-vote').first().hasClass('up-vote-on'))        		
-        			$('#comment-id-' + response.comment_id + ' .up-vote').first().addClass('up-vote-on');
+				if (!$('#comment-id-' + response.comment_id + ' .up-vote').first().hasClass('on'))        		
+        			$('#comment-id-' + response.comment_id + ' .up-vote').first().addClass('on');
         		
-        		$('#comment-id-' + response.comment_id + ' .down-vote').first().removeClass('down-vote-on');
+        		$('#comment-id-' + response.comment_id + ' .down-vote').first().removeClass('on');
         } else if (response.vote_index == -1) {
-        		$('#comment-id-' + response.comment_id + ' .up-vote').first().removeClass('up-vote-on');
+        		$('#comment-id-' + response.comment_id + ' .up-vote').first().removeClass('on');
         		
-        		if (!$('#comment-id-' + response.comment_id + ' .down-vote').first().hasClass('down-vote-on'))
-        			$('#comment-id-' + response.comment_id + ' .down-vote').first().addClass('down-vote-on');
+        		if (!$('#comment-id-' + response.comment_id + ' .down-vote').first().hasClass('on'))
+        			$('#comment-id-' + response.comment_id + ' .down-vote').first().addClass('on');
         } else {
-        		$('#comment-id-' + response.comment_id + ' .up-vote').first().removeClass('up-vote-on');
-        		$('#comment-id-' + response.comment_id + ' .down-vote').first().removeClass('down-vote-on');
+        		$('#comment-id-' + response.comment_id + ' .up-vote').first().removeClass('on');
+        		$('#comment-id-' + response.comment_id + ' .down-vote').first().removeClass('on');
         }
         
     } else if (data.status == 403) {
