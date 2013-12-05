@@ -65,10 +65,11 @@
 				<span>{{ forloop.counter }}</span>
 				{% endfor %}
 			</div>
-			<pre><code>{{ snippet.code }}</code></pre>
+			<pre class="prettyprint" style="border:0px;"><code>{{ snippet.code }}</code></pre>
 		</div>
 	</div>
 	<div class="comments">
+		<div>{{ snippet.comments_count }} comment{{ snippet.comments_count|pluralize }}</div>
 		{% if comment_id %}
 		<a href="{{ snippet.get_absolute_url }}" class="view-all-comments">view all user's comments</a>
 		{% endif %}
@@ -82,8 +83,8 @@
 			<input type="submit" value="Save"/>
 		</form>
 		{% else %}
-		<p class="message-box">
-			<a href="{% url 'app_login' %}">login</a> or <a href="{% url 'app_signup' %}">sign up</a> to comment
+		<p class="action-form" style="margin: 5px 0px; padding: 5px;">
+			<a href="{% url 'app_login' %}">login</a> or <a href="{% url 'app_sign_up' %}">sign up</a> to comment
 		</p>
 		{% endif %}
 		{% endif %}
@@ -96,4 +97,10 @@
 		</div>
 	</div>
 </div>
+{% endblock %}
+
+
+{% block scripts %}
+{{ super.block }}
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 {% endblock %}

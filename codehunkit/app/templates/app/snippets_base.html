@@ -55,6 +55,9 @@
 						</li>
 						{% endfor %}
 					</ul>
+					<div class="snippet-comments">
+						<a href="{{ snippet.get_absolute_url }}">{{ snippet.comments_count }} comment{{ snippet.comments_count|pluralize }}</a>
+					</div>
 				</div>
 			</li>
 			{% empty %}
