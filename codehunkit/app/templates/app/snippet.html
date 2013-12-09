@@ -30,8 +30,8 @@
 				</div>
 			</div>
 		</div>
-		<div>
-			<span >{{ snippet.up_votes }}</span> up vote{{ snippet.up_votes|pluralize }}&nbsp;|&nbsp; <span>{{ snippet.down_votes }}</span> down vote{{ snippet.down_votes|pluralize }}
+		<div class="likes-dislikes">
+			<span class="likes"><span>{{ snippet.up_votes }}</span> up vote{{ snippet.up_votes|pluralize }}</span> &nbsp;|&nbsp; <span class="dislikes"><span>{{ snippet.down_votes }}</span> down vote{{ snippet.down_votes|pluralize }}</span>
 		</div>
 		<div>
 			<a href="{% url 'app_lang' snippet.lang_slug %}" class="lang">{{ snippet.lang_name }}</a>
@@ -45,7 +45,7 @@
 		</ul>
 	</div>
 </div>
-<div class="content-view">
+<div class="content-view code-view">
 	<div class="snippet">
 		<div class="snippet-content">
 			<div class="snippet-gist">
@@ -101,6 +101,6 @@
 
 
 {% block scripts %}
-{{ super.block }}
+{{ block.super }}
 <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 {% endblock %}

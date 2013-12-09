@@ -229,7 +229,7 @@
     padding: 2px 5px;          
     margin-right: 10px;
     background-color: #EFEFEF;
-    display: block;
+    display: inline-block;
   }
 }
 
@@ -273,10 +273,17 @@
    }
 }
 
+.lang, .lang:hover {
+  background-color: @third-color !important;
+  color: white;
+  padding: 2px 5px;
+  display: inline-block;
+}
+
 .content-view {
    overflow:hidden;
    padding: 0px 20px;
-   
+  
   .title-bar {    
     background: white;
     overflow: hidden;
@@ -293,8 +300,9 @@
     }
   }
   
-  .snippets {    
+    
       .snippet {
+        overflow: hidden;
         background-color: white;          
         padding:  10px 5px;
         border-bottom: 1px solid @border-color;
@@ -304,16 +312,10 @@
           font-size: 1.2em;
         }
         
-        :hover .snippet-shares {
-          opacity: 0.6;
-          filter: alpha(opacity=60);
-        }
-        
         .tags {        
           li:first-child {
             a, a:hover {
-              background-color: @third-color;
-              color: white;
+             .lang;
             }
           }
         }
@@ -342,7 +344,12 @@
           }
         }
       }
-   }   
+   
+}
+
+.snippet:hover .snippet-shares {
+  opacity: 0.6 !important;
+  filter: alpha(opacity=60) !important;
 }
 
 .snippet-code-container {  
@@ -415,6 +422,16 @@
   }
 }
 
+.code-view {
+  .snippet {
+    padding: 5px 0px;
+      
+    .snippet-gist {
+      float: left;    
+    }
+  }
+}
+
 .profile-bar {
   .profile-card {
      img {
@@ -435,6 +452,18 @@
         margin: 0px;
        }
      }
+     
+      .likes-dislikes {
+        font-size: 0.8em;
+        
+        .likes {
+          color: green;
+        }
+        
+        .dislikes {
+          color: red;
+        }
+      }
     
     .guru-bar {
       width: 80%;
@@ -448,7 +477,8 @@
         height: 10px;
         position: absolute;
         .rounded-corners(2px);
-      }
+      }     
+     
     }
     
     .followers, .subscribers {
