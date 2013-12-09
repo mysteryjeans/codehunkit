@@ -86,7 +86,7 @@ INSERT INTO app_language(name, slug, description, is_default, updated_on, update
 
 
 -- inserting graph entries
-INSERT INTO app_language_graph (language_id, up_votes, down_votes, subscriptions_count, coders_count, snippets_count, updated_on, updated_by)
+INSERT INTO app_language_graph (language_id, up_votes, down_votes, readers_count, coders_count, snippets_count, updated_on, updated_by)
 SELECT id, 0, 0, 0, 0, 0, now(), 'system' FROM app_language;
 
 
