@@ -1,4 +1,4 @@
--- Author: Faraz Masood Khan (faraz@fanaticlab.com)
+﻿-- Author: Faraz Masood Khan (faraz@fanaticlab.com)
 -- Populate lookup tables
 
 INSERT INTO app_language(name, slug, description, is_default, updated_on, updated_by, created_on, created_by) VALUES ('ActionScript', 'actionscript', 'ActionScript is an object-oriented programming (OOP) language that is designed specifically for Web site animation. Originally released with Macromedia Flash 4 and enhanced for Flash 5, ActionScript is a sophisticated version of the script language introduced in Flash 3.  ', true, now(), 'system', now(), 'system');
@@ -90,3 +90,16 @@ INSERT INTO app_language_graph (language_id, up_votes, down_votes, readers_count
 SELECT id, 0, 0, 0, 0, 0, now(), 'system' FROM app_language;
 
 
+-- Badges
+-- Participation
+INSERT INTO app_badge (name, group_name, description, awarded_count, updated_on, updated_by, created_on, created_by)
+VALUES ('Freshman', 'Participation', 'At joining the community', 0, now(), 'system', now(), 'system');
+
+INSERT INTO app_badge (name, group_name, description, awarded_count, updated_on, updated_by, created_on, created_by)
+VALUES ('Voter', 'Participation', 'Voted 10 or more times', 0, now(), 'system', now(), 'system');
+
+INSERT INTO app_badge (name, group_name, description, awarded_count, updated_on, updated_by, created_on, created_by)
+VALUES ('Commentator', 'Participation', 'Commentated 10 or more times', 0, now(), 'system', now(), 'system');
+
+INSERT INTO app_badge (name, group_name, description, awarded_count, updated_on, updated_by, created_on, created_by)
+VALUES ('Contributor', 'Participation', 'Contributed 10 or more times', 0, now(), 'system', now(), 'system'); 

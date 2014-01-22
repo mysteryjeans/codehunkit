@@ -204,7 +204,7 @@
 }
 
 .submit-snippet {
-  width: 600px;
+  width: 800px;
   padding: 10px 30px;
   
   h2 {
@@ -230,6 +230,40 @@
     margin-right: 10px;
     background-color: #EFEFEF;
     display: inline-block;
+  }
+}
+
+.badges {
+  overflow: hidden;
+  margin-top: 8px;
+  
+  h3 {
+    color: @text-color;
+    padding: 5px 0px;
+    border-bottom: 1px dotted @first-color;
+    margin: 10px 0px;
+    font-size: 1.2em;
+  }
+  
+  a {          
+    padding: 2px 5px;          
+    margin-right: 10px;
+    background-color: @second-color;
+    color: white !important;
+    display: inline-block;
+    .rounded-corners(3px);
+  }
+  
+  a.bronze {
+    border-left: 8px solid #cc9966;
+  }
+  
+  a.silver {
+    border-left: 8px solid #c5c5c5;
+  }
+  
+  a.gold {
+    border-left: 8px solid #ffcc00;
   }
 }
 

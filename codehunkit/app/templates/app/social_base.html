@@ -50,11 +50,11 @@
 						</ul>
 					</li>
 					{% endif %}
-					{% if default_langs %}
+					{% if langs %}
 					<li>						
-						<h3>Language{{ default_langs|pluralize }}</h3>
+						<h3>Language{{ langs|pluralize }}</h3>
 						<ul>
-							{% for lang in default_langs %}
+							{% for lang in langs %}
 							<li filter-value="{{ lang.name }}">
 								<a href="{{ lang.get_absolute_url }}" title="{% firstof lang.description lang.name %}">{{ lang.name }}</a>
 							</li>

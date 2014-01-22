@@ -5,6 +5,7 @@ Rewards for user activties
 """
 
 from django.db import models
+from django.db.models import F
 
 from codehunkit.app.models.core import Language, School, User
 
@@ -15,11 +16,11 @@ class Badge(models.Model):
     name = models.CharField(max_length=20, unique=True)
     group_name = models.CharField(max_length=20)
     description = models.TextField()
-    badge_url = models.URLField(blank=True, null=True)
+    awarded_count = models.IntegerField(default=0)
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
     created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.DateTimeField(max_length=100)
+    created_by = models.CharField(max_length=100)
     
     class Meta:
         app_label = 'app'
@@ -34,11 +35,11 @@ class LanguageBadgeSummary(models.Model):
     """
     language = models.ForeignKey(Language)
     badge = models.ForeignKey(Badge)
-    badges_count = models.IntegerField(default=0)
+    awarded_count = models.IntegerField(default=0)
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
     created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.DateTimeField(max_length=100)
+    created_by = models.CharField(max_length=100)
     
     class Meta:
         app_label = 'app'
@@ -52,12 +53,26 @@ class UserBadge(models.Model):
     user = models.ForeignKey(User)
     badge = models.ForeignKey(Badge)
     created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.DateTimeField(max_length=100)
+    created_by = models.CharField(max_length=100)
     
     class Meta:
         app_label = 'app'
         db_table = 'app_user_badge'
         unique_together = ('user', 'badge',)
+        
+    @models.permalink
+    def get_absolute_url(self):
+        return ('app_user_badge', (self.user.username, self.id,))
+    
+    @classmethod
+    def get_badges(cls, user, max_badges=0):
+        query = cls.objects.select_related('user', 'badge').filter(user=user)
+        return list(query[:max_badges] if max_badges else query)
+    
+    @classmethod
+    def award(cls, user, badge):
+        cls.objects.create(user=user, badge=badge, created_by=unicode(user))
+        Badge.objects.filter(id=badge.id).update(awarded_count=F('awarded_count') + 1)
 
 
 class SchoolBadgeSummary(models.Model):
@@ -66,11 +81,11 @@ class SchoolBadgeSummary(models.Model):
     """
     school = models.ForeignKey(School)
     badge = models.ForeignKey(Badge)
-    badges_count = models.IntegerField(default=0)
+    awarded_count = models.IntegerField(default=0)
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
     created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.DateTimeField(max_length=100)
+    created_by = models.CharField(max_length=100)
     
     class Meta:
         app_label = 'app'
@@ -78,3 +93,7 @@ class SchoolBadgeSummary(models.Model):
         unique_together = ('school', 'badge',) 
 
 
+FreshmanBadge = Badge.objects.get(name__iexact='Freshman')
+VoterBadge = Badge.objects.get(name__iexact='Voter')
+CommentatorBadge = Badge.objects.get(name__iexact='Commentator')
+ContributorBadge = Badge.objects.get(name__iexact='Contributor')

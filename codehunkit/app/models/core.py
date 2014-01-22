@@ -172,6 +172,12 @@ class User(AbstractUser):
     
     class Meta:
         app_label = 'app'
+    
+    def get_langs(self):
+        """
+        Returns list of user's followed languages
+        """
+        return Subscription.get_langs(self)        
         
     def get_followings(self):
         """
@@ -194,12 +200,20 @@ class User(AbstractUser):
         
         self.set_password(new_password)
     
+    def get_badges(self):
+        """
+        Returns list of user's earned badges
+        """
+        from badges import UserBadge
+        return UserBadge.get_badges(self)
         
     @classmethod 
     def sign_up(cls, username, email, password, gender, hometown=None, location=None, locale=None, is_verified=False):
         """
         Creates a new non-admin user in database 
-        """            
+        """
+        from badges import FreshmanBadge, UserBadge
+               
         try:
             user = cls.objects.get(Q(username=username) | Q(email=email))
             if user.username == username:
@@ -241,7 +255,10 @@ class User(AbstractUser):
                 Subscription.objects.create(user=user,language=lang, created_by=email)
             
             if langs:
-                LanguageGraph.objects.filter(language_id__in=langs).updated(subscriptions_count=F('subscriptions_count') + 1)
+                LanguageGraph.objects.filter(language_id__in=langs).update(readers_count=F('readers_count') + 1)
+                
+            # Awarding Freshman badge
+            UserBadge.award(user, FreshmanBadge)
                 
             return user
     
@@ -307,6 +324,13 @@ class Subscription(models.Model):
     class Meta:
         app_label = 'app'
         unique_together = ('user', 'language')
+    
+    @classmethod
+    def get_langs(cls, user):
+        """
+        Return list of subscribed languages by user
+        """
+        return list(Language.objects.filter(subscription__user=user))
         
     @classmethod
     def is_subscribed(cls, lang, user):

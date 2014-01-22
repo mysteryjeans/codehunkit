@@ -22,8 +22,8 @@
 	<div>
 		<span style="font-size: 1.5em;">{{ graph.comments_count }}</span> comment{{ graph.comments_count|pluralize }}
 	</div>
-	<div>
-		<span >{{ graph.likes }}</span> like{{ graph.likes|pluralize }}&nbsp;|&nbsp; <span>{{ graph.dislikes }}</span> dislike{{ graph.dislikes|pluralize }}
+	<div class="likes-dislikes">
+		<span class="likes"><span>{{ graph.likes }}</span> like{{ graph.likes|pluralize }}</span>&nbsp;|&nbsp;<span class="dislikes"><span>{{ graph.dislikes }}</span> dislike{{ graph.dislikes|pluralize }}</span>
 	</div>
 	<div>
 		<span style="font-weight:600;">member since {{ user.created_on|date:"N d, Y" }}</span>
@@ -44,9 +44,26 @@
 		<span style="font-size: 1.5em;">{{ graph.followers_count }}</span> follower{{ graph.followers_count|pluralize }}
 	</div>
 	{% endifnotequal %}
+	<div>
+		Guru Score: <span style="font-size: 1.2em;">{{ graph.guru_score }}</span>
+	</div>
 	<div class="guru-bar" title="Guru score is {{ graph.guru_score }}">
 		<span style="width: {{ graph.guru_score }}%"></span>
 	</div>
+	{% with badges=user.get_badges %}
+	{% if user.get_badges %}
+	<div class="badges">
+		<h3>Badges</h3>
+		<ul>
+			{% for user_badge in badges %}
+			<li>
+				<a href="{{ user_badge.get_absolute_url }}" class="bronze" title="{{ user_badge.badge.description|striptags }}">{{ user_badge.badge.name }}</a>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+	{% endif %}
+	{% endwith %}
 </div>
 {% endwith %}
 {% endblock %}

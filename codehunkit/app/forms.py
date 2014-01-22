@@ -50,7 +50,7 @@ class SnippetForm(forms.Form):
     gist = forms.CharField(max_length=500, widget=forms.TextInput(attrs={'placeholder': 'Code description...'}),
                            error_messages={'required': 'Please write description of your code snippet'})
     code = forms.CharField(max_length=2000, widget=forms.Textarea(attrs={'cols': 1,
-                                                                         'rows': 8,
+                                                                         'rows': 16,
                                                                          'style': 'width:100%;max-width:100%',
                                                                          'maxlength': '2000',
                                                                          'placeholder': 'Your code snippet here...'}),

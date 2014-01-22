@@ -25,7 +25,7 @@ class LanguageGraphAdmin(admin.ModelAdmin):
 
     
 class LanguageBadgeSummaryAdmin(admin.ModelAdmin):
-    list_display = ('language', 'badge', 'badges_count',)
+    list_display = ('language', 'badge', 'awarded_count',)
 
 
 class BadgeAdmin(admin.ModelAdmin):
@@ -42,7 +42,7 @@ class SchoolGraphAdmin(admin.ModelAdmin):
 
 
 class SchoolBadgeSummaryAdmin(admin.ModelAdmin):
-    list_display = ('school', 'badge', 'badges_count',)
+    list_display = ('school', 'badge', 'awarded_count',)
     
 
 class UserAdmin(admin.ModelAdmin):

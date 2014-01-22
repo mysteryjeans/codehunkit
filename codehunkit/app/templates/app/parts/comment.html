@@ -18,7 +18,7 @@
 		</div>
 		<div class="comment-cotent">
 			<div class="comment-links">
-				<a href="{% url 'app_user' comment.created_by %}" style="font-weight: bold;" {% if snippet.user_id == comment.user_id %}class="submitter"{% endif %}>{{ comment.created_by }}</a> <em>{{ comment.created_on|when:now }} ago</em>
+				<a href="{% url 'app_user' comment.created_by %}" style="font-weight: bold;" {% if snippet.user_id == comment.user_id %}class="submitter"{% endif %}>{{ comment.created_by }}</a><em>{{ comment.created_on|when:now }} ago</em>
 			</div>
 			<div class="comment-text markdown">
 				<div id="comment-text-id-{{ comment.id }}" {% if comment_id == comment.id %}class="comment-text-highlight"{% endif %}>

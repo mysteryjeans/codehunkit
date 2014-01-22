@@ -38,7 +38,11 @@ urlpatterns += patterns('codehunkit.app.views.users',
                         url(r'^users/(?P<username>[\w\.]+)/new/(?P<page_index>\d+)/$', 'user_snippets', {'sort_by_new': True}, name='app_user_new'),
                         url(r'^users/(?P<username>[\w\.]+)/follow/$', 'user_follow', name='app_user_follow'),
                         url(r'^users/(?P<username>[\w\.]+)/unfollow/$', 'user_unfollow', name='app_user_unfollow'),
- )
+)
+
+urlpatterns += patterns('codehunkit.app.views.badges',
+                        url(r'^users/(?P<username>[\w\.]+)/badges/(?P<user_badge_id>\d+)/$', 'user_badge', name='app_user_badge'),
+)
 
 urlpatterns += patterns('codehunkit.app.views.snippets',
                         url(r'^snippets/create/$', 'snippet_create', name='app_snippet_create'),                        
