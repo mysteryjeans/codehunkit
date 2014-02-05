@@ -13,7 +13,7 @@ def lang_snippets(request, slug, page_index=0, sort_by_new=False):
     Displays list of snippets of the particular language
     """
     lang = get_object_or_404(Language, slug=slug)
-    is_subscribed = Subscription.is_subscribed(lang, request.user)
+    is_subscribed = request.user.is_authenticated() and Subscription.is_subscribed(lang, request.user)
     snippets = Snippet.lang_snippets(lang, request.user, page_index, settings.PAGE_SIZE, sort_by_new)
     return render_response(request, 'app/lang_snippets.html', locals())
 
