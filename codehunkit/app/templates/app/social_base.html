@@ -33,8 +33,7 @@
 					<li class="user-info">
 						<a href="{{ app_user.get_absolute_url }}" title="{{ app_user.username }}"> <img src="{% gravatar_url app_user 32 %}"/> <span>{{ app_user.username }}</span></a>
 					</li>
-					{% endif %}
-					{% if hunkies %}
+					{% endif %}					
 					<li>
 						<h3 title="Genius guys you follow">Hunk{{ hunkies|pluralize:"y,ies" }}</h3>
 						<ul>
@@ -44,13 +43,11 @@
 							</li>
 							{% empty %}
 							<li>
-								<h4>Lets follow some hunkies.</h4>
+								<h4 title="Genius guys who publish there codes...">Follow some hunkies.</h4>
 							</li>
 							{% endfor %}
 						</ul>
-					</li>
-					{% endif %}
-					{% if langs %}
+					</li>					
 					<li>						
 						<h3>Language{{ langs|pluralize }}</h3>
 						<ul>
@@ -58,10 +55,13 @@
 							<li filter-value="{{ lang.name }}">
 								<a href="{{ lang.get_absolute_url }}" title="{% firstof lang.description lang.name %}">{{ lang.name }}</a>
 							</li>
+							{% empty %}
+							<li>
+								<h4>Follow some languages.</h4>
+							</li>
 							{% endfor %}
 						</ul>
 					</li>
-					{% endif %}
 				</ul>
 			</div>
 			<div class="filter">
