@@ -10,16 +10,7 @@
 
 {% block body-content %}
 <div class="social-base">
-	<div id="page-bar">		
-		{% block page-bar-content %}
-		{% include "app/parts/bar_search.html" %}
-		{% if app_user.is_authenticated %}
-		{% include "app/parts/profile_menu.html" %}
-		{% else %}
-		{% include "app/parts/login_menu.html" %}
-		{% endif %}
-		{% endblock %}
-	</div>
+
 	<div class="social-bar">
 		<div class="inner">
 			<div id="scroll-div">
@@ -33,7 +24,7 @@
 					<li class="user-info">
 						<a href="{{ app_user.get_absolute_url }}" title="{{ app_user.username }}"> <img src="{% gravatar_url app_user 32 %}"/> <span>{{ app_user.username }}</span></a>
 					</li>
-					{% endif %}					
+					{% endif %}
 					<li>
 						<h3 title="Genius guys you follow">Hunk{{ hunkies|pluralize:"y,ies" }}</h3>
 						<ul>
@@ -47,8 +38,8 @@
 							</li>
 							{% endfor %}
 						</ul>
-					</li>					
-					<li>						
+					</li>
+					<li>
 						<h3>Language{{ langs|pluralize }}</h3>
 						<ul>
 							{% for lang in langs %}

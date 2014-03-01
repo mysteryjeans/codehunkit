@@ -9,6 +9,19 @@
 
 {% block body-content %}
 <div id="container">
+	{% block header %}
+	<div id="page-bar">
+		{% block page-bar-content %}
+		<a id="logo" href="/"><h1>Codehunkit</h1></a>
+		{% include "app/parts/bar_search.html" %}
+		{% if app_user.is_authenticated %}
+		{% include "app/parts/profile_menu.html" %}
+		{% else %}
+		{% include "app/parts/login_menu.html" %}
+		{% endif %}
+		{% endblock %}
+	</div>
+	{% endblock %}
 	<div id="content">
 		{% block content %}{% endblock %}
 	</div>
