@@ -57,7 +57,7 @@
 		<ul>
 			{% for user_badge in badges %}
 			<li>
-				<a href="{{ user_badge.get_absolute_url }}" class="bronze" title="{{ user_badge.badge.description|striptags }}">{{ user_badge.badge.name }}</a>
+				<a class="bronze" title="{{ user_badge.badge.description|striptags }}">{{ user_badge.badge.name }}</a>
 			</li>
 			{% endfor %}
 		</ul>

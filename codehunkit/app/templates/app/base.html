@@ -12,7 +12,7 @@
 	{% block header %}
 	<div id="page-bar">
 		{% block page-bar-content %}
-		<a id="logo" href="/"><h1>Codehunkit</h1></a>
+		<a id="logo" href="{% url 'app_home' %}"><h1>Codehunkit</h1></a>
 		{% include "app/parts/bar_search.html" %}
 		{% if app_user.is_authenticated %}
 		{% include "app/parts/profile_menu.html" %}
@@ -27,7 +27,10 @@
 	</div>
 	{% block footer %}
 	<footer>
-		{% include "app/parts/languages.html" %}
+		<div class="copyright">
+			<a href="{% url 'app_home' %}" class="statement">Codehunkit &copy; 2014</a>
+		</div>
+		{% include "app/parts/languages.html" %}		
 	</footer>
 	{% endblock %}
 </div>

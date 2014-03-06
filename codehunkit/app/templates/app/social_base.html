@@ -13,12 +13,7 @@
 
 	<div class="social-bar">
 		<div class="inner">
-			<div id="scroll-div">
-				{% if hunkit_user.is_authenticated %}
-				<div style="border-bottom: 1px solid rgba(0,0,0,0.2);">
-					<a href="{{ app_user.get_absolute_url }}" style="display: block;padding: 10px 5px 10px 15px;" title="{{ app_user.username }}"> <img src="{% gravatar_url app_user 32 %}" width="32px" height="32px"/><span>{{ app_user.username }}</span></a>
-				</div>
-				{% endif %}
+			<div id="scroll-div">				
 				<ul id="subs-list">
 					{% if app_user.is_authenticated %}
 					<li class="user-info">

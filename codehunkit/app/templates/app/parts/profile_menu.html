@@ -5,8 +5,9 @@
 		<a href="{% url 'app_home' %}" class="menu-icon">Home</a>
 	</li>
 	<li id="new-snippet" class="menu-item">
-		<a href="{% url 'app_snippet_create' %}" class="menu-icon" title="Submit a new code snippet">New Snippet</a>
+		<a href="{% url 'app_snippet_create' %}" class="menu-icon">New Snippet</a>
 	</li>
+	{% comment %}
 	<li id="profile-messages" class="menu-item">
 		<form data-ajax-url="" method="post" data-ajax="true">
 			{% csrf_token %}
@@ -18,6 +19,7 @@
 			{% include "app/parts/notifications.html" %}
 		</div>
 	</li>
+	{% endcomment %}
 	<li id="profile-settings" class="menu-item">
 		<span class="menu-icon">Settings</span>
 		<div class="context-menu" context-menu="#profile-settings">
@@ -30,12 +32,14 @@
 				<li>
 					<a href="{% gravatar_profile_url app_user %}" title="Change or create your gravatar profile on gravatar.com">My Gravatar</a>
 				</li>
+				{% comment %}
 				<li>
 					<form action="{% url 'app_facebook_login' %}" method="post">
 						{% csrf_token %}
 						<a href="#" onclick="javascript:$(this).parent('form').submit(); return false;" title="Connect your Facebook account with CodeHunkit user">Connect with Facebook</a>
 					</form>
 				</li>
+				{% endcomment %}
 				<li>
 					<a href="{% url 'app_change_password' %}" title="Set your new password">Change password</a>
 				</li>

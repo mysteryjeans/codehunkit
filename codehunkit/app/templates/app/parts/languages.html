@@ -1,0 +1,7 @@
+<ul class="languages">
+	{% for lang in default_langs %}
+	<li>
+		<a href="{{ lang.get_absolute_url }}">{{ lang.name }}</a>
+	</li>
+	{% endfor %}
+</ul>

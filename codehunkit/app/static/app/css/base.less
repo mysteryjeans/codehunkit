@@ -8,7 +8,7 @@
     right: 0px;
     top: 0px;
     height: @bar-height;
-    background: rgba(256,256,256,0.8);
+    background: rgba(256,256,256,0.9);
     border-bottom: 4px solid @first-color;
     position: fixed;
     z-index: 99;
@@ -36,8 +36,7 @@
         width: 140px;
         height: 30px;
         float: left;
-        background-repeat: no-repeat;        
-        margin-left: 6px;
+        background-repeat: no-repeat;
         margin-top: 4px;
   }
 }
@@ -119,6 +118,48 @@
   min-height: 500px; 
   padding-bottom: 50px;
   background: url('../img/green-bg.jpg') no-repeat;  
+}
+
+footer {
+  .languages {    
+    margin: 10px;
+    overflow: hidden;
+    padding-bottom: 40px;
+    
+    li {
+      display: block;
+      float: left;
+      width: 150px;
+      margin: 5px;
+      
+      a {
+        color: whitesmoke;
+      }
+      
+      a:hover {
+        color: white;
+      }      
+    }
+  }
+  
+  .copyright {
+    background-color: @first-color;
+    padding: 5px 10px;  
+    
+    a {
+      color: whitesmoke;
+    }
+    
+    a:hover {
+      color: white;
+    }
+    
+    ul {
+      li {
+        
+      }
+    }
+  }
 }
 
 .box {
