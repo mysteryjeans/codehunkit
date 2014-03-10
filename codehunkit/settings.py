@@ -3,7 +3,7 @@
 import socket
 import os.path
 
-DEV_MACS = ('Dev-Mac', 'Envy15', 'envy', 'trg-tech-farazm', 'faraz-VirtualBox', 'trg-tech-faraz')
+DEV_MACS = ('Dev-Mac', 'Envy15', 'envy', 'trg-tech-farazm', 'faraz-VirtualBox', 'trg-tech-faraz', 'macbook-pro')
 
 
 DEBUG = socket.gethostname() in DEV_MACS
