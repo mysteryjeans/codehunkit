@@ -37,6 +37,7 @@ def login(request):
     """
     Login user using django builten authentication
     """
+    next_url = request.GET.get('next', None)
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -126,17 +127,16 @@ def fb_login(request):
         return HttpResponseRedirect(settings.FB_AUTH_URL + '?' + params)
     
     code = request.GET.get('code', None)
+    next_url = request.GET.get('state', reverse('app_home'))
     if not code:
         error = request.GET.get('error', None)
         error_reason = request.GET.get('error_reason', None)
         if error == 'access_denied' and error_reason == 'user_denied':
-            return render_response(request, 'app/pubic/facebook_login.html', {'error': 'You must allow Codehunkit to access your basic information from Facebook.'})
+            return render_response(request, 'app/public/facebook_login.html', {'error': 'You must allow Codehunkit to access your basic information from Facebook.', 'next_url': next_url })
             
         logger.error('Error occurred while signing user through Facebook.\n' + str(request))    
-        return render_response(request, 'app/public/facebook_login.html', {'error': 'We encounter some error while logging you in through Facebook.'})
+        return render_response(request, 'app/public/facebook_login.html', {'error': 'We encounter some error while logging you in through Facebook.', 'next_url': next_url })
             
-    return_url = request.GET['state']
-    code = request.GET['code']
     params = urllib.urlencode({'client_id': settings.FB_APP_ID, 
                                'client_secret': settings.FB_APP_SECRET,
                                'redirect_uri': request.build_absolute_uri(request.path),
@@ -148,7 +148,6 @@ def fb_login(request):
         access_token = access_content['access_token']
         access_expiry = datetime.datetime.now() + datetime.timedelta(seconds=int(access_content['expires']))
         request.session['facebook_access_token'] = access_token
-        print 'Access Token: ' + access_token        
         params = urllib.urlencode({'access_token': access_token})
         
         fb_user = scraper.get_content(settings.FB_GRAPH_ME + '?' + params)
@@ -177,8 +176,7 @@ def fb_login(request):
                         _send_verification_email(domain, user)
                         FlashMessage.add_success('You have successfully signed up with Facebook account, but you need to verify your account via email address.', user)
                         
-                    _send_welcome_email(domain, user)
-                        
+                    _send_welcome_email(domain, user)                   
                 else:
                     if user.is_verified:
                         user.backend='django.contrib.auth.backends.ModelBackend' # can't call authenticate since don't know password
@@ -191,14 +189,14 @@ def fb_login(request):
             #if created:        
                 #return HttpResponseRedirect(reverse('app_user_friends', args=[user.username]) + '?' + urllib.urlencode({ 'next': return_url}))        
             
-            return HttpResponseRedirect(return_url)            
+            return HttpResponseRedirect(next_url)            
         except HunkitError as e:
             transaction.rollback()
-            return render_response(request, 'app/public/facebook_login.html', {'error': e.message })
+            return render_response(request, 'app/public/facebook_login.html', {'error': e.message, 'next_url': next_url })
     except Exception as e:
         logger.exception(e)
         transaction.rollback()
-        return render_response(request, 'app/public/facebook_login.html', {'error': 'We encounter some error while logging you in through Facebook.' })
+        return render_response(request, 'app/public/facebook_login.html', {'error': 'We encounter some error while logging you in through Facebook.', 'next_url': next_url })
     
     return HttpResponseRedirect(reverse('app_home'))
     
