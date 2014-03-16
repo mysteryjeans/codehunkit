@@ -62,9 +62,9 @@ urlpatterns += patterns('codehunkit.app.views.auth',
                         url(r'^logout/$', 'logout', name='app_logout'),
                         url(r'^change_password/$', 'change_password', name='app_change_password'),
                         url(r'^signup/$', 'sign_up', name='app_sign_up'),
-                        url(r'^activation/(?P<user_id>\d+)-(?P<code>\w+)/$', 'activation', name='app_activation'),
-                        url(r'^facebook_login/$', 'facebook_login', name='app_facebook_login'),
-                        url(r'^send_activation/(?P<user_id>\d+)/$', 'send_activation', name='app_send_activation'),
+                        url(r'^verification/(?P<user_id>\d+)-(?P<code>\w+)/$', 'verification', name='app_verification'),
+                        url(r'^fb_login/$', 'fb_login', name='app_fb_login'),
+                        url(r'^send_verification/(?P<user_id>\d+)/$', 'send_verfication', name='app_send_verification'),
 )
 
 urlpatterns += patterns('django.contrib.auth.views',

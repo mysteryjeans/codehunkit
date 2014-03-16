@@ -59,7 +59,10 @@ class UserBadge(models.Model):
         app_label = 'app'
         db_table = 'app_user_badge'
         unique_together = ('user', 'badge',)
-        
+
+    def __unicode__(self):
+        return unicode(self.badge)
+
     @models.permalink
     def get_absolute_url(self):
         return ('app_user_badge', (self.user.username, self.id,))

@@ -1,4 +1,4 @@
-<form method="post" action="{% url 'app_facebook_login' %}">
+<form method="post" action="{% url 'app_fb_login' %}">
 	{% csrf_token %}
 	<input type="hidden" name="next" value="{{ request.get_full_path }}" />
 	<a href="#" onclick="javascript:$(this).parent('form').submit(); return false;" class="facebook-button">Sign in with <b>Facebook</b></a>

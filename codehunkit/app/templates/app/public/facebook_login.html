@@ -1,0 +1,17 @@
+{% extends "app/public/base.html" %}
+
+{% block title %}Facebook Login{% endblock %}
+
+{% block content %}
+<div class="action-form-box">
+	{% include "app/parts/facebook_signin.html" %}
+	<ul>
+		<li>
+			<h2>Facebook Login</h2>
+		</li>
+		<li class="warm-text">
+			{{ error|safe }}
+		</li>
+	</ul>
+</div>
+{% endblock %}

@@ -7,16 +7,16 @@
 {% block content %}
 <div class="action-form-box">
 	{% include "app/parts/facebook_signin.html" %}
-	{% if not_activated %}
+	{% if is_verified %}
 	<ul>
 		<li>
 			<h2>Sign In</h2>
 		</li>
 		<li>
-			<form method="post" action="{% url 'app_send_activation' user.id %}">
+			<form method="post" action="{% url 'app_send_verification' user.id %}">
 				{% csrf_token %}
 				<p class="message">
-					Your account is not activated yet!, please click <a href="#" onclick="javascript:$(this).parent('form').submit();return false;">here</a> to re-send activation code.
+					Your account is not verified yet!, please click <a href="#" onclick="javascript:$(this).parent('form').submit();return false;">here</a> to re-send verification code.
 				</p>
 			</form>
 		</li>

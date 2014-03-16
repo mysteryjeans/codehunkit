@@ -1,0 +1,33 @@
+{% extends "app/public/base.html" %}
+
+{% block title %}Account Verification{% endblock %}
+
+{% block content %}
+<div class="action-form-box">
+	<ul>
+		<li>
+			<h2>Account Verification</h2>			
+		</li>
+		{% if not error %}
+		<li>
+			<p class="message">
+				Thank you for verifying your <a href="{% url 'app_home' %}">CodeHunkit</a> account, please proceed to <a href="{% url 'app_login' %}">login</a>.
+			</p>
+		</li>
+		{% elif invalid_code %}
+		<li>
+			<form method="post" action="{% url 'app_send_verification' user.id %}">
+				{% csrf_token %}
+				<p class="message">
+				Your account is not verified yet!, please click <a href="javascript:$(this).parent('form').submit();return false;">here</a> to re-send verification code.
+				</p>
+			</form>
+		</li>
+		{% else %}
+		<li class="error_message">
+			{{ error|safe }}
+		</li>
+		{% endif %}
+	</ul>
+</div>
+{% endblock %} 

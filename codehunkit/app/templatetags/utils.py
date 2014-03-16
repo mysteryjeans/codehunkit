@@ -4,10 +4,10 @@ Utility template tags
 @copyright: Copyright (c) 2013 FanaticLab
 """
 
+import json
 
 from django.core.serializers import serialize
 from django.db.models.query import QuerySet
-from django.utils import simplejson
 from django.utils.safestring import mark_safe
 from django.utils.timesince import timesince
 from django.template import Library
@@ -18,7 +18,7 @@ register = Library()
 def jsonify(value):
     if isinstance(value, QuerySet):
         return mark_safe(serialize('json', value))
-    return mark_safe(simplejson.dumps(value))
+    return mark_safe(json.dumps(value))
 
 register.filter('jsonify', jsonify)
 jsonify.is_safe = True

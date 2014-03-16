@@ -194,6 +194,19 @@ AUTH_USER_MODEL = 'app.User'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 
+# Facebook signup/login settings
+if DEBUG:
+    FB_APP_ID = '1432030800353700'
+    FB_APP_SECRET = '8e9f18b2cc63edc4b22477ff7f164724'
+else:
+    FB_APP_ID = '1415643725356170'
+    FB_APP_SECRET = 'be60188cf82b64a5bd17e6fb94af64eb'
+    
+FB_ACCESS_TOKEN = 'https://graph.facebook.com/oauth/access_token'
+FB_AUTH_URL = 'https://www.facebook.com/dialog/oauth'
+FB_GRAPH_ME = 'https://graph.facebook.com/me'
+FB_GRAPH_FRIENDS = 'https://graph.facebook.com/me/friends'
+
 # CSS and Javascript less & compressor settings
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 

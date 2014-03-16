@@ -1,0 +1,35 @@
+{% extends "app/public/base.html" %}
+
+{% block title %}Account Verification{% endblock %}
+
+{% block content %}
+<div class="action-form-box">
+	<ul>
+		<li>
+			<h2>Account Verification</h2>
+		</li>
+		{% if error %}
+		<li>
+			<p class="error_message">
+				{{ error|safe }}
+			</p>
+		</li>
+		{% elseif message %}
+		<li>
+			<p class="message">
+				{{ message|safe }}
+			</p>
+		</li>
+		{% else %}
+		<li>
+			<form method="post" action="{% url 'app_send_verification' user.id %}">
+				{% csrf_token %}
+				<p class="message">
+					Your account is not verified yet!, please click <a href="#" onclick="javascript:$(this).parent('form').submit();return false;">here</a> to re-send verification code.
+				</p>
+			</form>
+		</li>
+		{% endif %}
+	</ul>
+</div>
+{% endblock %} 

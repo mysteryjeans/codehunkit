@@ -32,14 +32,14 @@
 				<li>
 					<a href="{% gravatar_profile_url app_user %}" title="Change or create your gravatar profile on gravatar.com">My Gravatar</a>
 				</li>
-				{% comment %}
+				{% if not app_user.fb_account %}
 				<li>
-					<form action="{% url 'app_facebook_login' %}" method="post">
+					<form action="{% url 'app_fb_login' %}" method="post">
 						{% csrf_token %}
 						<a href="#" onclick="javascript:$(this).parent('form').submit(); return false;" title="Connect your Facebook account with CodeHunkit user">Connect with Facebook</a>
 					</form>
 				</li>
-				{% endcomment %}
+				{% endif %}
 				<li>
 					<a href="{% url 'app_change_password' %}" title="Set your new password">Change password</a>
 				</li>
