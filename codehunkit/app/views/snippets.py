@@ -1,10 +1,16 @@
+"""
+Core snippets views
+@author: Faraz Masood Khan faraz@fanaticlab.com
+@copyright: Copyright (c) 2013 FanaticLab
+"""
+
+import json
 import urllib
 
 from django.db import transaction
 from django.conf import settings
 from django.http import Http404, HttpResponse, HttpResponseForbidden, HttpResponseRedirect, HttpResponsePermanentRedirect
 from django.core.urlresolvers import reverse
-from django.utils import simplejson
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 
@@ -68,7 +74,7 @@ def snippet_vote(request, snippet_id, action):
         
         if request.is_ajax():
             response = {'snippet_id': snippet_id, 'vote_index': vote_index, 'net_effect':net_effect }
-            return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+            return HttpResponse(json.dumps(response), mimetype='application/json')
             
         return HttpResponseRedirect(reverse('app_snippet_read', args=[snippet_id]))
     
@@ -146,7 +152,7 @@ def comment_vote(request, snippet_id, comment_id, action):
         
         if request.is_ajax():
             response = {'comment_id': comment_id, 'vote_index': vote_index, 'net_effect':net_effect }
-            return HttpResponse(simplejson.dumps(response), mimetype='application/json')
+            return HttpResponse(json.dumps(response), mimetype='application/json')
             
         return HttpResponseRedirect(reverse('app_snippet_read', args=[snippet_id]))
     
