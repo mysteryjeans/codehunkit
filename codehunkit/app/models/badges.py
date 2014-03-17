@@ -12,7 +12,7 @@ from codehunkit.app.models.core import Language, School, User
 class Badge(models.Model):
     """
     User's badges based on expertness
-    """    
+    """
     name = models.CharField(max_length=20, unique=True)
     group_name = models.CharField(max_length=20)
     description = models.TextField()
@@ -21,12 +21,45 @@ class Badge(models.Model):
     updated_by = models.CharField(max_length=100)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=100)
+    _freshman = None
+    _voter = None
+    _commentator = None
+    _contributor = None
+    
     
     class Meta:
         app_label = 'app'
-    
+        
     def __unicode__(self):
         return self.name
+        
+    @classmethod
+    def get_freshman(cls):
+        if cls._freshman is None:
+            cls._freshman = cls.objects.get(name__iexact='Freshman')
+            
+        return cls._freshman
+        
+    @classmethod
+    def get_voter(cls):
+        if cls._voter is None:
+            cls._voter = cls.objects.get(name__iexact='Voter')
+            
+        return cls._voter
+
+    @classmethod
+    def get_commentator(cls):
+        if cls._commentator is None:
+            cls._commentator = cls.objects.get(name__iexact='Commentator')
+            
+        return cls._commentator
+    
+    @classmethod
+    def get_contributor(cls):
+        if cls._contributor is None:
+            cls._contributor = cls.objects.get(name__iexact='Contributor')
+            
+        return cls._contributor
 
 
 class LanguageBadgeSummary(models.Model):
@@ -96,7 +129,4 @@ class SchoolBadgeSummary(models.Model):
         unique_together = ('school', 'badge',) 
 
 
-FreshmanBadge = Badge.objects.get(name__iexact='Freshman')
-VoterBadge = Badge.objects.get(name__iexact='Voter')
-CommentatorBadge = Badge.objects.get(name__iexact='Commentator')
-ContributorBadge = Badge.objects.get(name__iexact='Contributor')
+

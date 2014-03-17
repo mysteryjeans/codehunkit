@@ -382,15 +382,15 @@ class Comment(models.Model):
         """
         Save user comments for the post in database
         """
-        from badges import CommentatorBadge, UserBadge
+        from badges import Badge, UserBadge
         if Snippet.objects.filter(id=snippet_id).update(comments_count=F('comments_count') + 1) == 1:
             UserGraph.objects.filter(user=user).update(comments_count=F('comments_count') + 1)
             comment = cls.objects.create(snippet_id=snippet_id, user=user, comment_text=comment_text, created_by=str(user))
             
-            if not UserBadge.objects.filter(user=user, badge=CommentatorBadge).exists() \
+            if not UserBadge.objects.filter(user=user, badge=Badge.get_commentator()).exists() \
             and UserGraph.objects.filter(user=user, comments_count__gte=10).exists():
                 # User earned a commentator badge
-                UserBadge.award(user, CommentatorBadge)
+                UserBadge.award(user, Badge.get_commentator())
                 
             #Message.add_comment_msg(comment, user)            
             return comment
@@ -400,16 +400,16 @@ class Comment(models.Model):
         """
         Save user comments for the post in database
         """
-        from badges import CommentatorBadge, UserBadge
+        from badges import Badge, UserBadge
         if Snippet.objects.filter(id=snippet_id).update(comments_count=F('comments_count') + 1) == 1:
             UserGraph.objects.filter(user=user).update(comments_count=F('comments_count') + 1)
             cls.objects.filter(id=comment_id).update(replies_count=F('replies_count') + 1)
             comment = cls.objects.create(snippet_id=snippet_id, reply_to_id=comment_id, user=user, comment_text=comment_text, created_by=str(user))
             
-            if not UserBadge.objects.filter(user=user, badge=CommentatorBadge).exists() \
+            if not UserBadge.objects.filter(user=user, badge=Badge.get_commentator()).exists() \
             and UserGraph.objects.filter(user=user, comments_count__gte=10).exists():
                 # User earned a commentator badge
-                UserBadge.award(user, CommentatorBadge)
+                UserBadge.award(user, Badge.get_commentator())
                 
             #Message.add_reply_msg(comment, user)
             return comment

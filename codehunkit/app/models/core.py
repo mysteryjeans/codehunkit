@@ -238,7 +238,7 @@ class User(AbstractUser):
         """
         Creates a new non-admin user in database 
         """
-        from badges import FreshmanBadge, UserBadge
+        from badges import Badge, UserBadge
                
         try:
             user = cls.objects.get(Q(username=username) | Q(email=email))
@@ -282,7 +282,7 @@ class User(AbstractUser):
                 LanguageGraph.objects.filter(language_id__in=langs).update(readers_count=F('readers_count') + 1)
                 
             # Awarding Freshman badge
-            UserBadge.award(user, FreshmanBadge)
+            UserBadge.award(user, Badge.get_freshman())
                 
             return user
     
