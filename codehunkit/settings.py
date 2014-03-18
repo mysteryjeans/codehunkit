@@ -270,16 +270,16 @@ PIPELINE_JS = {
     },
     'base': {
         'source_filenames': (
-          'app/lib/jquery-1.7.2.min.js',
+          'app/lib/jquery-1.7.2.js',
           'app/lib/jquery.unobtrusive-ajax.js',          
           'app/lib/votes-utils.js',
           'app/lib/utils.js',
         ),
-        'output_filename': 'app/lib/codehunkit.js',
+        'output_filename': 'app/lib/base.js',
     },
     'social_base': {
         'source_filenames': (
-          'app/lib/jquery-ui-1.10.3.min.js',
+          'app/lib/jquery-ui-1.10.4.js',
           'app/lib/jquery.slimscroll.min.js',
         ),
         'output_filename': 'app/lib/social_base.js',
