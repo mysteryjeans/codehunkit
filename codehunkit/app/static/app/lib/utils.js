@@ -88,7 +88,7 @@ function PopupCenter(url, title, w, h) {
 	}
 }
 
-function stringToColor(str) {
+function __stringToColor(str) {
 
     // str to hash
     str = "    " + str;
