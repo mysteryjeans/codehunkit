@@ -13,7 +13,7 @@
 
 	<div class="social-bar">
 		<div class="inner">
-			<div id="scroll-div">				
+			<div id="scroll-div">
 				<ul id="subs-list">
 					{% if app_user.is_authenticated %}
 					<li class="user-info">
@@ -69,9 +69,21 @@
 			size : '10px'
 		});
 	});
-	
-	$('#langs li').each(function(){
-		$('.lang-color', this).css('background', __stringToColor($('.lang-name', this).text().trim()));
+
+	function stringToColor(str) {
+		// str to hash
+		str = "    " + str;
+		for (var i = 0, hash = 0; i < str.length; hash = str.charCodeAt(i++) + ((hash << 5) - hash));
+
+		// int/hash to hex
+		for (var i = 0, color = "#"; i < 3; color += ("00" + ((hash >> i++ * 8) & 0xFF).toString(16)).slice(-2));
+
+		return color;
+	}
+
+
+	$('#langs li').each(function() {
+		$('.lang-color', this).css('background', stringToColor($('.lang-name', this).text().trim()));
 	});
 
 	$('#filter-input').keyup(function() {
