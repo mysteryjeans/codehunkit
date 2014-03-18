@@ -37,7 +37,7 @@ function vote_update(data) {
 }
 
 // Update comment vote for user action
-var comment_vote_update = function (data) {
+function comment_vote_update(data) {
     if (data.status == 200) {
         response = JSON.parse(data.responseText);
         votes = parseInt($('#comment-id-' + response.comment_id + ' .votes').first().html()) + response.net_effect;        
@@ -63,4 +63,4 @@ var comment_vote_update = function (data) {
     } else {
            window.location = '/';
     }
-};
+}

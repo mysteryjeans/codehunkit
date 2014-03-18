@@ -268,19 +268,12 @@ PIPELINE_JS = {
         ),
         'output_filename': 'app/lib/stats.js',
     },
-    'jquery': {
+    'base': {
         'source_filenames': (
           'app/lib/jquery-1.7.2.js',
           'app/lib/jquery.unobtrusive-ajax.js',          
           'app/lib/votes-utils.js',
           'app/lib/utils.js',
-        ),
-        'output_filename': 'app/lib/jquery.js',
-    },
-    'base': {
-        'source_filenames': (
-          # 'app/lib/utils.js',
-          'app/lib/votes-utils.js',
         ),
         'output_filename': 'app/lib/base.js',
     },

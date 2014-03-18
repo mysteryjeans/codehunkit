@@ -13,7 +13,7 @@ function contextMenu() {
 	$('[context-menu]').each(function() {
 		var $contextMenu = $(this);
 		$($contextMenu.attr('context-menu')).click(function() {
-			$contextMenu.fadeIn('fast');			
+			$contextMenu.fadeIn('fast');
 		});
 	});
 }
@@ -88,8 +88,19 @@ function PopupCenter(url, title, w, h) {
 	}
 }
 
+function stringToColor(str) {
+	// str to hash
+	str = "    " + str;
+	for (var i = 0, hash = 0; i < str.length; hash = str.charCodeAt(i++) + ((hash << 5) - hash));
+
+	// int/hash to hex
+	for (var i = 0, color = "#"; i < 3; color += ("00" + ((hash >> i++ * 8) & 0xFF).toString(16)).slice(-2));
+
+	return color;
+}
+
 $(document).ready(function() {
 	contextMenu();
 	shareLink();
 	playMedia();
-}); 
+});
