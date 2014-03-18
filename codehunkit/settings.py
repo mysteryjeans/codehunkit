@@ -279,7 +279,6 @@ PIPELINE_JS = {
     },
     'base': {
         'source_filenames': (   
-          'app/lib/utils.js',    
           'app/lib/votes-utils.js',
          
         ),
