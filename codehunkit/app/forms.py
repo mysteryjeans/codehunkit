@@ -75,8 +75,8 @@ class SnippetForm(forms.Form):
     
     def clean_code(self):
         code = self.cleaned_data['code']
-        if len(code) < 50:
-            raise  forms.ValidationError("Code snippet should be at least 50 characters.")
+        if len(code) < 20:
+            raise  forms.ValidationError("Code snippet should be at least 20 characters.")
         return code
         
         
