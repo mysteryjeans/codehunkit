@@ -278,9 +278,9 @@ PIPELINE_JS = {
         'output_filename': 'app/lib/jquery.js',
     },
     'base': {
-        'source_filenames': (   
+        'source_filenames': (
+          # 'app/lib/utils.js',
           'app/lib/votes-utils.js',
-         
         ),
         'output_filename': 'app/lib/base.js',
     },

@@ -7,7 +7,7 @@
 */
 
 // Update snippet vote for user action
-var vote_update = function (data) {	
+function vote_update(data) {	
     if (data.status == 200) {
     	var response = JSON.parse(data.responseText);
     	var votesBoxID = '#snippet-votes-box-id-' + response.snippet_id;
@@ -34,7 +34,7 @@ var vote_update = function (data) {
     } else {
            window.location = '/';
     }
-};
+}
 
 // Update comment vote for user action
 var comment_vote_update = function (data) {
