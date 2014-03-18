@@ -7,7 +7,7 @@
 */
 
 // Update snippet vote for user action
-function vote_update(data) {	
+var vote_update = function (data) {	
     if (data.status == 200) {
     	var response = JSON.parse(data.responseText);
     	var votesBoxID = '#snippet-votes-box-id-' + response.snippet_id;
@@ -34,10 +34,10 @@ function vote_update(data) {
     } else {
            window.location = '/';
     }
-}
+};
 
 // Update comment vote for user action
-function comment_vote_update(data) {
+var comment_vote_update = function (data) {
     if (data.status == 200) {
         response = JSON.parse(data.responseText);
         votes = parseInt($('#comment-id-' + response.comment_id + ' .votes').first().html()) + response.net_effect;        
@@ -63,4 +63,4 @@ function comment_vote_update(data) {
     } else {
            window.location = '/';
     }
-}
+};
