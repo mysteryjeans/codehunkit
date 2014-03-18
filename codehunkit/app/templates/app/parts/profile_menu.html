@@ -32,7 +32,7 @@
 				<li>
 					<a href="{% gravatar_profile_url app_user %}" title="Change or create your gravatar profile on gravatar.com">My Gravatar</a>
 				</li>
-				{% if not app_user.fb_account %}
+				{% if not app_user.has_fb_account %}
 				<li>
 					<form action="{% url 'app_fb_login' %}" method="post">
 						{% csrf_token %}
