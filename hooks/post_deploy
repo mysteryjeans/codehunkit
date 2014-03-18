@@ -1,0 +1,16 @@
+#!/bin/bash
+# This is a simple post deploy hook executed after your application
+# is deployed and started.  This script gets executed directly, so
+# it could be python, php, ruby, etc.
+
+source /home/jeans/virtenv/bin/activate
+
+echo "Executing 'python /home/jeans/codehunkit/manage.py syncdb'"
+python /home/jeans/codehunkit/manage.py syncdb
+
+echo "Executing 'python /home/jeans/codehunkit/manage.py collectstatic --noinput'"
+python /home/jeans/codehunkit/manage.py collectstatic --noinput
+
+echo "Touching uwsgi.ini timestamp to reload app"
+touch /home/jeans/codehunkit/uwsgi.ini
+
