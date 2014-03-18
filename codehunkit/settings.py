@@ -302,3 +302,5 @@ PIPELINE_JS = {
 PIPELINE_COMPILERS = (
   'pipeline.compilers.less.LessCompiler',
 )
+
+PIPELINE_DISABLE_WRAPPER = True
