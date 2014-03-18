@@ -4,14 +4,14 @@
 <div id="comment-id-{{ comment.id }}" style="margin-bottom: 10px;">
 	<div>
 		<div class="votes-box">
-			<form data-ajax-url="{% url 'app_comment_vote_up' snippet.id comment.id %}" method="post" data-ajax="true" data-ajax-complete="update_comment_vote">
+			<form data-ajax-url="{% url 'app_comment_vote_up' snippet.id comment.id %}" method="post" data-ajax="true" data-ajax-complete="comment_vote_update">
 				{% csrf_token %}
 				<a onclick="javascript:$(this).parent('form').submit();" class="up-vote {% ifequal comment.vote_index 1 %}on{% endifequal %}" title="Vote-UP if you favor this comment.">&#9650;</a>
 			</form>
 			<div class="votes">
 				{{ comment.votes }}
 			</div>
-			<form data-ajax-url="{% url 'app_comment_vote_down' snippet.id comment.id %}" method="post" data-ajax="true" data-ajax-complete="update_comment_vote">
+			<form data-ajax-url="{% url 'app_comment_vote_down' snippet.id comment.id %}" method="post" data-ajax="true" data-ajax-complete="comment_vote_update">
 				{% csrf_token %}
 				<a onclick="javascript:$(this).parent('form').submit();" class="down-vote {% ifequal comment.vote_index -1 %}on{% endifequal %}" title="Vote-DOWN if you don't agree to this comment.">&#9660;</a>
 			</form>

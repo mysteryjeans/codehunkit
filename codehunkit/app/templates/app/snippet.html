@@ -9,14 +9,14 @@
 	<div class="profile-card">
 		<div>
 			<div id="snippet-votes-box-id-{{ snippet.id }}" class="votes-box">
-				<form data-ajax-url="{% url 'app_snippet_vote_up' snippet.id %}" method="post" data-ajax="true" data-ajax-complete="update_vote">
+				<form data-ajax-url="{% url 'app_snippet_vote_up' snippet.id %}" method="post" data-ajax="true" data-ajax-complete="vote_update">
 					{% csrf_token %}
 					<a onclick="javascript:$(this).parent('form').submit();" class="up-vote {% ifequal snippet.vote_index 1 %}on{% endifequal %}" title="This code is awesome.">&#9650;</a>
 				</form>
 				<div class="votes" itemprop="votes">
 					{{ snippet.votes }}
 				</div>
-				<form data-ajax-url="{% url 'app_snippet_vote_down' snippet.id %}" method="post" data-ajax="true" data-ajax-complete="update_vote">
+				<form data-ajax-url="{% url 'app_snippet_vote_down' snippet.id %}" method="post" data-ajax="true" data-ajax-complete="vote_update">
 					{% csrf_token %}
 					<a onclick="javascript:$(this).parent('form').submit();" class="down-vote {% ifequal snippet.vote_index -1 %}on{% endifequal %}" title="This is average code.">&#9660;</a>
 				</form>

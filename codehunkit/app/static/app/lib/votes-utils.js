@@ -7,7 +7,7 @@
 */
 
 // Update snippet vote for user action
-function update_vote(data) {	
+function vote_update(data) {	
     if (data.status == 200) {
     	var response = JSON.parse(data.responseText);
     	var votesBoxID = '#snippet-votes-box-id-' + response.snippet_id;
@@ -37,7 +37,7 @@ function update_vote(data) {
 }
 
 // Update comment vote for user action
-function update_comment_vote(data) {
+function comment_vote_update(data) {
     if (data.status == 200) {
         response = JSON.parse(data.responseText);
         votes = parseInt($('#comment-id-' + response.comment_id + ' .votes').first().html()) + response.net_effect;        
