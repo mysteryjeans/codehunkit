@@ -5,12 +5,12 @@
 
 source /home/jeans/virtenv/bin/activate
 
-echo "Executing 'python /home/jeans/codehunkit/manage.py syncdb'"
-python /home/jeans/codehunkit/manage.py syncdb
+echo "Executing 'python /home/jeans/www/codehunkit.com/manage.py syncdb'"
+python /home/jeans/www/codehunkit.com/manage.py syncdb
 
-echo "Executing 'python /home/jeans/codehunkit/manage.py collectstatic --noinput'"
-python /home/jeans/codehunkit/manage.py collectstatic --noinput
+echo "Executing 'python /home/jeans/www/codehunkit.com/manage.py collectstatic --noinput'"
+python /home/jeans/www/codehunkit.com/manage.py collectstatic --noinput
 
 echo "Touching uwsgi.ini timestamp to reload app"
-touch /home/jeans/codehunkit/uwsgi.ini
+touch /home/jeans/www/codehunkit.com/uwsgi.ini
 
