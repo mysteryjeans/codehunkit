@@ -244,13 +244,13 @@ def send_verification(request, user_id):
 
 def _send_verification_email(domain, user):   
     msg_text = get_template('app/email/verification.html').render(Context({ 'domain': domain, 'user': user }))
-    msg = EmailMessage('codehunkit.com account verification', msg_text, 'CodeHunkit <noreply@codehunkit.com>', [user.email])
+    msg = EmailMessage('codehunkit.com account verification', msg_text, 'Codehunkit <noreply@codehunkit.com>', [user.email])
     msg.content_subtype = "html"
     #msg.send()
     
 
 def _send_welcome_email(domain, user):                                
     msg_text = get_template('app/email/welcome.html').render(Context({ 'domain': domain, 'user': user }))
-    msg = EmailMessage('codehunkit.com Welcome! Lets get started!!', msg_text, 'CodeHunkit <noreply@codehunkit.com>', [user.email])
+    msg = EmailMessage('codehunkit.com Welcome! Lets get started!!', msg_text, 'Codehunkit <noreply@codehunkit.com>', [user.email])
     msg.content_subtype = "html"
     #msg.send()          

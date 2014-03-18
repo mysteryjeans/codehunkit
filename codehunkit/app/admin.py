@@ -1,5 +1,5 @@
 """
-Django administration for CodeHunkit
+Django administration for Codehunkit
 @author: Faraz Masood Khan faraz@fanaticlab.com
 @copyright: Copyright (c) 2013 FanaticLab
 """

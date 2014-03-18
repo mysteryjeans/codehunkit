@@ -1,5 +1,5 @@
 """
-CodeHunkit classes
+Codehunkit classes
 @author: faraz@fanaticlab.com
 @copyright: Copyright (c) 2013 FanaticLab
 """
