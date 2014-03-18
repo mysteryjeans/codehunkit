@@ -1,0 +1,21 @@
+Sitemap: http://www.tangleon.com/sitemap.xml
+
+
+User-Agent: Googlebot
+Crawl-delay: 10
+
+
+User-Agent: IRLbot
+Crawl-delay: 3600
+
+
+# 15 min delay between each crawl by paper.li
+User-agent: Mozilla/5.0 (compatible; PaperLiBot/2.1; http://support.paper.li/entries/20023257-what-is-paper-li)
+Crawl-delay: 900
+
+User-Agent: *
+Disallow: /p-
+
+
+User-Agent: *
+Disallow: /article
