@@ -8,13 +8,13 @@
 {% block title-content %}
 <ul>
 	<li {% if active == 'top' %}class="active"{% endif %}>
-		<a href="{% url 'app_tag' tag_name %}">Top</a>
+		<a href="{% url 'app_search' %}{{ query }}">Top</a>
 	</li>
 	<li {% if active == 'new' %}class="active"{% endif %}>
-		<a href="{% url 'app_tag_new' tag_name %}">New</a>
+		<a href="{% url 'app_search_new' %}{{ query }}">New</a>
 	</li>
 	<li>
-		{{ tag_name }}
+		{{ q|default:'' }}
 	</li>
 </ul>
 {% endblock %}

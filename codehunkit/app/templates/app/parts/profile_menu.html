@@ -36,6 +36,7 @@
 				<li>
 					<form action="{% url 'app_fb_login' %}" method="post">
 						{% csrf_token %}
+						<input type="hidden" name="next" value="/"/>
 						<a href="#" onclick="javascript:$(this).parent('form').submit(); return false;" title="Connect your Facebook account with CodeHunkit user">Connect with Facebook</a>
 					</form>
 				</li>

@@ -220,6 +220,36 @@ class Snippet(models.Model):
         return [snippet for snippet in cls.objects.raw(sql_query, [user.id, tag_name, page_size, page_index * page_size])]
     
     @classmethod
+    def search_snippets(cls, text, user, page_index, page_size, sort_by_new):
+        """
+        Returns all snippets
+        """
+        if sort_by_new:
+            sql_query = '''
+                        SELECT s.*, u.username, l.name AS lang_name, l.slug AS lang_slug, v.index AS vote_index
+                        FROM app_snippet s
+                        INNER JOIN app_user u ON s.user_id = u.id
+                        INNER JOIN app_language l ON s.language_id = l.id
+                        LEFT OUTER JOIN app_snippet_vote v ON s.id = v.snippet_id AND v.user_id = %s
+                        WHERE s.gist ILIKE %s OR s.tags ILIKE %s
+                        ORDER BY s.id DESC
+                        LIMIT %s OFFSET %s
+                        '''
+        else:
+            sql_query = '''
+                        SELECT s.*, u.username, l.name AS lang_name, l.slug AS lang_slug, v.index AS vote_index
+                        FROM app_snippet s
+                        INNER JOIN app_user u ON s.user_id = u.id
+                        INNER JOIN app_language l ON s.language_id = l.id
+                        LEFT OUTER JOIN app_snippet_vote v ON s.id = v.snippet_id AND v.user_id = %s
+                        WHERE s.gist ILIKE %s OR  s.tags ILIKE %s
+                        ORDER BY s.rank DESC, s.id DESC
+                        LIMIT %s OFFSET %s
+                        '''
+            
+        return [snippet for snippet in cls.objects.raw(sql_query, [user.id, text, text, page_size, page_index * page_size])]
+    
+    @classmethod
     def create(cls, gist, code, language_id, tags, user):
         """
         Creates a new code snippet in database

@@ -24,10 +24,10 @@
 
 {% block title-content %}
 <ul>
-	<li>
+	<li {% if active == 'top' %}class="active"{% endif %}>
 		<a href="{% url 'app_home' %}">Top</a>
 	</li>
-	<li>
+	<li {% if active == 'new' %}class="active"{% endif %}>
 		<a href="{% url 'app_home_new' %}">New</a>
 	</li>
 	<li>

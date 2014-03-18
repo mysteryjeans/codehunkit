@@ -74,6 +74,7 @@
         width: 24px !important;
         height: 24px !important;
         float: left;
+        .rounded-corners(1px);
     }
     
     span { 
@@ -110,6 +111,13 @@
       
       a:hover {
         background-color: @first-color;
+      }
+      
+      #langs .lang-color {
+        width: 23px;
+        height: 23px;
+        margin: 0px;
+        .rounded-corners(1px);
       }
     }
   }
@@ -262,10 +270,13 @@
     
     li {       
        float: left;
-       padding: 5px 15px;
-      
-      li.active {
-        background: #22a86c !important;
+       padding: 5px 10px;
+    }
+    
+    li.active {
+        background: @first-color !important;
+        
+      a, a:active {
         color: white;
       }
     }
@@ -274,8 +285,6 @@
       border-left: 1px solid @border-color;
     }
   }
-  
-    
       .snippet {
         overflow: hidden;
         background-color: white;          
@@ -320,6 +329,14 @@
         }
       }
    
+    .paging-dev {
+       margin-top: 10px;
+       
+       
+       .next {
+         margin-left: 5px;
+       }
+     }
 }
 
 .snippet:hover .snippet-shares {

@@ -1,5 +1,6 @@
 @import url('style.less');
 
+@light-first-color: rgba(34,168,108,0.15);
 @bar-color: rgba(256,256,256,0.8);
 @bar-height: 40px;
 
@@ -94,7 +95,7 @@
   input[type="text"] {
     padding: 4px 10px;
     .rounded-corners(10px);
-    background-color: rgba(34,168,108,0.15);
+    background-color: @light-first-color;
     width: 300px;
     border: 0px;
     font-weight: bold;
@@ -118,6 +119,16 @@
   min-height: 500px; 
   padding-bottom: 50px;
   background: url('../img/green-bg.jpg') no-repeat;  
+  
+  .flash-messages {
+    li {
+      padding: 10px;
+      text-align: center;
+      margin: 5px;
+      background: @light-first-color;
+      color: @second-color;
+    }
+  }
 }
 
 footer {

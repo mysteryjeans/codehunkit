@@ -1,0 +1,9 @@
+{% if flash_messages %}
+<ul class="flash-messages">
+	{% for message in flash_messages %}
+	<li class="{{ message.flash_type }}">
+		{{ message.flash_text }}
+	</li>
+	{% endfor %}	
+</ul>
+{% endif %}

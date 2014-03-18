@@ -23,6 +23,7 @@
 	</div>
 	{% endblock %}
 	<div id="content">
+		{% include "app/parts/flash_messages.html" %}
 		{% block content %}{% endblock %}
 	</div>
 	{% block footer %}

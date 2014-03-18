@@ -42,10 +42,10 @@
 
 {% block title-content %}
 <ul>
-	<li>
+	<li {% if active == 'top' %}class="active"{% endif %}>
 		<a href="{% url 'app_lang' lang.slug %}">Top</a>
 	</li>
-	<li>
+	<li {% if active == 'new' %}class="active"{% endif %}>
 		<a href="{% url 'app_lang_new' lang.slug %}">New</a>
 	</li>
 	<li>

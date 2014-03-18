@@ -127,7 +127,9 @@ def fb_login(request):
         return HttpResponseRedirect(settings.FB_AUTH_URL + '?' + params)
     
     code = request.GET.get('code', None)
-    next_url = request.GET.get('state', reverse('app_home'))
+    next_url = request.GET.get('state', None)
+    if not next_url: next_url = reverse('app_home')
+    
     if not code:
         error = request.GET.get('error', None)
         error_reason = request.GET.get('error_reason', None)
@@ -181,7 +183,7 @@ def fb_login(request):
                     if user.is_verified:
                         user.backend='django.contrib.auth.backends.ModelBackend' # can't call authenticate since don't know password
                         login_user(request, user)
-                        FlashMessage.add_info('Welcome back, ' + user.username, user)
+                        FlashMessage.add_info('Welcome back, ' + user.username + '!', user)
                     else:
                         return HttpResponseRedirect(reverse('app_send_verification'))
                  

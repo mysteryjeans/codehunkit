@@ -188,7 +188,7 @@ class User(AbstractUser):
     website = models.URLField(null=True, blank=True)
     is_verified = models.BooleanField(default=False)    
     verification_code = models.CharField(max_length=512, blank=True, null=True)
-    fb_account = models.BooleanField(default=False)   
+    has_fb_account = models.BooleanField(default=False)   
     updated_on = models.DateTimeField(auto_now=True)
     updated_by = models.CharField(max_length=100)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -234,7 +234,7 @@ class User(AbstractUser):
         return UserBadge.get_badges(self)
         
     @classmethod 
-    def sign_up(cls, username, email, password, gender, hometown=None, location=None, locale=None, fb_account=False, is_verified=False):
+    def sign_up(cls, username, email, password, gender, hometown=None, location=None, locale=None, has_fb_account=False, is_verified=False):
         """
         Creates a new non-admin user in database 
         """
@@ -267,6 +267,7 @@ class User(AbstractUser):
                                            locale=locale,
                                            is_verified=is_verified,
                                            verification_code=verification_code,
+                                           has_fb_account=has_fb_account,
                                            updated_by=username,
                                            created_by=username)
             
@@ -493,7 +494,7 @@ class FacebookUser(models.Model):
             if user.hometown is None: user.hometown = Location.get_or_create(hometown, user.username)
             if user.location is None: user.location = Location.get_or_create(location, user.username)
             if user.locale is None: user.locale = locale
-            user.fb_account = True
+            user.has_fb_account = True
             user.save()
             
             if 'education' in fb_user:

@@ -106,7 +106,7 @@ class FlashMessage(models.Model):
         """
         Returns all flash messages for user but don't delete them in database
         """        
-        return [flash for flash in cls.objects.filter(user=user).order_by('flash_id')]
+        return [flash for flash in cls.objects.filter(user=user).order_by('id')]
 
     @classmethod
     def get_messages(cls, user):
