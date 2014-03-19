@@ -59,9 +59,9 @@ def search(request, page_index=0, sort_by_new=False):
         params = { 'q': q.encode('utf-8')}
         query = '?' + urllib.urlencode(params)
         active = 'new' if sort_by_new else 'top'
-        snippets = Snippet.search_snippets(q, request.user, page_index, settings.PAGE_SIZE, sort_by_new)
-                        
+        snippets = Snippet.search_snippets(q, request.user, page_index, settings.PAGE_SIZE, sort_by_new)                
         prev_url, next_url = paginated_url(request.resolver_match.url_name, snippets, [page_index], params)
+        no_snippets = 'There are no snippets found for this search query'
                 
         return render_response(request, 'app/search_snippets.html', locals())
     
