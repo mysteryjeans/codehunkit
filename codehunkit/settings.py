@@ -199,7 +199,7 @@ MAX_COMMENT_LENGTH = 1000
 EMAIL_HOST = 'smtp.googlemail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'faraz@tangleon.com'
+EMAIL_HOST_USER = 'no-reply@codehunkit.com'
 EMAIL_HOST_PASSWORD = r''
 
 # Modifying default django auth user
