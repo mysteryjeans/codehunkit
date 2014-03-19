@@ -19,7 +19,6 @@
 					<li class="user-info">
 						<a href="{{ app_user.get_absolute_url }}" title="{{ app_user.username }}"> <img src="{% gravatar_url app_user 32 %}"/> <span>{{ app_user.username }}</span></a>
 					</li>
-					{% endif %}
 					<li>
 						<h3 title="Genius guys you follow">Hunk{{ hunkies|pluralize:"y,ies" }}</h3>
 						<ul>
@@ -34,6 +33,7 @@
 							{% endfor %}
 						</ul>
 					</li>
+					{% endif %}
 					<li>
 						<h3>Language{{ langs|pluralize }}</h3>
 						<ul id="langs">
