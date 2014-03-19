@@ -20,6 +20,7 @@ urlpatterns = patterns('codehunkit.app.views.home',
                        url(r'^search/(?P<page_index>\d+)/$', 'search', name='app_search'),
                        url(r'^search/new/$', 'search', {'sort_by_new': True}, name='app_search_new'),
                        url(r'^search/new/(?P<page_index>\d+)/$', 'search', {'sort_by_new': True}, name='app_search_new'),
+                       url(r'^sitemap.xml$', 'sitemap_xml', name='app_search_new'),
 )
 
 urlpatterns += patterns('codehunkit.app.views.languages',

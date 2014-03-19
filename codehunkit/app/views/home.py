@@ -7,6 +7,7 @@ import urllib
 
 from django.conf import settings
 from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse
 
 from codehunkit.app.views import render_response, paginated_url
@@ -65,3 +66,12 @@ def search(request, page_index=0, sort_by_new=False):
         return render_response(request, 'app/search_snippets.html', locals())
     
     return HttpResponseRedirect(reverse('app_home'))
+
+def sitemap_xml(request):
+    """
+    Display list of new snippets upto 1000
+    """
+    snippets = Snippet.get_snippets(request.user, 0, 1000, True)
+    for snippet in snippets:
+        snippet.priority = round(snippet.rating(), 1)
+    return render_to_response('app/sitemap.xml', locals(), mimetype='application/xml')

@@ -13,6 +13,7 @@ from django.template.defaultfilters import slugify
 
 from codehunkit import memoize
 from codehunkit.db import models as db_models
+from codehunkit.app import stats
 from codehunkit.app.models.core import Language, LanguageGraph, User, UserGraph
 
 
@@ -52,6 +53,12 @@ class Snippet(models.Model):
     
     def tags_list(self):
         return [tag.strip() for tag in self.tags.split(',')]
+    
+    def rating(self):
+        """
+        Returns rating of snippet on the scale of 0 to 1
+        """
+        return stats.rating(self.up_votes, self.down_votes)
     
     @classmethod
     def read(cls, snippet_id, user, comment_id=None, max_comments=20):
