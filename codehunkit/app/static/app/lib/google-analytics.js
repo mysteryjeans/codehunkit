@@ -1,4 +1,3 @@
-// Google Analytics
 (function(i, s, o, g, r, a, m) {
 	i['GoogleAnalyticsObject'] = r;
 	i[r] = i[r] ||
@@ -11,5 +10,5 @@
 	m.parentNode.insertBefore(a, m)
 })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-ga('create', 'UA-45268584-1', 'tangleon.com');
+ga('create', 'UA-49190423-1', 'codehunkit.com');
 ga('send', 'pageview'); 

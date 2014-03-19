@@ -1,6 +1,5 @@
-// Histats.com tracker async
 var _Hasync = _Hasync || [];
-_Hasync.push(['Histats.start', '1,2494371,4,511,95,18,00000000']);
+_Hasync.push(['Histats.start', '1,2626412,4,0,0,0,00010000']);
 _Hasync.push(['Histats.fasi', '1']);
 _Hasync.push(['Histats.track_hits', '']);
 (function() {
