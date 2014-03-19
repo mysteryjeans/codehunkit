@@ -196,11 +196,11 @@ PAGE_SIZE = 20
 MAX_COMMENT_LENGTH = 1000
 
 # Email server settings
-EMAIL_HOST = 'smtp.googlemail.com'
+EMAIL_HOST = 'smtp.mailgun.org'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'no-reply@codehunkit.com'
-EMAIL_HOST_PASSWORD = r''
+EMAIL_HOST_USER = 'postmaster@codehunkit.com'
+EMAIL_HOST_PASSWORD = r'3q0piqx67st5'
 
 # Modifying default django auth user
 AUTH_USER_MODEL = 'app.User'
@@ -270,8 +270,7 @@ PIPELINE_JS = {
     },
     'base': {
         'source_filenames': (
-          'app/lib/jquery-1.7.2.js',
-          'app/lib/jquery.unobtrusive-ajax.js',          
+          'app/lib/jquery-ajax.js',          
           'app/lib/votes-utils.js',
           'app/lib/utils.js',
         ),

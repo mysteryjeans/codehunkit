@@ -2,7 +2,7 @@
 
 {% block content %}
 <p>
-	Please click the link below to verify your account:
+	Please follow the link below to verify your account:
 	<br /><br />
 	<a href="http://{{ domain }}{% url 'app_verification' user.id user.verification_code %}">http://{{ domain }}{% url 'app_verification' user.id user.verification_code %}</a>
 </p>
