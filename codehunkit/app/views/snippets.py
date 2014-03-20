@@ -46,7 +46,7 @@ def snippet_create(request):
             data = form.cleaned_data
             try:
                 snippet = Snippet.create(data['gist'], data['code'], data['language'], data['tags'], request.user)
-                return HttpResponseRedirect('/')  #return HttpResponseRedirect(snippet.get_absolute_url())
+                return HttpResponseRedirect(snippet.get_absolute_url())
             except HunkitError as e:
                 error = e.message
     else:
