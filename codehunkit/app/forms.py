@@ -49,10 +49,10 @@ class SnippetForm(forms.Form):
     gist_regex = re.compile(r'[^\w\.]+')
     gist = forms.CharField(max_length=500, widget=forms.TextInput(attrs={'placeholder': 'Code description...'}),
                            error_messages={'required': 'Please write description of your code snippet'})
-    code = forms.CharField(max_length=2000, widget=forms.Textarea(attrs={'cols': 1,
+    code = forms.CharField(max_length=10000, widget=forms.Textarea(attrs={'cols': 1,
                                                                          'rows': 16,
                                                                          'style': 'width:100%;max-width:100%',
-                                                                         'maxlength': '2000',
+                                                                         'maxlength': '10000',
                                                                          'placeholder': 'Your code snippet here...'}),
                            error_messages={'required': 'Please write code you want to share'})    
     tags = forms.CharField(max_length=100, error_messages={'required': 'Choose some tags to for your code snippet'})
