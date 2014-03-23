@@ -583,7 +583,7 @@ class Tag(models.Model):
         """
         Return cleaned tags string, removed spaces and special characters
         """
-        tags = (re.sub(r'[^\w\.]', '', tag) for tag in tags) 
+        tags = (re.sub(r'[^\w\.-]', '', tag) for tag in tags) 
         tags = ','.join(tag for tag in tags if len(tag) > 1 and len(tag) <= 10)
         return tags
         
