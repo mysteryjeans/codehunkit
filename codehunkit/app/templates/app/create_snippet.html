@@ -68,7 +68,7 @@
 		});
 		
 		$('#id_tags').on('select2-selecting', function(e) {
-			if(e.val.match(/[^\w\.]/))
+			if(e.val.match(/[^\w\.-]/))
 				e.preventDefault();
 		});
 
