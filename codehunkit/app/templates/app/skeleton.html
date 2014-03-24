@@ -6,7 +6,6 @@
 		<meta name="application-name" content="Codehunkit"/>
 		<meta name="application-url" content="http://www.codehunkit.com?shortcut=true"/>
 		<meta name="copyright" content="Codehunkit &copy; 2014"/>
-		<meta name="author" content="Codehunkit, hi@codehunkit.com">
 		{% block description %}<meta name="description" content=""/>{% endblock %}
 		<meta name="Language" content="English">
 		<meta property="og:site_name" content="Codehunkit"/>
@@ -16,9 +15,10 @@
 		{% block meta_head %}
 		<meta property="og:title" content="Codehunkit: the best pieces of codes"/>
 		<meta property="og:type" content="website"/>
-		<meta property="og:url" content="http://www.codehunkit.com">
+		<meta property="og:url" content="http://www.codehunkit.com"/>
 		<meta property="og:image" content="http://www.codehunkit.com{{ STATIC_URL }}app/img/codehunkit-icon.png"/>
-		<meta property="og:description" content="{% block og_description %}{% endblock %}"/>
+		<meta property="og:description" content="{% block og_description %}{% endblock %}"/>	
+		<meta name="author" content="Codehunkit, hi@codehunkit.com"/>
 		{% endblock %}
 		<title>{% block title %}Codehunkit: the best pieces of codes{% endblock %}</title>
 		<link rel="icon shortcut" href="{{ STATIC_URL }}app/img/codehunkit-icon.png" type="image/png" sizes="128x128"/>
