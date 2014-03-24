@@ -61,12 +61,7 @@
 	</div>
 	<div class="snippet-code-container">
 		<div class="snippet-code">
-			<div class="line-number">
-				{% for line in snippet.code|lines %}
-				<span>{{ forloop.counter }}</span>
-				{% endfor %}
-			</div>
-			<pre class="prettyprint" style="border:0px;"><code>{{ snippet.code }}</code></pre>
+			<pre class="prettyprint"><code>{{ snippet.code }}</code></pre>
 		</div>
 	</div>
 	<div class="comments">
