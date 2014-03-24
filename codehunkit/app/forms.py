@@ -51,7 +51,7 @@ class SnippetForm(forms.Form):
                            error_messages={'required': 'Please write description of your code snippet'})
     code = forms.CharField(max_length=10000, widget=forms.Textarea(attrs={'cols': 1,
                                                                          'rows': 16,
-                                                                         'style': 'width:100%;max-width:100%',
+                                                                         'style': 'width:100%;max-width:100%;overflow:auto;',
                                                                          'maxlength': '10000',
                                                                          'placeholder': 'Your code snippet here...'}),
                            error_messages={'required': 'Please write code you want to share'})    
