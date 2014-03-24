@@ -50,6 +50,14 @@ class Snippet(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('app_snippet_read', (self.id, self.slug,))
+
+    @memoize.method
+    @models.permalink
+    def get_short_url(self):
+        """
+        Returns snippet url with id only
+        """
+        return ('app_snippet_read', (self.id,))
     
     def tags_list(self):
         return [tag.strip() for tag in self.tags.split(',')]
