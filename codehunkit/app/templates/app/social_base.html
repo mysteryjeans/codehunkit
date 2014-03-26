@@ -8,84 +8,59 @@
 {% compressed_css 'social' %}
 {% endblock %}
 
-{% block body-content %}
-<div class="social-base">
-
-	<div class="social-bar">
-		<div class="inner">
-			<div id="scroll-div">
-				<ul id="subs-list">
-					{% if app_user.is_authenticated %}
-					<li class="user-info">
-						<a href="{{ app_user.get_absolute_url }}" title="{{ app_user.username }}"> <img src="{% gravatar_url app_user 32 %}"/> <span>{{ app_user.username }}</span></a>
-					</li>
+{% block content %}
+<div>
+	<ul id="subs-list">
+		<li id="langs">
+			<h3>Language{{ langs|pluralize }}</h3>
+			<div class="context-menu" context-menu="#langs">
+				<span class="arrow"></span>
+				<h4>Language{{ langs|pluralize }}</h4>
+				<ul>
+					{% for lang in langs %}
 					<li>
-						<h3 title="Genius guys you follow">Hunk{{ hunkies|pluralize:"y,ies" }}</h3>
-						<ul>
-							{% for user in hunkies %}
-							<li filter-value="{{ user.username }}">
-								<a href="{{ user.get_absolute_url }}" title="{{ user.username }}"> <img src="{% gravatar_url user 32 %}"/> <span>{{ user.username }}</span></a>
-							</li>
-							{% empty %}
-							<li>
-								<h4 title="Genius guys who publish there best pieces of codes...">Follow some hunkies.</h4>
-							</li>
-							{% endfor %}
-						</ul>
+						<a href="{{ lang.get_absolute_url }}" title="{% firstof lang.description lang.name %}">{{ lang.name }}</a>
 					</li>
-					{% endif %}
+					{% empty %}
 					<li>
-						<h3>Language{{ langs|pluralize }}</h3>
-						<ul id="langs">
-							{% for lang in langs %}
-							<li filter-value="{{ lang.name }}">
-								<a href="{{ lang.get_absolute_url }}" title="{% firstof lang.description lang.name %}"><span class="lang-color"></span><span class="lang-name">{{ lang.name }}</span></a>
-							</li>
-							{% empty %}
-							<li>
-								<h4>Follow some languages.</h4>
-							</li>
-							{% endfor %}
-						</ul>
+						<h4>Follow some languages.</h4>
 					</li>
+					{% endfor %}
 				</ul>
 			</div>
-			<div class="filter">
-				<input type="text" value="" id="filter-input" placeholder="Search..."/>
+		</li>
+		{% if app_user.is_authenticated %}
+		<li id="hunkies">
+			<h3 title="Genius guys you follow">Hunk{{ hunkies|pluralize:"y,ies" }}</h3>
+			<div context-menu="#hunkies" class="context-menu">
+				<span class="arrow"></span>
+				<h4>Hunk{{ hunkies|pluralize:"y,ies" }}</h4>
+				<ul>
+					{% for user in hunkies %}
+					<li>
+						<a href="{{ user.get_absolute_url }}" title="{{ user.username }}"> <img src="{% gravatar_url user 32 %}"/> <span>{{ user.username }}</span></a>
+					</li>
+					{% empty %}
+					<li>
+						<h4 title="Genius guys who publish there best pieces of codes..." style="background: white;">Follow some hunkies.</h4>
+					</li>
+					{% endfor %}
+				</ul>
 			</div>
-		</div>
-	</div>
-	{{ block.super }}
+		</li>
+		{% endif %}
+	</ul>
 </div>
+{% block social-content %}
+{% endblock %}
 {% endblock %}
 
 {% block scripts %}
 {{ block.super }}
 {% compressed_js 'social_base' %}
 <script type="text/javascript">
-	$(function() {
-		$('#scroll-div').slimScroll({
-			height : '100%',
-			size : '10px'
-		});
-	});
-
 	$('#langs li').each(function() {
 		$('.lang-color', this).css('background', stringToColor($('.lang-name', this).text().trim()));
-	});
-
-	$('#filter-input').keyup(function() {
-		var $inputFilter = $(this);
-		if ($inputFilter.val() == '') {
-			$('#subs-list li[filter-value]').fadeIn('fast');
-		} else {
-			$('#subs-list li[filter-value]').each(function() {
-				if ($(this).attr('filter-value').toLowerCase().indexOf($inputFilter.val().toLowerCase()) == 0)
-					$(this).show('fast');
-				else
-					$(this).fadeOut('fast');
-			});
-		}
 	}); 
 </script>
 {% endblock %}

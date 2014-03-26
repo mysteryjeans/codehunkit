@@ -7,125 +7,49 @@
   transition: @property @time linear;
   -webkit-transition: @property @time linear;
 }
-
-.social-base {
   
-  #page-bar {
-      left: @social-bar-width;
-      right: 0px;
-  }
-  
-  #container {
-    margin-left: @social-bar-width;      
-  }
-  
-  .social-bar {
-    height: 100%;
-    position: fixed;
-    width: @social-bar-width;
-    overflow: hidden;
-    font-size: 0.9em;
-    background: @social-bar-color;  
-    
-    .filter {
-      background: @social-bar-color;  
-      position: fixed;
-      bottom: 0;
-      padding: 7px 0px !important; 
-      width: @social-bar-width;
-      overflow: hidden;
-      .border-box;
-      
-      input[type="text"], input[type="text"]:focus {
-        font-weight: 300;
-        font-size: 0.9em;
-        width: 80%;
-        border: 0px;
-        padding: 3px;
-        font-size: 12px;
-        padding-left: 30px;
-        margin: auto;
-        display: block;
-        background: url('../img/sprites.png') rgba(0,0,0, 0.5) no-repeat;
-        background-position: -126px -580px;
-        .rounded-corners(20px);
-      }
-      
-      input[type="text"]:focus {
-        background-position: -278px -580px;
-        color: white !important;
-      }   
-    }
-      
-    .inner {
-        position: relative; min-height: 100%; height: 100%; padding-bottom: 60px;
-        
-        #scroll-div {
-            position: absolute; top: 0px; right: 0px; left: 0px; padding-bottom: 60px;
-            .border-box;
-        }
-    }
-    
-    .user-info {
-      margin: 5px 0px;
-    }
-    
-    img {
-        width: 24px !important;
-        height: 24px !important;
-        float: left;
-        .rounded-corners(1px);
-    }
-    
-    span { 
-      margin: 5px 0px 0px 10px;
-      display: block;
-      float: left;  
-    }
-    
-    h4 {
-      padding-left: 5px;
-      margin-bottom: 5px;
-    }
-    
-    #subs-list li {
-      h3, h4 {
-        padding: 5px;
-        padding-left: 15px;
-        margin: 5px 0px;        
-      }
-      
-      h3   {
-        background-color: rgba(0,0,0, 0.5);
-        font-size: 1.1em;
-      }
-            
-      a {
-        color: white !important;
-        display: block;
-        overflow: hidden;  
-        padding: 4px;
-        padding-left: 15px;
-        display: block;
-      }
-      
-      a:hover {
-        background-color: @first-color;
-      }
-      
-      #langs .lang-color {
-        width: 23px;
-        height: 23px;
-        margin: 0px;
-        .rounded-corners(1px);
-      }
-    }
-  }
-  
-  #content {    
-    background: url('../img/bg.jpg');
-    background: white;
+  #content {
+    padding: 10px;
     padding-top: 50px;
+   
+    #subs-list {
+      padding: 5px 0px 5px 8px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      .box;
+      
+      h3 {
+        cursor: pointer;
+        margin-right: 10px;
+        font-size: 1em;
+      }
+      
+      h3:after {
+        content: '   \25BE';  
+      }
+      
+      li {
+        float: left;
+        
+        ul li {
+          float: none;
+          
+          img {
+            width: 24px;
+            height: 24px;
+          }
+          
+          span {
+            margin-top: 5px;
+            margin-left: 10px;
+          }
+          
+          img, span {
+            float: left;
+          }
+        }
+      }
+    } 
     
     .profile-bar {
       float: right;
@@ -136,7 +60,7 @@
       padding: 0px 10px;
     }   
   }
-}
+
 
 .progress-img {
   width: 45px;
@@ -260,13 +184,13 @@
 
 .content-view {
    overflow:hidden;
-   padding: 0px 20px;
+   padding: 0px;
+   padding-right: 10px;
   
   .title-bar {    
-    background: white;
     overflow: hidden;
     margin-bottom: 10px;
-    .rounded-corners(2px);
+    .box;
     
     li {       
        float: left;
@@ -286,13 +210,13 @@
     }
   }
       .snippet {
-        overflow: hidden;
-        background-color: white;          
+        overflow: hidden;         
         padding:  10px 5px;
-        border-bottom: 1px solid @border-color;
+        margin-bottom: 5px;
+        .box;
         
         h3 {
-          color: #000;
+          color: @second-color;
           font-size: 1.2em;
         }
         
@@ -332,11 +256,10 @@
     .paging-dev {
        margin-top: 10px;
        
-       
-       .next {
-         margin-left: 5px;
+       .prev {
+         margin-right: 5px;
        }
-     }
+    }
 }
 
 .snippet:hover .snippet-shares {
@@ -347,9 +270,10 @@
 .snippet-code-container {  
   margin: 10px 0px;
  
-  .snippet-code {    
+  .snippet-code {
+    .box; 
     font-family: monospace;
-    border: 4px solid #eee;
+    border: 4px solid @second-color;
     max-height: 500px;
     line-height: 1.5em;
     overflow: auto;
@@ -357,22 +281,10 @@
     height: 100%;
     .border-box;
     
-    .line-number {
-      background-color: #eee;
-      padding: 5px 5px;
-      text-align: right;
-      float: left;
-      
-      span {
-        clear: both;
-        display:block;
-      }
-    }
-    
     pre {
       padding: 0px 5px;
       border: 0px;
-      border-left: 30px solid #eee;
+      border-left: 30px solid @second-color;
       position: relative;
       
       code {
@@ -392,6 +304,7 @@
       white-space:pre-wrap;
       direction:rtl;
       overflow:hidden;
+      color: white;
     }
   }
 }
@@ -437,7 +350,9 @@
 
 .code-view {
   .snippet {
-    padding: 5px 0px;
+    border: none;
+    background: none;
+    padding: 5px 8px;
       
     .snippet-gist {
       float: left;    
@@ -568,10 +483,18 @@
       margin-right: 5px;
       cursor: pointer;
     }
+    
+    .submitter, .submitter:after {
+       color: @fourth-color !important;
+    }
+    
+    .submitter:after {
+      content: "\21B5";
+    }
   }
   
   .comment-reply-link, .comment-reply-link:hover {
-    color: #ff4444 !important;
+    color: @fourth-color !important;
     font-weight: bold;
   }
   
