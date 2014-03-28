@@ -209,6 +209,7 @@ class Snippet(models.Model):
         """
         Returns all snippets
         """
+        tag_name = '%' + tag_name + '%'
         if sort_by_new:
             sql_query = '''
                         SELECT s.*, u.username, l.name AS lang_name, l.slug AS lang_slug, v.index AS vote_index
