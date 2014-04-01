@@ -26,7 +26,7 @@ class Snippet(models.Model):
     user = models.ForeignKey(User)
     gist = models.TextField(db_index=True)    
     code = models.TextField(db_index=True)
-    group = models.ForeignKey('self', null=True) # Allows to group together codes in different languages
+    group = models.ForeignKey('self', null=True, blank=True) # Allows to group together codes in different languages
     language = models.ForeignKey(Language)
     tags = models.CharField(max_length=200)
     votes = models.IntegerField(default=0)
@@ -431,7 +431,7 @@ class Comment(models.Model):
         from badges import Badge, UserBadge
         if Snippet.objects.filter(id=snippet_id).update(comments_count=F('comments_count') + 1) == 1:
             UserGraph.objects.filter(user=user).update(comments_count=F('comments_count') + 1)
-            comment = cls.objects.create(snippet_id=snippet_id, user=user, comment_text=comment_text, created_by=str(user))
+            comment = cls.objects.create(snippet_id=snippet_id, user=user, comment_text=comment_text, updated_by=str(user), created_by=str(user))
             
             if not UserBadge.objects.filter(user=user, badge=Badge.get_commentator()).exists() \
             and UserGraph.objects.filter(user=user, comments_count__gte=10).exists():
@@ -450,7 +450,7 @@ class Comment(models.Model):
         if Snippet.objects.filter(id=snippet_id).update(comments_count=F('comments_count') + 1) == 1:
             UserGraph.objects.filter(user=user).update(comments_count=F('comments_count') + 1)
             cls.objects.filter(id=comment_id).update(replies_count=F('replies_count') + 1)
-            comment = cls.objects.create(snippet_id=snippet_id, reply_to_id=comment_id, user=user, comment_text=comment_text, created_by=str(user))
+            comment = cls.objects.create(snippet_id=snippet_id, reply_to_id=comment_id, user=user, comment_text=comment_text, updated_by=str(user), created_by=str(user))
             
             if not UserBadge.objects.filter(user=user, badge=Badge.get_commentator()).exists() \
             and UserGraph.objects.filter(user=user, comments_count__gte=10).exists():

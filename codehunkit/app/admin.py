@@ -48,7 +48,17 @@ class SchoolBadgeSummaryAdmin(admin.ModelAdmin):
 class UserAdmin(admin.ModelAdmin):
     list_display = ('username', 'email', 'gender',)
     list_filter = ('gender', 'created_on')
-    
+
+
+class SnippetAdmin(admin.ModelAdmin):
+    list_display = ('id', 'gist', 'user', 'language', 'votes', 'rank', 'comments_count', 'created_on',)
+    date_hierarchy = 'created_on'
+
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'comment_text', 'votes', 'created_on',)
+    date_hierarchy = 'created_on'
+
 
 admin.site.register(models.Badge, BadgeAdmin)
 admin.site.register(models.Language, LanguageAdmin)    
@@ -58,3 +68,5 @@ admin.site.register(models.School, SchoolAdmin)
 admin.site.register(models.SchoolGraph, SchoolGraphAdmin)
 admin.site.register(models.SchoolBadgeSummary, SchoolBadgeSummaryAdmin)
 admin.site.register(models.User, UserAdmin)
+admin.site.register(models.Snippet, SnippetAdmin)
+admin.site.register(models.Comment, CommentAdmin)
