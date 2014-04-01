@@ -62,21 +62,17 @@
 </div>
 <div class="content-view code-view">
 	<div class="snippet">
-		<div class="snippet-content">
-			<div class="snippet-gist">
-				<h2>{{ snippet.gist }}</h2>
-			</div>
-			<div class="snippet-shares">
-				<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:twitter" data-content="{{ snippet.gist }}" style="margin-left: 0px;">Twitter</a>
-				<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:facebook" style="margin-left: 24px;">Facebook</a>
-				<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:googleplus"  style="margin-left: 48px;">Google+</a>
-			</div>
+		<div class="snippet-gist">
+			<h2>{{ snippet.gist }}</h2>
+		</div>
+		<div class="snippet-shares">
+			<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:twitter" data-content="{{ snippet.gist }}" style="margin-left: 0px;">Twitter</a>
+			<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:facebook" style="margin-left: 24px;">Facebook</a>
+			<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:googleplus"  style="margin-left: 48px;">Google+</a>
 		</div>
 	</div>
-	<div class="snippet-code-container">
-		<div class="snippet-code">
-			<pre class="prettyprint"><code>{{ snippet.code }}</code></pre>
-		</div>
+	<div class="snippet-code">
+		<pre class="prettyprint"><code>{{ snippet.code }}</code></pre>
 	</div>
 	<div class="comments">
 		<div>{{ snippet.comments_count }} comment{{ snippet.comments_count|pluralize }}</div>
