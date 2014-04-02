@@ -1,6 +1,6 @@
 @import url('style.less');
 
-@light-first-color: rgba(34,168,108,0.15);
+@light-first-color: rgba(234,34,34,0.15);
 @bar-color: rgba(256,256,256,0.8);
 @bar-height: 40px;
 
@@ -9,8 +9,8 @@
     right: 0px;
     top: 0px;
     height: @bar-height;
-    background: rgba(256,256,256,0.9);
-    border-bottom: 4px solid @first-color;
+    background: rgba(256, 256, 256, 0.9);
+    border-bottom: 4px solid @border-color;
     position: fixed;
     z-index: 99;
     padding: 5px 10px;
@@ -72,9 +72,6 @@
   .menu-icon {
     color: @first-color !important;
     text-transform: lowercase;
-    
-    font-weight: 500;
-    font-size: 0.9em;
     cursor: pointer;
   }  
   
@@ -90,16 +87,14 @@
 }
 
 .search-box {
-  float: left;  
-  margin-top: 1px;
+  float: left;
   
   input[type="text"] {
-    padding: 4px 10px;
-    .rounded-corners(10px);
-    background-color: @light-first-color;
-    width: 300px;
+    padding: 4px;
+    .rounded-corners(2px);
+    width: 250px;
     border: 0px;
-    font-weight: bold;
+    .border;
   }
   
   input[type="text"]:focus {
@@ -126,8 +121,8 @@
       padding: 10px;
       text-align: center;
       margin: 5px;
-      background: @light-first-color;
-      color: @second-color;
+      background: @light-second-color;
+      color: @first-color;
     }
   }
 }
@@ -155,15 +150,15 @@ footer {
   }
   
   .copyright {
-    background-color: @first-color;
+    background-color: @border-color;
     padding: 5px 10px;  
     
     a {
-      color: whitesmoke;
+      color: @text-color;
     }
     
     a:hover {
-      color: white;
+      color: @text-color;
     }
     
     ul {

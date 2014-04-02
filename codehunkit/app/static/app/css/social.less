@@ -1,8 +1,5 @@
 @import url('base.less');
 
-@social-bar-color: @second-color;
-@social-bar-width: 170px;
-
 .transition(@property, @time) {
   transition: @property @time linear;
   -webkit-transition: @property @time linear;
@@ -74,6 +71,7 @@
 .submit-snippet {
   width: 800px;
   padding: 10px 30px;
+  margin-bottom: 25px;
   
   h2 {
     margin-bottom: 30px;
@@ -83,7 +81,6 @@
     width: auto;
   }
 }
-
 
 .tags {
   overflow: hidden;
@@ -96,8 +93,10 @@
   a {          
     padding: 2px 5px;          
     margin-right: 10px;
-    background-color: #EFEFEF;
+    background-color: @border-color;
     display: inline-block;
+    color: @border-dark-color;
+    .border;
   }
 }
 
@@ -116,10 +115,10 @@
   a {          
     padding: 2px 5px;          
     margin-right: 10px;
-    background-color: @second-color;
+    background-color: @fourth-color;
     color: white !important;
     display: inline-block;
-    .rounded-corners(3px);
+    .rounded-corners(1px);
   }
   
   a.bronze {
@@ -176,10 +175,11 @@
 }
 
 .lang, .lang:hover {
-  background-color: @third-color !important;
+  background-color: @first-color !important;
   color: white;
   padding: 2px 5px;
   display: inline-block;
+  border-color: @first-color;
 }
 
 .content-view {
@@ -198,7 +198,7 @@
     }
     
     li.active {
-        background: @first-color !important;
+        background: @second-color !important;
         
       a, a:active {
         color: white;
@@ -209,57 +209,58 @@
       border-left: 1px solid @border-color;
     }
   }
-      .snippet {
-        overflow: hidden;         
-        padding:  10px 5px;
-        margin-bottom: 5px;
-        .box;
-        
-        h3 {
-          color: @second-color;
-          font-size: 1.2em;
-        }
-        
-        .tags {        
-          li:first-child {
-            a, a:hover {
-             .lang;
-            }
-          }
-        }
-      }
-      
-      .snippet-content {
-        overflow: hidden;
-        
-        .snippet-em {
-          color: gray;
-          font-size: 0.8em;
-          text-transform: lowercase;
-          
-          a {
-            font-weight: bold;
-          }
-        }
-        
-        .snippet-comments {         
-          margin-top: 10px;
-          
-          a:after {
-            position: absolute;
-            padding-left: 3px;
-            content: "\2192";
-          }
-        }
-      }
-   
-    .paging-dev {
-       margin-top: 10px;
-       
-       .prev {
-         margin-right: 5px;
-       }
+
+  .snippet {
+    overflow: hidden;         
+    padding:  10px 5px;
+    margin-bottom: 5px;
+    .box;
+    
+    h3 {
+      color: @text-color;
+      font-size: 1.2em;
     }
+    
+    .tags {        
+      li:first-child {
+        a, a:hover {
+         .lang;
+        }
+      }
+    }
+  }
+    
+  .snippet-content {
+    overflow: hidden;
+    
+    .snippet-em {
+      color: gray;
+      font-size: 0.8em;
+      text-transform: lowercase;
+      
+      a {
+        font-weight: bold;
+      }
+    }
+    
+    .snippet-comments {         
+      margin-top: 10px;
+      
+      a:after {
+        position: absolute;
+        padding-left: 3px;
+        content: "\2192";
+      }
+    }
+  }
+ 
+  .paging-dev {
+     margin-top: 10px;
+     
+     .prev {
+       margin-right: 5px;
+     }
+  }
 }
 
 .snippet:hover .snippet-shares {
@@ -314,7 +315,7 @@
     position: relative;
       
     .snippet-gist {
-      float: left;    
+      float: left;
     }
 
     .snippet-shares {
@@ -327,7 +328,7 @@
   .snippet-code {
     .box; 
     font-family: monospace;
-    border: 4px solid @second-color;
+    border: 4px solid @fourth-color;
     max-height: 432px;
     line-height: 1.5em;
     overflow: auto;
@@ -338,7 +339,7 @@
     pre {
       padding: 3px 5px;
       border: 0px;
-      border-left: 30px solid @second-color;
+      border-left: 30px solid @fourth-color;
       position: relative;
       line-height:1.4em;
       
@@ -364,13 +365,16 @@
 
 .profile-bar {
   .profile-card {
+    padding: 10px 10px;
+    .box;
+
      img {
        float: left;
        margin-right: 10px;
      }
     
      div {
-       margin: 10px 0px;
+       margin-bottom: 10px;
        overflow: hidden;
      }
      
@@ -400,15 +404,13 @@
       height: 10px;
       position: relative;  
       border: 1px solid @first-color;
-      .rounded-corners(2px);
+      .rounded-corners(1px);
       
       span {
         background-color: @first-color;
         height: 10px;
         position: absolute;
-        .rounded-corners(2px);
       }     
-     
     }
     
     .followers, .subscribers {

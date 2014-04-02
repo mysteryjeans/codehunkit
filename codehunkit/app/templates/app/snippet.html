@@ -51,19 +51,21 @@
 		<div>
 			<a href="{% url 'app_lang' snippet.lang_slug %}" class="lang">{{ snippet.lang_name }}</a>
 		</div>
-		<ul class="tags">
-			{% for tag in snippet.tags_list %}
-			<li>
-				<a href="{% url 'app_tag' tag %}">{{ tag }}</a>
-			</li>
-			{% endfor %}
-		</ul>
+		<div>
+			<ul class="tags">
+				{% for tag in snippet.tags_list %}
+				<li>
+					<a href="{% url 'app_tag' tag %}">{{ tag }}</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
 	</div>
 </div>
 <div class="content-view code-view">
 	<div class="snippet">
 		<div class="snippet-gist">
-			<h2>{{ snippet.gist }}</h2>
+			<h3>{{ snippet.gist }}</h3>
 		</div>
 		<div class="snippet-shares">
 			<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:twitter" data-content="{{ snippet.gist }}" style="margin-left: 0px;">Twitter</a>

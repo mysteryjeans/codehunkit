@@ -1,18 +1,21 @@
 @first-color:  #22a86c;
-@second-color: #336699;
-@third-color: @first-color;
-@fourth-color: #ff4444;
+@second-color: #ea2222;
+@third-color: #0077A7;
+@fourth-color: #007287;
 @h-color: @first-color;
 @h-font-size: 1em;
-@a-color: #0091AB;
-@a-color-hover: #007287; 
+@a-color: @third-color;
+@a-color-hover: @fourth-color; 
 @text-color: #000;
 @text-hint-color: gray; 
-@button-color: @first-color;
+@button-color: @second-color;
 @button-text-color: white;
+@bar-color: @second-color;
 @border-color: #eee;
+@border-dark-color: #777;
 @bg-color: #3F4649;
 @error-color: #ff4444;
+@light-second-color: rgba(234,34,34,0.15);
 
 .rounded-corners (@radius) {
   -webkit-border-radius: @radius;
@@ -36,7 +39,7 @@
 	padding: 0px;
 	margin: 0px;
 	outline: none;
-	font-family: "Ubuntu", "Segoe UI", "Segoe WP",  "Lucida Grande", Georgia, sans-serif;
+	font-family: 'Helvetica Neue',Helvetica,Arial,Sans-serif;
 }
 
 body, input[type="text"], input[type="password"], textarea, label {
