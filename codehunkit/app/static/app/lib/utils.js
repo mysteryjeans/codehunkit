@@ -24,6 +24,8 @@ function shareLink() {
 	$('[data-action="share:facebook"]').click(shareOnFacebook);
 
 	$('[data-action="share:googleplus"]').click(shareOnGooglePlus);
+	
+	$('[data-action="share:linkedin"]').click(shareOnLinkedIn);
 }
 
 function playMedia() {
@@ -64,6 +66,12 @@ function shareOnFacebook() {
 function shareOnGooglePlus() {
 	var link = this.href == '#' ? location.href : this.href;
 	PopupCenter('https://plus.google.com/share?url=' + encodeURIComponent(link), 'Google+ Share Dailog', 600, 600);
+	return false;
+}
+
+function shareOnLinkedIn() {
+	var link = this.href == '#' ? location.href : this.href;
+	PopupCenter('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(link), 'LinkedIn Share Dailog', 600, 500);
 	return false;
 }
 

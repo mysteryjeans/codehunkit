@@ -263,8 +263,8 @@
 }
 
 .snippet:hover .snippet-shares {
-  opacity: 0.6 !important;
-  filter: alpha(opacity=60) !important;
+  opacity: 0.5 !important;
+  filter: alpha(opacity=50) !important;
 }
 
 .snippet-shares {      
@@ -272,7 +272,7 @@
   margin: 2px;
   float: right;
   overflow: hidden;
-  width: 66px;
+  width: 90px;
   opacity: 0;
   filter: alpha(opacity=0);
   .transition(filter, 200ms);  
@@ -303,6 +303,10 @@
   
   [data-action="share:googleplus"] {
     background-position: -39px -584px;
+  }
+  
+  [data-action="share:linkedin"] {
+    background-position: -57px -584px;
   }
 }
 
