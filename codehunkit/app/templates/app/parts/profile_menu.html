@@ -20,6 +20,11 @@
 		</div>
 	</li>
 	{% endcomment %}
+	{% if app_user.is_staff %}
+	<li id="admin-site" class="menu-item">
+		<a href="{% url 'admin:index' %}" class="menu-icon">Admin</a>
+	</li>
+	{% endif %}
 	<li id="profile-settings" class="menu-item">
 		<span class="menu-icon">Settings</span>
 		<div class="context-menu" context-menu="#profile-settings">
