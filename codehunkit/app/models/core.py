@@ -232,6 +232,17 @@ class User(AbstractUser):
         """
         from badges import UserBadge
         return UserBadge.get_badges(self)
+    
+    @classmethod
+    def get_by_username(cls, username):
+        """
+        Return single user
+        """
+        user = cls.objects.select_related('fb_user').get(username=username)
+        if hasattr(user, 'fb_user'):
+            user.fb_id = user.fb_user.id
+        
+        return user
         
     @classmethod 
     def sign_up(cls, username, email, password, gender, hometown=None, location=None, locale=None, has_fb_account=False, is_verified=False):
@@ -449,7 +460,7 @@ class FacebookUser(models.Model):
     Facebook user information
     """
     id = models.BigIntegerField(primary_key=True)
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, related_name='fb_user')
     name = models.CharField(max_length=100)
     username = models.CharField(max_length=50)
     email = models.EmailField()

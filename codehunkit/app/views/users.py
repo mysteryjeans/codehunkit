@@ -1,6 +1,6 @@
 from django.db import transaction
 from django.conf import settings
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponseRedirect, Http404
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 
@@ -14,7 +14,10 @@ def user_snippets(request, username, page_index=0, sort_by_new=False):
     """
     page_index = int(page_index)
     active = 'new' if sort_by_new else 'top'
-    user = get_object_or_404(User, username=username)
+    try:
+        user = User.get_by_username(username)
+    except User.DoesNotExist:
+        raise Http404()
     is_follower = request.user.is_authenticated() and Follow.is_follower(user, request.user)
     snippets = Snippet.user_snippets(user, request.user, page_index, settings.PAGE_SIZE, sort_by_new)
     prev_url, next_url = paginated_url(request.resolver_match.url_name, snippets, [username, page_index])
