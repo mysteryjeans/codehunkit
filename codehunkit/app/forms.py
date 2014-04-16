@@ -51,7 +51,7 @@ class SnippetForm(forms.Form):
                            error_messages={'required': 'Please write description of your code snippet'})
     code = forms.CharField(max_length=10000, widget=forms.Textarea(attrs={'cols': 1,
                                                                          'rows': 16,
-                                                                         'style': 'width:100%;max-width:100%;overflow:auto;',
+                                                                         'class': 'code-input',
                                                                          'maxlength': '10000',
                                                                          'placeholder': 'Your code snippet here...'}),
                            error_messages={'required': 'Please write code you want to share'})    
@@ -59,6 +59,7 @@ class SnippetForm(forms.Form):
     
     def __init__(self, *args, **kwargs):
         super(forms.Form, self).__init__(*args, **kwargs)
+        print args
         langs = [('', '')]
         langs += ((lang.id, lang.name,) for lang in Language.get_all())
         self.fields['language'] = forms.ChoiceField(choices=langs,  error_messages={'required': 'Select a language your of code snippet'})
