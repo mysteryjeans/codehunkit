@@ -17,21 +17,24 @@
 {% block profile-content %}
 {% with graph=user.graph %}
 <div class="profile-card">
+	<h3>User</h3>
 	<div style="overflow: hidden;">
-		<img src="{% gravatar_url user 80 %}" alt="{{ user.username }} profile picture" />
-		<a href="{{ user.get_absolute_url }}" style="overflow: hidden">{{ user.username }}</a>
+		<img src="{% gravatar_url user 80 %}" alt="{{ user.username }} profile picture" class="profile-pic" />
+		<div>
+			<a href="{{ user.get_absolute_url }}" style="overflow: hidden">{{ user.username }}</a>
+		</div>
+		<div>
+			<span style="font-size: 1.5em;">{{ graph.snippets_count }}</span> snippet{{ graph.snippets_count|pluralize }}
+		</div>
+		<div>
+			<span style="font-size: 1.5em;">{{ graph.comments_count }}</span> comment{{ graph.comments_count|pluralize }}
+		</div>
 	</div>
 	{% if user.school %}
 	<div>
 		{{ user.school }}
 	</div>
 	{% endif %}
-	<div>
-		<span style="font-size: 1.5em;">{{ graph.snippets_count }}</span> snippet{{ graph.snippets_count|pluralize }}
-	</div>
-	<div>
-		<span style="font-size: 1.5em;">{{ graph.comments_count }}</span> comment{{ graph.comments_count|pluralize }}
-	</div>
 	<div class="likes-dislikes">
 		<span class="likes"><span>{{ graph.likes }}</span> like{{ graph.likes|pluralize }}</span>&nbsp;|&nbsp;<span class="dislikes"><span>{{ graph.dislikes }}</span> dislike{{ graph.dislikes|pluralize }}</span>
 	</div>

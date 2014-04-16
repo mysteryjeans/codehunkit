@@ -23,6 +23,7 @@ def index(request, page_index=0, sort_by_new=False):
     active = 'new' if sort_by_new else 'top'
     snippets = Snippet.get_snippets(request.user, page_index, settings.PAGE_SIZE, sort_by_new)
     prev_url, next_url = paginated_url(request.resolver_match.url_name, snippets, [page_index])
+    recent_sign_ups = User.get_recent_users()
     
     return render_response(request, 'app/home_snippets.html', locals())
 

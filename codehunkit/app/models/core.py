@@ -243,6 +243,23 @@ class User(AbstractUser):
             user.fb_id = user.fb_user.id
         
         return user
+    
+    @classmethod
+    def get_recent_users(cls, max_users=10):
+        """
+        Returns list of recent user sign ups
+        """
+        users = list(cls.objects
+                           .select_related('graph', 'fb_user')
+                           .filter(is_active=True,is_verified=True)
+                           .order_by('-id')
+                           [:max_users])
+        
+        for user in users:
+            if hasattr(user, 'fb_user'):
+                user.fb_id = user.fb_user.id
+        
+        return users
         
     @classmethod 
     def sign_up(cls, username, email, password, gender, hometown=None, location=None, locale=None, has_fb_account=False, is_verified=False):
