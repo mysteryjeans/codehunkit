@@ -262,7 +262,7 @@ class Snippet(models.Model):
                         ORDER BY s.rank DESC, s.id DESC
                         LIMIT %s OFFSET %s
                         '''
-            
+        text = '%' + text + '%'    
         return [snippet for snippet in cls.objects.raw(sql_query, [user.id, text, text, page_size, page_index * page_size])]
     
     @classmethod
