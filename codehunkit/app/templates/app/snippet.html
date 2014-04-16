@@ -3,13 +3,13 @@
 {% load utils %}
 {% load gravatar %}
 
-{% block title %}{{ snippet.gist }}{% endblock %}
+{% block title %}{{ snippet.lang_name }} - {{ snippet.gist }}{% endblock %}
 
 {% block meta_head %}
 {% with user=snippet.user %}
 <meta name="keywords" content="{{ snippet.lang_name }},{{ snippet.tags }}">
 <meta property="og:type" content="article"/>
-<meta property="og:title" content="{{ snippet.gist }} | Codehunkit"/>
+<meta property="og:title" content="{{ snippet.lang_name }} - {{ snippet.gist }} | Codehunkit"/>
 <meta property="og:url" content="http://www.codehunkit.com{{ snippet.get_absolute_url }}"/>
 <meta property="og:image" content="{% gravatar_url user 256 %}"/>	
 <meta property="twitter:url" content="http://www.codehunkit.com{{ user.get_absolute_url }}"/>
