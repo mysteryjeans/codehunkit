@@ -59,7 +59,6 @@ class SnippetForm(forms.Form):
     
     def __init__(self, *args, **kwargs):
         super(forms.Form, self).__init__(*args, **kwargs)
-        print args
         langs = [('', '')]
         langs += ((lang.id, lang.name,) for lang in Language.get_all())
         self.fields['language'] = forms.ChoiceField(choices=langs,  error_messages={'required': 'Select a language your of code snippet'})

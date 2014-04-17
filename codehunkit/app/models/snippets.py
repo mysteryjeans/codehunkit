@@ -60,7 +60,8 @@ class Snippet(models.Model):
         return ('app_snippet_read', (self.id,))
     
     def tags_list(self):
-        return [tag.strip() for tag in self.tags.split(',')]
+        tags = (tag.strip() for tag in self.tags.split(','))
+        return [tag for tag in tags if tag]
     
     def rating(self):
         """
