@@ -1,8 +1,8 @@
-@first-color:  #22a86c;
+@first-color:  #f63329;
 @second-color: #ea2222;
 @third-color: #0077A7;
 @fourth-color: #007287;
-@h-color: @first-color;
+@h-color: #000;
 @h-font-size: 1em;
 @a-color: @third-color;
 @a-color-hover: @fourth-color; 
@@ -43,7 +43,7 @@
 	padding: 0px;
 	margin: 0px;
 	outline: none;
-	font-family: 'Helvetica Neue',Helvetica,Arial,Sans-serif;
+	font: 11px verdana,arial,helvetica,sans-serif;  
 }
 
 body, input[type="text"], input[type="password"], textarea, label {
@@ -122,16 +122,6 @@ a.button, a:hover.button {
 input[type="text"], input[type="password"], textarea {
 	.border-box;
 }
-
-.placeholder {
-  color: #AAA !important;
-  font-weight: normal !important;
-}
-
-input::-webkit-input-placeholder { .placeholder; }
-input:-moz-placeholder { .placeholder; }
-input::-moz-placeholder { .placeholder; }
-input:-ms-input-placeholder { .placeholder; }
 
 .errorlist {
   color: @error-color;

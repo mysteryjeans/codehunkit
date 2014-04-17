@@ -14,6 +14,7 @@
       margin-bottom: 10px;
       overflow: hidden;
       .box;
+      background-color: white;
       
       h3 {
         cursor: pointer;
@@ -99,12 +100,12 @@
   }
   
   a {          
-    padding: 0px 5px;          
+    padding: 2px 5px;          
     margin-right: 10px;
     background-color: @border-color;
     display: inline-block;
     color: @border-dark-color;
-    .border;
+    .rounded-corners(1px);
   }
 }
 
@@ -175,11 +176,8 @@
 }
 
 .lang, .lang:hover {
-  background-color: @first-color !important;
-  color: white;
+  color: @first-color;
   display: inline-block;
-  border-color: @first-color;
-  padding: 0px 4px;
 }
 
 .content-view {
@@ -187,9 +185,10 @@
    padding: 0px;
    padding-right: 10px;
   
-  .title-bar {    
+  .title-bar {
     overflow: hidden;
     margin-bottom: 10px;
+    text-transform: lowercase;
     .box;
     
     li {       
@@ -198,7 +197,7 @@
     }
     
     li.active {
-        background: @second-color !important;
+        background: @first-color !important;
         
       a, a:active {
         color: white;
@@ -212,7 +211,7 @@
 
   .snippet {
     overflow: hidden;         
-    padding:  10px 5px;
+    padding:  5px 5px;
     margin-bottom: 5px;
     .box;
     
@@ -240,11 +239,12 @@
       
       a {
         font-weight: bold;
+        font-size: 1em;
       }
     }
     
     .snippet-comments {         
-      margin-top: 10px;
+      margin-top: 5px;
       
       a:after {
         position: absolute;
@@ -381,7 +381,7 @@
     h3 {
       color: @text-color;
       padding-bottom: 5px;
-      border-bottom: 1px dotted @first-color;
+      border-bottom: 1px dotted @border-color;
       margin-bottom: 10px;
       font-size: 1.2em;
     }
@@ -420,10 +420,9 @@
       }
     
     .guru-bar {
-      width: 80%;
       height: 10px;
-      position: relative;  
-      border: 1px solid @first-color;
+      position: relative;
+      background-color: @border-color;
       .rounded-corners(1px);
       
       span {

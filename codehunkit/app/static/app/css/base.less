@@ -1,7 +1,5 @@
 @import url('style.less');
 
-@light-first-color: rgba(234,34,34,0.15);
-@bar-color: rgba(256,256,256,0.8);
 @bar-height: 40px;
 
 #page-bar {
@@ -9,12 +7,15 @@
     right: 0px;
     top: 0px;
     height: @bar-height;
-    background: rgba(256, 256, 256, 0.9);
-    border-bottom: 4px solid @border-color;
     position: fixed;
     z-index: 99;
     padding: 5px 10px;
     .border-box; 
+    color: white;
+
+    background: @first-color;
+    border-bottom: 4px solid @border-color;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
     
     #icon {
         text-indent: -999em;
@@ -40,6 +41,10 @@
         background-repeat: no-repeat;
         margin-top: 4px;
   }
+
+    .menu-icon {
+      color: white !important;
+    }
 }
 
 #menu {
@@ -70,7 +75,6 @@
   }
   
   .menu-icon {
-    color: @first-color !important;
     text-transform: lowercase;
     cursor: pointer;
   }  
@@ -91,10 +95,9 @@
   
   input[type="text"] {
     padding: 4px;
-    .rounded-corners(2px);
+    .rounded-corners(1px);
     width: 250px;
     border: 0px;
-    .border;
   }
   
   input[type="text"]:focus {
@@ -114,7 +117,7 @@
   padding-top: @bar-height;
   min-height: 300px; 
   padding-bottom: 50px;
-  background: url('../img/grey.png');  
+  background: url('../img/geometry.png');  
   
   .flash-messages {
     li {
@@ -286,11 +289,12 @@ footer {
     float: none;
     padding: 5px 10px;
     border-bottom: 1px dotted #EEEEEE;
-    overflow: hidden;  
+    overflow: hidden;
   }
   
   h4 {
-    background: whitesmoke;
+    background: #efefef;
+    color: @second-color;
   }
   
   a:hover {
