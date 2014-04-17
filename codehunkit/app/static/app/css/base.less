@@ -7,8 +7,6 @@
     right: 0px;
     top: 0px;
     height: @bar-height;
-    position: fixed;
-    z-index: 99;
     padding: 5px 10px;
     .border-box; 
     color: white;
@@ -67,6 +65,8 @@
     padding-left: 10px;
     border-right: 1px solid @border-color;
     padding-right: 10px;
+    font-weight: 500;
+    font-size: 1.1em;
   }
   
   li:last-child {
@@ -98,6 +98,7 @@
     .rounded-corners(1px);
     width: 250px;
     border: 0px;
+    height: 24px;
   }
   
   input[type="text"]:focus {
@@ -114,7 +115,6 @@
 }
 
 #content {
-  padding-top: @bar-height;
   min-height: 300px; 
   padding-bottom: 50px;
   background: url('../img/geometry.png');  

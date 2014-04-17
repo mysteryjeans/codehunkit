@@ -1,10 +1,10 @@
-@first-color:  #f63329;
+@first-color:  #f42929;
 @second-color: #ea2222;
 @third-color: #0077A7;
 @fourth-color: #007287;
 @h-color: #000;
 @h-font-size: 1em;
-@a-color: @third-color;
+@a-color: #0091AB;
 @a-color-hover: @fourth-color; 
 @text-color: #000;
 @text-hint-color: gray; 
@@ -43,18 +43,18 @@
 	padding: 0px;
 	margin: 0px;
 	outline: none;
-	font: 11px verdana,arial,helvetica,sans-serif;  
+  font: 11px verdana,arial,helvetica,sans-serif;
 }
 
 body, input[type="text"], input[type="password"], textarea, label {
 	color: @text-color;
-	font-size: 12px;
 }
 
 html, body {
 	line-height: 1.3;	
 	height: 100%;	
 	background: @bg-color;
+  font-size: 12px;
 }
 
 input[type="text"], input[type="password"], textarea {
@@ -73,6 +73,7 @@ li {
 a {
 	color: @a-color;
 	text-decoration: none;
+  font-weight: inherit;
 }
 
 a:hover {
