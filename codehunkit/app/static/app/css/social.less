@@ -330,13 +330,13 @@
 
   .snippet-code {
     .box; 
-    font-family: monospace;
     border: 4px solid @fourth-color;
     max-height: 432px;
     line-height: 1.5em;
     overflow: auto;
     width: 100%;
     height: 100%;
+    .mono-space-font;
     .border-box;
     
     pre {
@@ -353,7 +353,7 @@
         
         * {
           .mono-space-font;
-          
+          line-height:1.4em;
         }
       }
     }
@@ -368,6 +368,8 @@
       direction:rtl;
       overflow:hidden;
       color: white;
+      .mono-space-font;
+      line-height: 1.4em;
     }
   }
 }
