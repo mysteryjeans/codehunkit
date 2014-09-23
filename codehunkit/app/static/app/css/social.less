@@ -6,14 +6,12 @@
 }
   
   #content {
-    padding: 10px;
+    padding: 15px 20px;
    
     #subs-list {
-      padding: 5px 0px 5px 8px;
-      margin-bottom: 10px;
+      padding: 5px 8px 5px 0px;
+      margin-bottom: 15px;
       overflow: hidden;
-      .box;
-      background-color: white;
       
       h3 {
         cursor: pointer;
@@ -175,7 +173,7 @@
 }
 
 .lang, .lang:hover {
-  color: @first-color;
+  color: @second-color;
   display: inline-block;
 }
 
@@ -186,13 +184,13 @@
   
   .title-bar {
     overflow: hidden;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     text-transform: lowercase;
-    .box;
     
     li {       
        float: left;
        padding: 5px 10px;
+       .rounded-corners(2px);
     }
     
     li.active {
@@ -211,7 +209,7 @@
   .snippet {
     overflow: hidden;         
     padding:  5px 5px;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     .box;
     
     h3 {

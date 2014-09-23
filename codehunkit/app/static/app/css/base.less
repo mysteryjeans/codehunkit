@@ -7,12 +7,9 @@
     right: 0px;
     top: 0px;
     height: @bar-height;
-    padding: 5px 10px;
+    padding: 5px 20px;
     .border-box; 
-    color: white;
-
-    background: @first-color;
-    border-bottom: 4px solid @border-color;
+    background: @border-color;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
     
     #icon {
@@ -34,15 +31,10 @@
         background-image: url('../img/codehunkit-logo.png');
         display: block;
         width: 140px;
-        height: 30px;
         float: left;
         background-repeat: no-repeat;
-        margin-top: 4px;
+        margin-top: 6px;
   }
-
-    .menu-icon {
-      color: white !important;
-    }
 }
 
 #menu {
@@ -95,10 +87,10 @@
   
   input[type="text"] {
     padding: 4px;
-    .rounded-corners(1px);
+    .rounded-corners(2px);
     width: 250px;
-    border: 0px;
     height: 24px;
+    margin-top: 2px;
   }
   
   input[type="text"]:focus {
@@ -118,7 +110,6 @@
   min-height: 300px;
   overflow: hidden;
   padding-bottom: 50px;
-  background: url('../img/geometry.png');  
   
   .flash-messages {
     li {
@@ -132,6 +123,8 @@
 }
 
 footer {
+  background: @footer-color;
+
   .languages {    
     margin: 10px;
     overflow: hidden;
