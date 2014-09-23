@@ -32,6 +32,12 @@
 			{{ form.code }}
 			{{ form.code.errors }}
 		</li>
+		{% if form.email %}
+		<li>
+			{{ form.email }}
+			{{ form.email.errors }}
+		</li>
+		{% endif %}
 		<li>
 			{{ form.language }}
 			{{ form.language.errors }}

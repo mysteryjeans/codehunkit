@@ -16,7 +16,7 @@ from django.shortcuts import get_object_or_404
 
 from codehunkit.app import HunkitError
 from codehunkit.app.views import render_response
-from codehunkit.app.models import Snippet, SnippetVote, Comment, CommentVote, Tag
+from codehunkit.app.models import User, Snippet, SnippetVote, Comment, CommentVote, Tag
 from codehunkit.app.forms import SnippetForm
 
 
@@ -32,8 +32,7 @@ def snippet_read(request, snippet_id, slug=None):
     snippet = Snippet.read(snippet_id, request.user)
     return render_response(request, 'app/snippet.html', locals())
 
-    
-@login_required
+
 @transaction.commit_on_success
 def snippet_create(request):
     """
@@ -41,16 +40,17 @@ def snippet_create(request):
     """
     tags = [tag.name for tag in Tag.get_tags()]
     if request.method == 'POST':
-        form = SnippetForm(request.POST)
+        form = SnippetForm(request.user.is_anonymous(), request.POST)
         if form.is_valid():
             data = form.cleaned_data
             try:
-                snippet = Snippet.create(data['gist'], data['code'], data['language'], data['tags'], request.user)
+                user = request.user if request.user.is_authenticated() else User.get_or_create(data['email'])
+                snippet = Snippet.create(data['gist'], data['code'], data['language'], data['tags'], user)
                 return HttpResponseRedirect(snippet.get_absolute_url())
             except HunkitError as e:
                 error = e.message
     else:
-        form = SnippetForm()
+        form = SnippetForm(request.user.is_anonymous())
     
     return render_response(request, 'app/create_snippet.html', locals())
 

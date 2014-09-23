@@ -54,14 +54,17 @@ class SnippetForm(forms.Form):
                                                                          'class': 'code-input',
                                                                          'maxlength': '10000',
                                                                          'placeholder': 'Your code snippet here...'}),
-                           error_messages={'required': 'Please write code you want to share'})    
+                           error_messages={'required': 'Please write code you want to share'})
     tags = forms.CharField(max_length=100, error_messages={'required': 'Choose some tags to for your code snippet'})
-    
-    def __init__(self, *args, **kwargs):
+
+    def __init__(self, email_required, *args, **kwargs):
         super(forms.Form, self).__init__(*args, **kwargs)
         langs = [('', '')]
         langs += ((lang.id, lang.name,) for lang in Language.get_all())
         self.fields['language'] = forms.ChoiceField(choices=langs,  error_messages={'required': 'Select a language your of code snippet'})
+
+        if email_required:
+            self.fields['email'] = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Your email address'}), error_messages={'required': 'Your email address is required to associate this code snippet with you'})
     
     def clean_tags(self):
         tags = self.cleaned_data['tags']
@@ -78,6 +81,7 @@ class SnippetForm(forms.Form):
         if len(code) < 20:
             raise  forms.ValidationError("Code snippet should be at least 20 characters.")
         return code
+
         
         
 

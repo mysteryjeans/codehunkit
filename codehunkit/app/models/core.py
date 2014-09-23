@@ -314,6 +314,21 @@ class User(AbstractUser):
             UserBadge.award(user, Badge.get_freshman())
                 
             return user
+
+    @classmethod
+    def get_or_create(cls, email):
+        """
+        Creates new user if not exists and return
+        """
+        try:
+            return cls.objects.get(email__iexact=email)
+        except cls.DoesNotExist:
+            password = cls.objects.make_random_password()
+            user = cls.sign_up(password, email, password, cls.MALE)
+            user.username = 'user%s' % user.id
+            user.save()
+
+            return user
     
 
 class UserGraph(models.Model):
