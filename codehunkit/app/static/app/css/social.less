@@ -1,7 +1,7 @@
 @import url('base.less');
 
 @code-font-size: 12px;
-@code-line-height: 1.3em;
+@code-line-height: 1.5em;
 
 .transition(@property, @time) {
   transition: @property @time linear;
@@ -346,15 +346,17 @@
     .border-box;
     
     pre {
-      padding: 5px 5px;
+      padding: 0px;
       border: 0px;
       border-left: 35px solid @fourth-color;
       position: relative;
+      font-size: @code-font-size;
+      line-height: @code-line-height;
       
       code {
         display: block;
         height: 100%; 
-        padding-left: 5px;
+        padding-left: 10px;
 
         * {
           .mono-space-font;
