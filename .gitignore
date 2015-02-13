@@ -2,3 +2,4 @@
 *.pyo
 *~
 *.css
+db.sqlite3
