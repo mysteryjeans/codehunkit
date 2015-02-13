@@ -9,7 +9,7 @@ import os.path
 SECRET_KEY = '94d1_z9^v7j_-ap#*j07q^#l8^e0sm2_m-th#$3t^7saq6*-n&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'DB_NAME' not in os.environ
+DEBUG = True #'DB_NAME' not in os.environ
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -24,7 +24,7 @@ MANAGERS = ADMINS
 
 ALLOWED_HOSTS = ['.web.fanaticlab.com', '.codehunkit.com']
 
-if DEBUG:
+if False: #DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
