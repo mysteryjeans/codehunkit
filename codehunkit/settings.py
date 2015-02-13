@@ -33,7 +33,7 @@ if DEBUG:
             'PASSWORD': 'codehunkit',
         }
     }
-else:
+else:   
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
