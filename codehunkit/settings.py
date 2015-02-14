@@ -22,7 +22,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-ALLOWED_HOSTS = ['.web.fanaticlab.com', '.codehunkit.com']
+ALLOWED_HOSTS = ['.web.fanaticlab.com', 'codehunkit.fanaticlab.com']
 
 if DEBUG:
     DATABASES = {
