@@ -288,6 +288,7 @@ class Snippet(models.Model):
         Tag.add_tags(tags, user)
         LanguageGraph.objects.filter(language_id=language.id).update(snippets_count=F('snippets_count') + 1)
         UserGraph.objects.filter(user_id=user.id).update(snippets_count=F('snippets_count') + 1)
+        SnippetVote.vote_up(user, snippet.id)
         
         return snippet
 
