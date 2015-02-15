@@ -60,23 +60,29 @@ def snippet_vote(request, snippet_id, action):
     """
     Vote-UP/DOWN a snippet
     """
-    if request.method == 'POST':        
-        snippet_id = int(snippet_id)        
-        if request.user.is_anonymous():
-            return HttpResponseForbidden(reverse('app_login') + '?' + urllib.urlencode({'next': reverse('app_snippet_read', args=[snippet_id])}))
-                
-        if action == 'UP':
-            vote_index, net_effect = SnippetVote.vote_up(request.user, snippet_id)
-        elif action == 'DOWN':
-            vote_index, net_effect = SnippetVote.vote_down(request.user, snippet_id)
-        else:
-            raise Http404()
-        
-        if request.is_ajax():
-            response = {'snippet_id': snippet_id, 'vote_index': vote_index, 'net_effect':net_effect }
-            return HttpResponse(json.dumps(response), mimetype='application/json')
+    try:
+        if request.method == 'POST':        
+            snippet_id = int(snippet_id)        
+            if request.user.is_anonymous():
+                return HttpResponseForbidden(reverse('app_login') + '?' + urllib.urlencode({'next': reverse('app_snippet_read', args=[snippet_id])}))
+                    
+            if action == 'UP':
+                vote_index, net_effect = SnippetVote.vote_up(request.user, snippet_id)
+            elif action == 'DOWN':
+                vote_index, net_effect = SnippetVote.vote_down(request.user, snippet_id)
+            else:
+                raise Http404()
             
-        return HttpResponseRedirect(reverse('app_snippet_read', args=[snippet_id]))
+            if request.is_ajax():
+                response = {'snippet_id': snippet_id, 'vote_index': vote_index, 'net_effect':net_effect }
+                return HttpResponse(json.dumps(response), content_type='application/json')
+                
+            return HttpResponseRedirect(reverse('app_snippet_read', args=[snippet_id]))
+
+    except Exception as e:
+        print e
+        raise
+            
     
     raise Http404()
 
@@ -152,7 +158,7 @@ def comment_vote(request, snippet_id, comment_id, action):
         
         if request.is_ajax():
             response = {'comment_id': comment_id, 'vote_index': vote_index, 'net_effect':net_effect }
-            return HttpResponse(json.dumps(response), mimetype='application/json')
+            return HttpResponse(json.dumps(response), content_type='application/json')
             
         return HttpResponseRedirect(reverse('app_snippet_read', args=[snippet_id]))
     

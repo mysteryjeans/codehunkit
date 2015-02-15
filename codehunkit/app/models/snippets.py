@@ -345,7 +345,6 @@ class SnippetVote(models.Model):
                 cursor.execute('''UPDATE app_snippet SET up_votes = up_votes + 1, down_votes = down_votes - 1, votes = (up_votes - down_votes + 2), rank = compute_rank(up_votes - down_votes + 2, created_on) WHERE id = %s''', [snippet_id])
                 vote = [1, 2]
                 
-            transaction.commit_unless_managed()
             return vote            
         finally:
             cursor.close()        
@@ -387,7 +386,6 @@ class SnippetVote(models.Model):
                 cursor.execute('''UPDATE app_snippet SET down_votes = down_votes - 1, votes = (up_votes - down_votes + 1), rank = compute_rank(up_votes - down_votes + 1, created_on) WHERE id = %s''', [snippet_id])
                 vote = [0, 1]
             
-            transaction.commit_unless_managed()
             return vote
         finally:
             cursor.close()
@@ -508,7 +506,6 @@ class CommentVote(models.Model):
                 cursor.execute('''UPDATE app_comment SET up_votes = up_votes + 1, down_votes = down_votes - 1, votes = (up_votes - down_votes + 2), rank = compute_rank(up_votes + 1, down_votes - 1) WHERE comment_id = %s''', [comment_id])
                 vote = [1, 2]
                 
-            transaction.commit_unless_managed()
             return vote            
         finally:
             cursor.close()        
@@ -542,7 +539,6 @@ class CommentVote(models.Model):
                 cursor.execute('''UPDATE app_comment SET down_votes = down_votes - 1, votes = (up_votes - down_votes + 1), rank = compute_rank(up_votes, down_votes - 1) WHERE comment_id = %s''', [comment_id])
                 vote = [0, 1]
             
-            transaction.commit_unless_managed()
             return vote
         finally:
             cursor.close()
