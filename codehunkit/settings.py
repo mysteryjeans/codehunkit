@@ -22,7 +22,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-ALLOWED_HOSTS = ['.app.systemplugin.com', 'codehunkit.systemplugin.com']
+ALLOWED_HOSTS = ['.app.rootplugin.com', 'codehunkit.systemplugin.com']
 
 if DEBUG:
     DATABASES = {
