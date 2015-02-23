@@ -13,7 +13,7 @@ DEBUG = 'DB_NAME' not in os.environ
 
 TEMPLATE_DEBUG = DEBUG
 
-PROJECT_DIR = os.path.dirname(__file__) 
+PROJECT_DIR = os.path.dirname(__file__)
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 ADMINS = (
@@ -33,14 +33,15 @@ if DEBUG:
             'PASSWORD': 'codehunkit',
         }
     }
-else:   
+else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': os.environ['DB_NAME'],
-            'USER': os.environ['DB_USERNAME'],
+            'USER': os.environ['DB_USER'],
             'PASSWORD': os.environ['DB_PASSWORD'],
             'HOST': os.environ['DB_HOST'],
+            'PORT': os.environ['DB_PORT'],
         }
     }
 
@@ -99,7 +100,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Context processors
 from django.conf import global_settings
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-    'django.core.context_processors.request', 
+    'django.core.context_processors.request',
     'codehunkit.app.context_processors.bootstrip',
 )
 
@@ -126,7 +127,7 @@ if DEBUG:
 else:
     FB_APP_ID = '1415643725356170'
     FB_APP_SECRET = 'be60188cf82b64a5bd17e6fb94af64eb'
-    
+
 FB_ACCESS_TOKEN = 'https://graph.facebook.com/oauth/access_token'
 FB_AUTH_URL = 'https://www.facebook.com/dialog/oauth'
 FB_GRAPH_ME = 'https://graph.facebook.com/me'
@@ -144,31 +145,31 @@ PIPELINE_CSS = {
         'source_filenames': (
           'app/css/style.less',
         ),
-        'output_filename': 'app/css/style.css',        
+        'output_filename': 'app/css/style.css',
     },
     'base': {
         'source_filenames': (
           'app/css/base.less',
         ),
-        'output_filename': 'app/css/base.css',        
+        'output_filename': 'app/css/base.css',
     },
     'social': {
         'source_filenames': (
           'app/css/social.less',
         ),
-        'output_filename': 'app/css/social.css',        
+        'output_filename': 'app/css/social.css',
     },
     'public': {
         'source_filenames': (
           'app/css/public.less',
         ),
-        'output_filename': 'app/css/public.css',        
+        'output_filename': 'app/css/public.css',
     },
     'submit_snippet': {
-        'source_filenames': (          
+        'source_filenames': (
           'app/lib/select2/select2.less',
         ),
-        'output_filename': 'app/css/submit_snippet.css',        
+        'output_filename': 'app/css/submit_snippet.css',
     },
 }
 
@@ -182,7 +183,7 @@ PIPELINE_JS = {
     },
     'base': {
         'source_filenames': (
-          'app/lib/jquery-ajax.js',          
+          'app/lib/jquery-ajax.js',
           'app/lib/votes-utils.js',
           'app/lib/utils.js',
         ),
@@ -196,7 +197,7 @@ PIPELINE_JS = {
         'output_filename': 'app/lib/social_base.js',
     },
     'submit_snippet': {
-        'source_filenames': (          
+        'source_filenames': (
           'app/lib/select2/select2.js',
         ),
         'output_filename': 'app/lib/submit_snippet.js',
