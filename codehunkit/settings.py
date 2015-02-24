@@ -6,7 +6,7 @@ import os.path
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '94d1_z9^v7j_-ap#*j07q^#l8^e0sm2_m-th#$3t^7saq6*-n&'
+SECRET_KEY = os.environ['CODEHUNKIT_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DB_NAME' not in os.environ
@@ -109,11 +109,12 @@ PAGE_SIZE = 20
 MAX_COMMENT_LENGTH = 1000
 
 # Email server settings
-EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_HOST = os.environ['CODEHUNKIT_EMAIL_HOST']
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'postmaster@codehunkit.com'
-EMAIL_HOST_PASSWORD = r'3q0piqx67st5'
+EMAIL_HOST_USER = os.environ['CODEHUNKIT_EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['CODEHUNKIT_EMAIL_HOST_PASSWORD']
+MAX_COMMENT_LEGNTH = 1000
 
 # Modifying default django auth user
 AUTH_USER_MODEL = 'app.User'
@@ -121,12 +122,8 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 
 # Facebook signup/login settings
-if DEBUG:
-    FB_APP_ID = '1432030800353700'
-    FB_APP_SECRET = '8e9f18b2cc63edc4b22477ff7f164724'
-else:
-    FB_APP_ID = '1415643725356170'
-    FB_APP_SECRET = 'be60188cf82b64a5bd17e6fb94af64eb'
+FB_APP_ID = os.environ['CODEHUNKIT_FB_APP_ID']
+FB_APP_SECRET = os.environ['CODEHUNKIT_FB_APP_SECRET']
 
 FB_ACCESS_TOKEN = 'https://graph.facebook.com/oauth/access_token'
 FB_AUTH_URL = 'https://www.facebook.com/dialog/oauth'
