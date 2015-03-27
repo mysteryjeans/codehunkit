@@ -8,10 +8,10 @@
     top: 0px;
     height: @bar-height;
     padding: 5px 20px;
-    .border-box; 
+    .border-box;
     background: @border-color;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
-    
+
     #icon {
         text-indent: -999em;
         background-image: url('../img/codehunkit-icon.png');
@@ -20,12 +20,12 @@
         display: inline-block;
         background-size: 36px;
         background-repeat: no-repeat;
-        background-color: white;        
+        background-color: white;
         background-position: 2px -5px;
         float: left;
         .rounded-corners(2px);
     }
-    
+
     #logo {
         text-indent: -999em;
         background-image: url('../img/codehunkit-logo.png');
@@ -38,20 +38,20 @@
 }
 
 #menu {
-  float: right;  
-  margin-top: 5px;  
-  
+  float: right;
+  margin-top: 5px;
+
   .context-menu {
     right: 10px;
   }
-  
+
   .arrow  {
     top: 0;
     right: 0;
     left: auto;
     margin-right: 2px;
   }
-  
+
   li.menu-item {
     float: left;
     padding-left: 10px;
@@ -60,21 +60,21 @@
     font-weight: 500;
     font-size: 1.1em;
   }
-  
+
   li:last-child {
     padding-right:0px;
     border-right: 0px;
   }
-  
+
   .menu-icon {
     text-transform: lowercase;
     cursor: pointer;
-  }  
-  
+  }
+
   #profile-messages .arrow {
     margin-right: 60px;
   }
-  
+
   .context-menu {
     li {
       float: none;
@@ -84,7 +84,7 @@
 
 .search-box {
   float: left;
-  
+
   input[type="text"] {
     padding: 4px 8px;
     .rounded-corners(3px);
@@ -92,9 +92,9 @@
     height: 26px;
     margin-top: 2px;
   }
-  
+
   input[type="text"]:focus {
-    
+
   }
 }
 
@@ -110,7 +110,7 @@
   min-height: 300px;
   overflow: hidden;
   padding-bottom: 50px;
-  
+
   .flash-messages {
     li {
       padding: 10px;
@@ -125,42 +125,42 @@
 footer {
   background: @footer-color;
 
-  .languages {    
+  .languages {
     margin: 10px;
     overflow: hidden;
     padding-bottom: 40px;
-    
+
     li {
       display: block;
       float: left;
       width: 150px;
       margin: 5px;
-      
+
       a {
         color: whitesmoke;
       }
-      
+
       a:hover {
         color: white;
-      }      
+      }
     }
   }
-  
+
   .copyright {
     background-color: @border-color;
-    padding: 5px 10px;  
-    
+    padding: 5px 10px;
+
     a {
       color: @text-color;
     }
-    
+
     a:hover {
       color: @text-color;
     }
-    
+
     ul {
       li {
-        
+
       }
     }
   }
@@ -180,36 +180,36 @@ footer {
   .box-center;
   padding: 10px 20px;
   .rounded-corners(2px);
-    
+
   h2 {
     border-bottom: 1px solid @first-color;
     padding-bottom: 10px;
     margin-bottom: 10px;
     color: #000;
-  }  
-  
+  }
+
   li {
     margin: 5px 0px;
-    
+
     p {
       margin: 7px 0px;
     }
   }
-  
-  input[type="text"], input[type="password"], textarea {      
-    width: 100%;    
+
+  input[type="text"], input[type="password"], input[type="email"], textarea {      
+    width: 100%;
     padding: 5px 8px;
     background: rgba(256,256,256,0.5);
     .rounded-corners(2px;)
   }
-  
+
   .h-list {
     overflow: hidden;
     li {
       margin: 2px 10px 2px 0px;
     }
   }
-  
+
   .errorlist {
     li {
       margin: 0px !important;
@@ -223,17 +223,17 @@ footer {
   width: 350px;
   margin-top:20px;
   background: rgba(256,256,256,0.90);
-  
+
   input[type="submit"],.facebook-button {
     padding: 5px;
     .rounded-corners(2px);
     font-size: 12px;
   }
-  
+
   .link {
     text-align: right;
     font-size: 0.9em;
-    padding-top: 5px;   
+    padding-top: 5px;
   }
 }
 
@@ -241,11 +241,11 @@ footer {
   .button;
   .border-box;
   color: #fff !important;
-  font-weight: 600;   
-  background-color: #4e70b7;    
-  text-align: center;  
+  font-weight: 600;
+  background-color: #4e70b7;
+  text-align: center;
   margin: 10px 0px;
-  display: block;  
+  display: block;
 }
 
 .context-menu {
@@ -260,11 +260,11 @@ footer {
   min-width: 200px;
   font-size: 0.85em;
   .rounded-corners(2px);
-  
+
   li {
     float: none;
   }
-  
+
   .arrow {
     position: absolute;
     top: 0;
@@ -277,7 +277,7 @@ footer {
     display: block;
     background-position: -266px -8px;
   }
-     
+
   a, h4 {
     display: block;
     float: none;
@@ -285,14 +285,14 @@ footer {
     border-bottom: 1px dotted #EEEEEE;
     overflow: hidden;
   }
-  
+
   h4 {
     background: #efefef;
     color: @second-color;
   }
-  
+
   a:hover {
     background-color: @second-color;
     color: white !important;
-  }    
+  }
 }
