@@ -41,10 +41,10 @@
 						{{ snippet.created_on|when:now }} ago by <a rel="author" href="{% url 'app_user' snippet.username %}" data-card="user:{{ snippet.username }}">{{ snippet.username }}</a>
 					</div>
 					<div class="snippet-shares">
-						<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:twitter" data-content="{{ snippet.gist }}" title="Share this snippet on Twitter" style="margin-left: 0px;">Twitter</a>
-						<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:facebook" title="Share this snippet on Facebook" style="margin-left: 24px;">Facebook</a>
-						<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:googleplus" title="Share this snippet on Google+"  style="margin-left: 48px;">Google+</a>
-						<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:linkedin" title="Share this snippet on LinkedIn" style="margin-left: 72px;">Linkedin</a>
+						<a href="http://codehunkit.rootplugin.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:twitter" data-content="{{ snippet.gist }}" title="Share this snippet on Twitter" style="margin-left: 0px;">Twitter</a>
+						<a href="http://codehunkit.rootplugin.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:facebook" title="Share this snippet on Facebook" style="margin-left: 24px;">Facebook</a>
+						<a href="http://codehunkit.rootplugin.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:googleplus" title="Share this snippet on Google+"  style="margin-left: 48px;">Google+</a>
+						<a href="http://codehunkit.rootplugin.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:linkedin" title="Share this snippet on LinkedIn" style="margin-left: 72px;">Linkedin</a>
 					</div>
 					<ul class="tags">
 						<li>

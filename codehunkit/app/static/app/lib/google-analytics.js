@@ -10,5 +10,5 @@
 	m.parentNode.insertBefore(a, m)
 })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-ga('create', 'UA-49190423-1', 'codehunkit.com');
+ga('create', 'UA-49190423-1', 'codehunkit.rootplugin.com');
 ga('send', 'pageview'); 

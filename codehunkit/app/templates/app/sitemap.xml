@@ -2,9 +2,9 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     {% for snippet in snippets %}
     <url>
-        <loc>http://www.codehunkit.com{{ snippet.get_absolute_url }}</loc>        
+        <loc>http://codehunkit.rootplugin.com{{ snippet.get_absolute_url }}</loc>
         <changefreq>daily</changefreq>
         <priority>{{ snippet.priority }}</priority>
     </url>
-    {% endfor %}   
+    {% endfor %}
 </urlset>

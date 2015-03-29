@@ -8,10 +8,10 @@
 <meta property="og:type" content="profile"/>
 <meta property="profile:username" content="{{ user.username }}"/>
 <meta property="og:title" content="{{ user.username }} | Codehunkit"/>
-<meta property="og:url" content="http://www.codehunkit.com{{ user.get_absolute_url }}"/>
+<meta property="og:url" content="http://codehunkit.rootplugin.com{{ user.get_absolute_url }}"/>
 <meta property="og:image" content="{% gravatar_url user 256 %}"/>
 <meta property="og:description" content="Codehunkit member since {{ user.created_on|date:"N d, Y" }}"/>
-<meta property="twitter:url" content="http://www.codehunkit.com{{ user.get_absolute_url }}"/>
+<meta property="twitter:url" content="http://codehunkit.rootplugin.com{{ user.get_absolute_url }}"/>
 {% endblock %}
 
 {% block profile-content %}

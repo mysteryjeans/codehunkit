@@ -1,4 +1,4 @@
-Sitemap: http://www.codehunkit.com/sitemap.xml
+Sitemap: http://codehunkit.rootplugin.com/sitemap.xml
 
 
 User-Agent: Googlebot

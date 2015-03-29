@@ -1,5 +1,5 @@
 """
-Context processors for codehunkit.com
+Context processors for codehunkit.rootplugin.com
 """
 
 import datetime

@@ -10,11 +10,11 @@
 <meta name="keywords" content="{{ snippet.lang_name }},{{ snippet.tags }}">
 <meta property="og:type" content="article"/>
 <meta property="og:title" content="{{ snippet.lang_name }} - {{ snippet.gist }} | Codehunkit"/>
-<meta property="og:url" content="http://www.codehunkit.com{{ snippet.get_absolute_url }}"/>
+<meta property="og:url" content="http://codehunkit.rootplugin.com{{ snippet.get_absolute_url }}"/>
 <meta property="og:image" content="{% gravatar_url user 256 %}"/>	
-<meta property="twitter:url" content="http://www.codehunkit.com{{ user.get_absolute_url }}"/>
-<link rel="canonical" href="http://www.codehunkit.com{{ snippet.get_absolute_url }}"/>
-<link rel="author" href="http://www.codehunkit.com{{ user.get_absolute_url }}"/>
+<meta property="twitter:url" content="http://codehunkit.rootplugin.com{{ user.get_absolute_url }}"/>
+<link rel="canonical" href="http://codehunkit.rootplugin.com{{ snippet.get_absolute_url }}"/>
+<link rel="author" href="http://codehunkit.rootplugin.com{{ user.get_absolute_url }}"/>
 <link rel="image_src" href="{% gravatar_url user 256 %}" />
 {% endwith %}
 {% endblock %}
@@ -69,10 +69,10 @@
 			<h3>{{ snippet.gist }}</h3> &mdash; <a href="{{ snippet.get_short_url }}" rel="nofollow">short link</a>
 		</div>
 		<div class="snippet-shares">
-			<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:twitter" data-content="{{ snippet.gist }}" title="Share this snippet on Twitter" style="margin-left: 0px;">Twitter</a>
-			<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:facebook" title="Share this snippet on Facebook" style="margin-left: 24px;">Facebook</a>
-			<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:googleplus" title="Share this snippet on Google+" style="margin-left: 48px;">Google+</a>
-			<a href="http://codehunkit.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:linkedin" title="Share this snippet on LinkedIn" style="margin-left: 72px;">Linkedin</a>
+			<a href="http://codehunkit.rootplugin.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:twitter" data-content="{{ snippet.gist }}" title="Share this snippet on Twitter" style="margin-left: 0px;">Twitter</a>
+			<a href="http://codehunkit.rootplugin.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:facebook" title="Share this snippet on Facebook" style="margin-left: 24px;">Facebook</a>
+			<a href="http://codehunkit.rootplugin.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:googleplus" title="Share this snippet on Google+" style="margin-left: 48px;">Google+</a>
+			<a href="http://codehunkit.rootplugin.com{{ snippet.get_short_url }}" rel="nofollow" data-action="share:linkedin" title="Share this snippet on LinkedIn" style="margin-left: 72px;">Linkedin</a>
 		</div>
 	</div>
 	<div class="snippet-code">
